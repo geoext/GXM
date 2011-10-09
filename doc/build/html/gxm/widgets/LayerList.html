@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GXM.LayerList &mdash; gxm v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="gxm v0.0.1 documentation" href="../../index.html" />
+    <link rel="next" title="GXM.MapPanel" href="MapPanel.html" />
+    <link rel="prev" title="GXM.Button" href="Button.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="MapPanel.html" title="GXM.MapPanel"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Button.html" title="GXM.Button"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gxm-layerlist">
+<h1><a class="reference internal" href="#GXM.LayerList" title="GXM.LayerList"><tt class="xref py py-class docutils literal"><span class="pre">GXM.LayerList</span></tt></a><a class="headerlink" href="#gxm-layerlist" title="Permalink to this headline">¶</a></h1>
+<dl class="meta docutils">
+<dt>Extends</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.List">Ext.List</a></li>
+</ul>
+</dd>
+<dt>xtype</dt>
+<dd><tt class="docutils literal"><span class="pre">gxm_layerlist</span></tt></dd>
+</dl>
+<dl class="class">
+<dt id="GXM.LayerList">
+<em class="property">class </em><tt class="descclassname">GXM.</tt><tt class="descname">LayerList</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#GXM.LayerList" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class that is used to build a GXM list of layers.</p>
+</dd></dl>
+
+<div class="section" id="example-use">
+<h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
+<p>Sample code to create a GXM.LayerList:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// create a lazily instanciated GXM.LayerList:</span>
+<span class="kd">var</span> <span class="nx">layerList</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;gxm_layerlist&#39;</span><span class="p">,</span>
+    <span class="c1">// call with mapPanel...</span>
+    <span class="nx">mapPanel</span><span class="o">:</span> <span class="nx">mapPanel</span><span class="p">,</span>
+    <span class="c1">// ... or with layers and map, e.g.</span>
+    <span class="c1">// layers: mapPanel.layers,</span>
+    <span class="c1">// map: map,</span>
+    <span class="nx">listeners</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">itemtap</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+            <span class="nx">Ext</span><span class="p">.</span><span class="nx">Msg</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span>
+                <span class="s1">&#39;Application event &quot;itemtap&quot;&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;You can still register events as usual.&#39;</span>
+            <span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="config-options">
+<h2>Config Options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h2>
+<p>Configuration properties in addition to
+those listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.List">Ext.List</a>.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">layers</tt></dt>
+<dd><p>:class:<tt class="docutils literal"><span class="pre">GXM.data.LayerStore</span></tt> The layerstore this list is about to use.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">map</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt> The map that the Layer-records belong to.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">mapPanel</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">GXM.MapPanel</span></tt> The MapPanel this list belongs to. Might be used to
+derive the <tt class="xref py py-attr docutils literal"><span class="pre">map</span></tt> and the <tt class="xref py py-attr docutils literal"><span class="pre">layers</span></tt></p>
+</dd></dl>
+
+</div>
+<div class="section" id="public-properties">
+<h2>Public Properties<a class="headerlink" href="#public-properties" title="Permalink to this headline">¶</a></h2>
+<p>Public properties in addition to those
+listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.List">Ext.List</a>.</p>
+<dl class="attribute">
+<dt id="GXM.LayerList.activeBaselayerCls">
+<tt class="descclassname">LayerList.</tt><tt class="descname">activeBaselayerCls</tt><a class="headerlink" href="#GXM.LayerList.activeBaselayerCls" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The CSS class that the list item of the currently active
+baselayer will get.</p>
+<p>Defaults to <tt class="docutils literal"><span class="pre">gxm-active-baselayer-indicator</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.inactiveBaselayerCls">
+<tt class="descclassname">LayerList.</tt><tt class="descname">inactiveBaselayerCls</tt><a class="headerlink" href="#GXM.LayerList.inactiveBaselayerCls" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The CSS class that the list items of the currently inactive
+baselayers will get.</p>
+<p>Defaults to <tt class="docutils literal"><span class="pre">gxm-inactive-baselayer-indicator</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.invisibleOverlayCls">
+<tt class="descclassname">LayerList.</tt><tt class="descname">invisibleOverlayCls</tt><a class="headerlink" href="#GXM.LayerList.invisibleOverlayCls" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The CSS class that the list items forcurrently invisible
+overlay layers will get.</p>
+<p>Defaults to <tt class="docutils literal"><span class="pre">gxm-invisible-overlay-indicator</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.layers">
+<tt class="descclassname">LayerList.</tt><tt class="descname">layers</tt><a class="headerlink" href="#GXM.LayerList.layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>:class:<tt class="docutils literal"><span class="pre">GXM.data.LayerStore</span></tt> The layerstore this list uses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.map">
+<tt class="descclassname">LayerList.</tt><tt class="descname">map</tt><a class="headerlink" href="#GXM.LayerList.map" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt> The map that the Layer-records belong to.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.mapPanel">
+<tt class="descclassname">LayerList.</tt><tt class="descname">mapPanel</tt><a class="headerlink" href="#GXM.LayerList.mapPanel" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">GXM.MapPanel</span></tt> The MapPanel of this list.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="GXM.LayerList.visibleOverlayCls">
+<tt class="descclassname">LayerList.</tt><tt class="descname">visibleOverlayCls</tt><a class="headerlink" href="#GXM.LayerList.visibleOverlayCls" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The CSS class that the list items for currently visible
+overlay layers will get.</p>
+<p>Defaults to <tt class="docutils literal"><span class="pre">gxm-visible-overlay-indicator</span></tt>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">GXM.LayerList</span></tt></a><ul>
+<li><a class="reference internal" href="#example-use">Example Use</a></li>
+<li><a class="reference internal" href="#config-options">Config Options</a></li>
+<li><a class="reference internal" href="#public-properties">Public Properties</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Button.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">GXM.Button</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="MapPanel.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">GXM.MapPanel</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/gxm/widgets/LayerList.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="MapPanel.html" title="GXM.MapPanel"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Button.html" title="GXM.Button"
+             >previous</a> |</li>
+        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, contributors of gxm.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

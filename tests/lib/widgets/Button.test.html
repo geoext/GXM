@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Button.test.html</title>
+        <link rel="stylesheet" href="../../../external/sencha-touch-1.1.0/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="../../../external/OpenLayers.r11966/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="../../../external/sencha-touch-1.1.0/sencha-touch.js"></script>
+        <script type="text/javascript" src="../../../external/OpenLayers.r11966/lib/OpenLayers.js?mobile"></script>
+        
+        <!-- This file loads all relevant files -->
+        <script type="text/javascript" src="../../../lib/GXM.loader.js"></script>
+        
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../../helperfunctions.js"></script>        
+
+        <script type="text/javascript">
+var recordedEventData = {
+    test_activateControlCalled: { 
+        checkpoints: [], 
+        events: [
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mousedown", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null,
+                screenY:"297", time:"1600"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mouseup", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"1400"
+            },
+            {   
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"click", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"1200"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mousedown", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"1000"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mouseup", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"800"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"click", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"600"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mousedown", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"400"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"mouseup", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"200"
+            },
+            {
+                layerX:"6", y:"10", returnValue:"true", clientX:"924", 
+                which:"1", shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"3040", x:"924", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"3", clientY:"10", 
+                ctrlKey:"false", target:"#navigation-btn DIV", layerY:"3", 
+                charCode:"0", type:"click", pageX:"924", 
+                cancelBubble:"false", pageY:"10", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"6", relatedTarget:null, 
+                screenY:"297", time:"0"
+            }
+        ]
+    }, // eof test_activateControlCalled
+    test_triggerControlCalled: { 
+        checkpoints: [], 
+        events: [
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"55", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"55", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomin-btn DIV", layerY:"6", 
+                charCode:"0", type:"mousedown", pageX:"55", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"2000"
+            },
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"55", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"55", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomin-btn DIV", layerY:"6", 
+                charCode:"0", type:"mouseup", pageX:"55", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"1600"
+            },
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"55", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"55", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomin-btn DIV", layerY:"6", 
+                charCode:"0", type:"click", pageX:"55", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"1200"
+            },
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"15", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"15", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomout-btn DIV", layerY:"6", 
+                charCode:"0", type:"mousedown", pageX:"15", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"800"
+            },
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"15", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"15", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomout-btn DIV", layerY:"6", 
+                charCode:"0", type:"mouseup", pageX:"15", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"400"
+            },
+            {
+                layerX:"9", y:"11", returnValue:"true", clientX:"15", which:"1",
+                shiftKey:"false", cancelable:"true", bubbles:"true", 
+                screenX:"1695", x:"15", button:"0", defaultPrevented:"false", 
+                altKey:"false", keyCode:"0", offsetY:"6", clientY:"11", 
+                ctrlKey:"false", target:"#zoomout-btn DIV", layerY:"6", 
+                charCode:"0", type:"click", pageX:"15", 
+                cancelBubble:"false", pageY:"11", clipboardData:null, 
+                metaKey:"false", detail:"1", offsetX:"9", relatedTarget:null, 
+                screenY:"73", time:"0"
+             }
+        ]
+    } // eof test_triggerControlCalled
+};         
+        </script>
+        
+        <script type="text/javascript">
+
+// can be copied to other testfiles, simply adjust the first variables
+function test_definition(t) {
+    var undef,
+        xtype = 'gxm_button',        // please adjust
+        className = 'GXM.Button',    // please adjust
+        clazz = GXM.Button || undef, // please adjust
+        minimumConf = {              // please adjust
+        },
+        isRegistered = false,
+        cmp = null;
+    
+    t.plan(3);
+
+    t.ok(GXM && 
+         Ext.isDefined( clazz ) 
+         && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
+    isRegistered = Ext.ComponentMgr.isRegistered( xtype );
+
+    t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
+    if (isRegistered) {
+        cmp = Ext.ComponentMgr.create( minimumConf, xtype );
+ 
+        t.ok(cmp instanceof clazz, 'The xtype "' + xtype + '" points to the class "' + className + '".');
+        
+        // teardown
+        cmp.destroy();
+    } else {
+        t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
+    }
+}
+
+function test_triggerControlCalled(t){
+    if (Ext.is.Phone || Ext.is.Tablet) {
+        t.plan(1);
+        t.ok(true, 'skipped because of missing event emulation for mobile device. Revisited in test "test_triggerAndHandler".');
+        return;
+    }
+    
+    var expectedBtnClicks = ['zoomIn', 'zoomOut'];
+    t.plan(expectedBtnClicks.length * 2);
+    
+    t.open_window('./winopen/button-test-window.html', function(wnd){
+        // grab recorded events
+        var recordedEvents = recordedEventData.test_triggerControlCalled;
+        
+        t.replay_events(wnd, recordedEvents);
+        
+        t.delay_call(1, function(){
+            Ext.each(expectedBtnClicks, function(expectedBtn){
+                t.ok(wnd.btnLogger[expectedBtn].handlerCalled, "Button '" + expectedBtn + "' was clicked and its handler-method invoked.");
+                t.ok(wnd.btnLogger[expectedBtn].triggerCalled, "Button '" + expectedBtn + "' was clicked and its trigger-method invoked.");
+            });
+        });
+    }, 5);
+}
+
+function test_activateControlCalled(t){
+    if (Ext.is.Phone || Ext.is.Tablet) {
+        t.plan(1);
+        t.ok(true, 'skipped because of missing event emulation for mobile device. Revisited in test "test_activateAndHandler".');
+        return;
+    }
+    
+    
+    t.plan(3);
+    
+    t.open_window('./winopen/button-test-window.html', function(wnd){
+    
+        // grab recorded events
+        var recordedEvents = recordedEventData.test_activateControlCalled;
+        
+        t.replay_events(wnd, recordedEvents);
+        
+        t.delay_call(1, function(){
+        
+            t.eq(wnd.btnNavStates.length, 3, "Navigation button was clicked three times.");
+            
+            var stateAfterFirstClick = wnd.btnNavStates[0];
+            var exp_stateAfterSecondClick = (stateAfterFirstClick === 'active') ? 'inactive' : 'active';
+            var exp_stateAfterThirdClick = stateAfterFirstClick;
+            
+            t.eq(wnd.btnNavStates[1], exp_stateAfterSecondClick, "State was correct toggled.");
+            t.eq(wnd.btnNavStates[2], exp_stateAfterThirdClick, "State was correct toggled.");
+            
+        });
+    }, 5);
+}
+
+
+function test_triggerAndHandler(t){
+    t.plan(2);
+    
+    t.delay_call(1, function(){
+        var triggerCnt = 0,
+            handlerCnt = 0;
+            
+        var ctrl = new OpenLayers.Control({
+            type: OpenLayers.Control.TYPE_BUTTON,
+            trigger: function() {
+                triggerCnt++;
+            }
+        });
+        
+        var btn = new GXM.Button({
+            control: ctrl,
+            mapPanel: getMapPanel(),
+            handler: function() {
+                handlerCnt++;
+            }
+        });
+    
+        var tb = new Ext.Toolbar({
+            renderTo: "btn",
+            items: [btn]
+        });
+    
+        var myToolbar = new Ext.Toolbar({
+            dock: 'top',
+            title: 'My Toolbar',
+            items: [btn] 
+        });
+        
+        var myPanel = new Ext.Panel({
+            dockedItems: [myToolbar],
+            fullscreen: true,
+            html: 'Test Panel'
+        });
+        
+        // press the button, call internal method
+        btn.onPress();
+        
+        t.delay_call(1, function(){
+            t.eq(triggerCnt, 1, 'The controls trigger method has been called once (triggerCnt incremented)');
+            t.eq(handlerCnt, 1, 'The buttons handler method has been called once (handlerCnt incremented)');
+            
+            // teardown
+            btn.destroy();
+        });
+    });
+}
+
+
+function test_activateAndHandler(t){
+    t.plan(6);
+    
+    var activateCnt = 0,
+        deactivateCnt = 0,
+        handlerCnt = 0;
+        
+    var ctrl = new OpenLayers.Control({
+        activate: function(){
+            activateCnt++;
+            return OpenLayers.Control.prototype.activate.call(this, arguments);
+        },
+        deactivate: function(){
+            deactivateCnt++;
+            return OpenLayers.Control.prototype.deactivate.call(this, arguments);
+        }
+    });
+    ctrl.activate();
+    
+    var btn = new GXM.Button({
+        control: ctrl,
+        mapPanel: getMapPanel(),
+        handler: function() {
+            handlerCnt++;
+        }
+    });
+
+    var myToolbar = new Ext.Toolbar({
+        dock: 'top',
+        title: 'My Toolbar',
+        items: [btn] 
+    });
+    
+    var myPanel = new Ext.Panel({
+        dockedItems: [myToolbar],
+        fullscreen: true,
+        html: 'Test Panel'
+    });
+    
+    // reset
+    activateCnt = 0;
+    deactivateCnt = 0;
+    handlerCnt = 0;
+    
+    // press the button, call internal method
+    btn.onPress();
+    
+    t.delay_call(1, function(){
+        t.eq(activateCnt, 0, 'ctrl.activate() was not called.');
+        t.eq(deactivateCnt, 1, 'ctrl.deactivateCnt() was called.');
+        t.eq(handlerCnt, 1, 'btn.handler-meth0d was called.');
+        
+        // reset
+        activateCnt = 0;
+        deactivateCnt = 0;
+        handlerCnt = 0;
+        
+        // press the button, call internal method
+        btn.onPress();
+        t.delay_call(1, function(){
+            t.eq(activateCnt, 1, 'ctrl.activate() was called.');
+            t.eq(deactivateCnt, 0, 'ctrl.deactivateCnt() was not called.');
+            t.eq(handlerCnt, 1, 'btn.handler-meth0d was called.');
+            
+            // teardown
+            btn.destroy();
+        });
+    });
+}
+
+function test_handlerGetsControlStatePassed(t){
+    t.plan(4);
+        
+    var passedArguments = {
+        stdBtn: null,
+        gxmBtn: null
+    };
+        
+    var ctrl = new OpenLayers.Control({});
+    ctrl.activate();
+    
+    var stdBtn = new Ext.Button({
+        handler: function(){
+            passedArguments.stdBtn = arguments;
+        }
+    });
+    
+    var gxmBtn = new GXM.Button({
+        control: ctrl,
+        mapPanel: getMapPanel(),
+        handler: function() {
+            passedArguments.gxmBtn = arguments;
+        }
+    });
+
+    var myToolbar = new Ext.Toolbar({
+        dock: 'top',
+        title: 'My Toolbar',
+        items: [gxmBtn, stdBtn] 
+    });
+    
+    var myPanel = new Ext.Panel({
+        dockedItems: [myToolbar],
+        fullscreen: true,
+        html: 'Test Panel'
+    });
+    
+    // press the button, call internal method
+    gxmBtn.onPress();
+    stdBtn.onPress();
+    
+    t.delay_call(1, function(){
+        t.eq(passedArguments.gxmBtn.length, passedArguments.stdBtn.length + 1, 'GXM.Button instances pass one additional argument to the handler-method (compaired to Ext.Button).');
+        t.eq(passedArguments.gxmBtn.length, 3,  'GXM.Button instances pass exactly three arguments');
+        t.ok(Ext.isBoolean(passedArguments.gxmBtn[2]), 'Third argument is a boolean...');
+        t.eq(passedArguments.gxmBtn[2], ctrl.active,  '... that represents the controls active-state.');
+        
+        // teardown
+        gxmBtn.destroy();
+    });
+}
+
+function test_pressedCls(t){
+    t.plan(4);
+    
+    var ctrl = new OpenLayers.Control({});
+    
+    var gxmBtn = new GXM.Button({
+        control: ctrl,
+        mapPanel: getMapPanel()
+    });
+
+    var myToolbar = new Ext.Toolbar({
+        dock: 'top',
+        title: 'My Toolbar',
+        items: [gxmBtn] 
+    });
+    
+    var myPanel = new Ext.Panel({
+        dockedItems: [myToolbar],
+        fullscreen: true,
+        html: 'Test Panel'
+    });
+    
+    // press the button, call internal method
+    gxmBtn.onPress();
+    
+    t.delay_call(1, function(){
+        t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+        // press the button, call internal method
+        gxmBtn.onPress();
+        t.delay_call(1, function(){
+            t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+            
+            // now activate the ctrl, not through the button
+            ctrl.activate(); 
+            t.delay_call(1, function(){
+                t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+                
+                // now deactivate the ctrl, not through the button
+                ctrl.deactivate(); 
+                t.delay_call(1, function(){
+                    t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+                    gxmBtn.destroy();
+                });
+            });
+        });
+    });
+}
+
+function test_destroy(t) {
+    var funcToStringSupported = !!(Function.prototype.toString);
+    
+    if (funcToStringSupported) {
+        t.plan(6);
+    } else {
+        t.plan(4);
+    }
+    
+    // setup   
+    var ctrl = new OpenLayers.Control({});
+    var map = new OpenLayers.Map({controls:[]});
+    var onCtrlDeactivateFunc = function(){return 'deactivate';};
+    var onCtrlActivateFunc = function(){return 'activate';};
+    
+    var btn = new GXM.Button({
+        control: ctrl,
+        map: map,
+        onCtrlDeactivate: onCtrlDeactivateFunc,
+        onCtrlActivate: onCtrlActivateFunc
+    });
+        
+    // 2 tests
+    // have the events been registered?    
+    t.eq(ctrl.events.listeners.activate.length, 1,
+        'A activate eventlistener was added to the control');
+    t.eq(ctrl.events.listeners.deactivate.length, 1,
+        'A deactivate eventlistener was added to the control');
+    
+    if (funcToStringSupported) {
+        // 2 tests
+        // have the correct event listeners been registered?    
+        t.eq(ctrl.events.listeners.activate[0].func.toString(), 
+            onCtrlActivateFunc.toString(), 
+            'The correct activate eventlistener was added to the control');
+        t.eq(ctrl.events.listeners.deactivate[0].func.toString(), 
+            onCtrlDeactivateFunc.toString(), 
+            'The correct deactivate eventlistener was added to the control');
+    }
+    btn.destroy();
+    
+    // 2 tests
+    // destroy the button... our eventlisteners should be gone
+    t.eq(ctrl.events.listeners.activate.length, 0,
+        'The activate eventlistener was removed from the control');
+    t.eq(ctrl.events.listeners.deactivate.length, 0,
+        'The deactivate eventlistener was removed from the control');
+}
+
+function test_controlRemovalOnButtonDestroy(t){
+    t.plan(4);
+    
+    // setup   
+    var ctrl = new OpenLayers.Control({});
+    var map = new OpenLayers.Map({controls:[]});
+    map.addControl(ctrl);
+    
+    var btn = new GXM.Button({
+        control: ctrl
+    });
+    
+    // 1 test
+    // autoadded should be false, since the control already belonged to a map
+    t.eq(btn.autoadded, false, 
+        'btn.autoadded property is set to false ' +
+        'when the control already belonged to the map.');
+    
+    btn.destroy();
+    
+    // 1 test
+    // leave the control in the map on destroy
+    t.eq(map.controls.length, 1, 
+        'map contains one control that was once managed by a button ' +
+        'even if that button is destroyed.');
+    
+    
+    // setup
+    ctrl = new OpenLayers.Control({});
+    map = new OpenLayers.Map({controls:[]});
+        
+    btn = new GXM.Button({
+        control: ctrl,
+        map: map
+    });
+    
+    // 1 test
+    // autoadded should be true, since the control did not belong to a map
+    t.eq(btn.autoadded, true, 
+        'btn.autoadded property is set to true ' +
+        'when the control was added to amap by GXM.Button-constructor.');
+        
+    btn.destroy();
+    
+    // 1 test
+    // remve the control in the map on destroy
+    t.eq(map.controls.length, 0, 
+        'map does not contain a control that was once managed by a button ' +
+        'because that button is destroyed and we added it to the map.');
+}
+
+function test_ButtonManager(t){
+    t.plan(5);
+    
+    // 2 tests
+    // we always have a ButtonManager instance.
+    t.ok(GXM.Button.manager && Ext.isDefined(GXM.Button.manager), 
+        'GXM.Button.manager is truthy and defined');
+    t.ok(GXM.Button.manager instanceof Ext.AbstractManager, 
+        'GXM.Button.manager is an instance of Ext.AbstractManager');
+    
+    var ctrl = new OpenLayers.Control({});
+    var map = new OpenLayers.Map();
+        
+    var btn = new GXM.Button({
+        control: ctrl,
+        map: map
+    });
+    var btnId = btn.id;
+    
+    // 2 tests
+    // a button is added to the manager on instanciation
+    t.eq(GXM.Button.manager.getCount(), 1,
+        'GXM.Button.manager manages exactly one button.');
+    t.eq(GXM.Button.manager.get(btnId).id, btn.id,
+        'GXM.Button.manager manages the right button.');
+    
+    // a button is removed from the manager when it is being destroyed
+    btn.destroy();
+    
+    // 1 test
+    // a button is added to the manager on instanciation
+    t.eq(GXM.Button.manager.getCount(), 0,
+        'GXM.Button.manager manages exactly zero buttons.');
+
+}
+
+        </script>
+    </head>
+    <body>
+        
+        <div id="btn"></div>
+    
+    </body>
+</html>

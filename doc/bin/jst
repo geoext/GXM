@@ -1,0 +1,9 @@
+#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
+# EASY-INSTALL-ENTRY-SCRIPT: 'JSTools==0.2.2','console_scripts','jst'
+__requires__ = 'JSTools==0.2.2'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('JSTools==0.2.2', 'console_scripts', 'jst')()
+)

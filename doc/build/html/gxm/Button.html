@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GeoExt.Action &mdash; gxm v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="gxm v0.0.1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="geoext-action">
+<h1><a class="reference internal" href="#GeoExt.Action" title="GeoExt.Action"><tt class="xref py py-class docutils literal"><span class="pre">GeoExt.Action</span></tt></a><a class="headerlink" href="#geoext-action" title="Permalink to this headline">¶</a></h1>
+<dl class="meta docutils">
+<dt>Extends</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://dev.sencha.com/deploy/dev/docs/?class=Ext.Action">Ext.Action</a></li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="GeoExt.Action">
+<em class="property">class </em><tt class="descclassname">GeoExt.</tt><tt class="descname">Action</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#GeoExt.Action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a GeoExt.Action instance. A GeoExt.Action is created
+to insert an OpenLayers control in a toolbar as a button or
+in a menu as a menu item. A GeoExt.Action instance can be
+used like a regular Ext.Action, look at the Ext.Action API
+doc for more detail.</p>
+</dd></dl>
+
+<div class="section" id="example-use">
+<h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
+<p>Sample code to create a toolbar with an OpenLayers control into it.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">action</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GeoExt</span><span class="p">.</span><span class="nx">Action</span><span class="p">({</span>
+    <span class="nx">text</span><span class="o">:</span> <span class="s2">&quot;max extent&quot;</span><span class="p">,</span>
+    <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">ZoomToMaxExtent</span><span class="p">(),</span>
+    <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span>
+<span class="p">});</span>
+<span class="kd">var</span> <span class="nx">toolbar</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Toolbar</span><span class="p">([</span><span class="nx">action</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">GeoExt.Action</span></tt></a><ul>
+<li><a class="reference internal" href="#example-use">Example Use</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/gxm/Button.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, contributors of gxm.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

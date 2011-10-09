@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GXM.data.LayerStore &mdash; gxm v0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="gxm v0.0.1 documentation" href="../../index.html" />
+    <link rel="next" title="GXM.data.LayerModelPlugin" href="models/Layer.html" />
+    <link rel="prev" title="GXM.data.LayerReader" href="LayerReader.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="models/Layer.html" title="GXM.data.LayerModelPlugin"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LayerReader.html" title="GXM.data.LayerReader"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gxm-data-layerstore">
+<h1><tt class="xref py py-class docutils literal"><span class="pre">GXM.data.LayerStore</span></tt><a class="headerlink" href="#gxm-data-layerstore" title="Permalink to this headline">¶</a></h1>
+<dl class="meta docutils">
+<dt>Extends</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.data.Store">Ext.data.Store</a></li>
+</ul>
+</dd>
+<dt>xtype</dt>
+<dd><tt class="docutils literal"><span class="pre">gxm_layerstore</span></tt></dd>
+</dl>
+<dl class="class">
+<dt id="GXM.data.MapPanel">
+<em class="property">class </em><tt class="descclassname">GXM.data.</tt><tt class="descname">MapPanel</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#GXM.data.MapPanel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class that is used to construct a GXM LayerStore.</p>
+</dd></dl>
+
+<div class="section" id="config-options">
+<h2>Config Options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h2>
+<p>Configuration properties in addition to
+those listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.data.Store">Ext.data.Store</a>.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">model</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The identifier for the model to be used.
+Defaults to <tt class="docutils literal"><span class="pre">gxm_layer</span></tt>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">proxy</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String/Ext.data.Proxy/Object</span></tt> The proxy to be used by the store.
+Defaults to a configuration object for a <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.data.MemoryProxy">Ext.data.MemoryProxy</a>
+that has a <tt class="xref py py-class docutils literal"><span class="pre">GXM.data.LayerReader</span></tt> set as <cite>reader</cite>-property.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sortDirection</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> The direction to order the store by if no <tt class="xref py py-attr docutils literal"><span class="pre">sorters</span></tt>.
+Defaults to <cite>DESC</cite>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sorterFn</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">Function</span></tt> The method used to sort store items. The method will
+be called with two objects (instances of the configured <tt class="xref py py-attr docutils literal"><span class="pre">model</span></tt>)
+and should implement logic that determines ordering of the passed
+objects. Your method should return</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">1</span></tt> if the first object is greater than the second object</li>
+<li><tt class="docutils literal"><span class="pre">-1</span></tt> if the second object is greater than the first</li>
+<li><tt class="docutils literal"><span class="pre">0</span></tt> if they are equal.</li>
+</ul>
+</div></blockquote>
+<p>Here is an example method:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="p">(</span><span class="nx">obj_1</span><span class="p">,</span> <span class="nx">obj_2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">layer_1</span> <span class="o">=</span> <span class="nx">obj_1</span><span class="p">.</span><span class="nx">getLayer</span><span class="p">(),</span>
+        <span class="nx">layer_2</span> <span class="o">=</span> <span class="nx">obj_2</span><span class="p">.</span><span class="nx">getLayer</span><span class="p">(),</span>
+        <span class="nx">idx_1</span> <span class="o">=</span> <span class="nx">layer_1</span><span class="p">.</span><span class="nx">getZIndex</span><span class="p">(),</span>
+        <span class="nx">idx_2</span> <span class="o">=</span> <span class="nx">layer_2</span><span class="p">.</span><span class="nx">getZIndex</span><span class="p">(),</span>
+        <span class="nx">res</span> <span class="o">=</span> <span class="p">(</span><span class="nx">idx_1</span> <span class="o">&gt;</span> <span class="nx">idx_2</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="p">(</span><span class="nx">idx_1</span> <span class="o">&lt;</span> <span class="nx">idx_2</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can further control the sort direction by <tt class="xref py py-attr docutils literal"><span class="pre">sortDirection</span></tt>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">sorters</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">Array(Ext.util.Sorter)</span></tt> An array of <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.util.Sorter">Sorters</a>
+to be used for ordering of the records. Defaults to a single  sorter
+that orders the layers descending according to the stack size inside of
+the map. That means that layers drawn atop of others in the map will be
+on top inside of lists that make use of this store.</p>
+<p>The configuration of the single sorter can also be configured using the
+<tt class="xref py py-attr docutils literal"><span class="pre">sortDirection</span></tt> configuration properties.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">GXM.data.LayerStore</span></tt></a><ul>
+<li><a class="reference internal" href="#config-options">Config Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="LayerReader.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">GXM.data.LayerReader</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models/Layer.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">GXM.data.LayerModelPlugin</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/gxm/data/LayerStore.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="models/Layer.html" title="GXM.data.LayerModelPlugin"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LayerReader.html" title="GXM.data.LayerReader"
+             >previous</a> |</li>
+        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, contributors of gxm.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

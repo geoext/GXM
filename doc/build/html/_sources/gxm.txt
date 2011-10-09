@@ -1,0 +1,11 @@
+GXM
+===
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   gxm/*
+   gxm/widgets/*
+   gxm/data/*
+   gxm/data/models/*

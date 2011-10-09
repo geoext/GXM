@@ -1,0 +1,8 @@
+GXM.data
+========
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   data/*

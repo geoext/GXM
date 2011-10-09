@@ -1,0 +1,9 @@
+#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
+# EASY-INSTALL-ENTRY-SCRIPT: 'PasteScript==1.7.3','console_scripts','paster'
+__requires__ = 'PasteScript==1.7.3'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('PasteScript==1.7.3', 'console_scripts', 'paster')()
+)

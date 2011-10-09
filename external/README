@@ -1,0 +1,13 @@
+ADDING SENCHA TOUCH
+
+The examples rely on Sencha Touch being in this folder. Grab a copy of Sencha Touch here: http://www.sencha.com/products/touch/download/1.1.0/ 
+
+
+FETCHING UPDATES FOR OPENLAYERS
+
+Pulling in changes when e.g. openlayers has changes in their repository
+
+git pull -s subtree openlayers master
+
+(see http://help.github.com/subtree-merge/)
+

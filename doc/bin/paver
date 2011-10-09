@@ -1,0 +1,9 @@
+#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
+# EASY-INSTALL-ENTRY-SCRIPT: 'Paver==1.0','console_scripts','paver'
+__requires__ = 'Paver==1.0'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('Paver==1.0', 'console_scripts', 'paver')()
+)
