@@ -126,13 +126,16 @@ example.utility = {
                 break;
             
             case 'mappanel-simple':
+                lines.push('{');
                 lines.push(ind + 'xtype : ' + strS + '"gxm_mappanel"' + strE + ',');
                 lines.push(ind + comS + '// A reference to' + comE);
                 lines.push(ind + comS + '// an OpenLayers.Map' + comE);
                 lines.push(ind + 'map   : map');
+                lines.push('}');
                 break;
             
             case 'mappanel-layers':
+                lines.push('{');
                 lines.push(ind + 'xtype  : ' + strS + '"gxm_mappanel"' + strE + ',');
                 lines.push(ind + 'layers : [');
                 lines.push(ind + ind + comS + '// A reference to' + comE);
@@ -143,6 +146,7 @@ example.utility = {
                 break;
             
             case 'mappanel-center':
+                lines.push('new GXM.MapPanel( {');
                 lines.push(ind + 'layers : [');
                 lines.push(ind + ind + 'myLayer');
                 lines.push(ind + '],');
@@ -158,6 +162,7 @@ example.utility = {
                 break;
             
             case 'mappanel-extent':
+                lines.push('new GXM.MapPanel( {');
                 lines.push(ind + 'layers : [');
                 lines.push(ind + ind + 'myLayer');
                 lines.push(ind + '],');
@@ -165,7 +170,8 @@ example.utility = {
                 lines.push(ind + comS + '// or OpenLayers.Bounds-instance' + comE);
                 lines.push(ind + 'extent : ' + strS + '"7,51,8,52"' + strE);
                 lines.push('} )');
-            
+                break;
+                
             default:
                 lines.push(comS + '// No documentation for "' + exampleKey + '"' + comE);
         }
