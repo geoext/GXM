@@ -14,17 +14,17 @@
 }
 
 .gxm-visible-overlay-indicator {
-    background-image: url(../img/check-round-green.png);
+    background-image: url(../images/check-round-green.png);
 }
 
 .gxm-invisible-overlay-indicator {
-    background-image: url(../img/check-round-grey.png);
+    background-image: url(../images/check-round-grey.png);
 }
 
 .gxm-active-baselayer-indicator {
-    background-image: url(../img/check-round-green.png);
+    background-image: url(../images/check-round-green.png);
 }
 
 .gxm-inactive-baselayer-indicator {
-    background-image: url(../img/round-grey.png);
+    background-image: url(../images/round-grey.png);
 }
