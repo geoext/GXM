@@ -2,12 +2,11 @@
 <html>
     <head>
         <title>LayerList.test.html</title>
-        <link rel="stylesheet" href="../../../external/sencha-touch-1.1.0/resources/css/sencha-touch.css" type="text/css">
-        <link rel="stylesheet" href="../../../external/OpenLayers.r11966/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/1.1.0/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
         
-        <script type="text/javascript" src="../../../external/sencha-touch-1.1.0/sencha-touch.js"></script>
-        <script type="text/javascript" src="../../../external/OpenLayers.r11966/lib/OpenLayers.js?mobile"></script>
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/1.1.0/sencha-touch.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
         <!-- This file loads all relevant files -->
         <script type="text/javascript" src="../../../lib/GXM.loader.js"></script>
@@ -63,6 +62,13 @@ function getMultiLayerMapPanel(){
             }),
             new OpenLayers.Layer(null, {
                 visibility: false
+            }),
+            new OpenLayers.Layer(null, {
+                isBaseLayer: true,
+                displayInLayerSwitcher: false
+            }),
+            new OpenLayers.Layer(null, {
+                displayInLayerSwitcher: false
             })
         ]
         // ,allOverlays: true
@@ -146,24 +152,52 @@ function test_basics(t) {
                     }
                 });
                 
+                var layswitcherFalseCntVisible = 0;
+                var layswitcherFalseCntInvisible = 0;
+                Ext.each(mappanel.map.getLayersBy('displayInLayerSwitcher', false), function(l){
+                    if (l.visibility === true && !l.isBaseLayer) {
+                        layswitcherFalseCntVisible++;
+                    } else if (!l.isBaseLayer) {
+                        layswitcherFalseCntInvisible++;
+                    }
+                });
+                
+                var layswitcherFalseCntBaseLayerActive = 0;
+                var layswitcherFalseCntBaseLayerInactive = 0;
+                Ext.each(mappanel.map.getLayersBy('displayInLayerSwitcher', false), function(l){
+                    if (l.isBaseLayer === true && l.map.baseLayer === l ) {
+                        layswitcherFalseCntBaseLayerActive++;
+                    } else if (l.isBaseLayer === true) {
+                        layswitcherFalseCntBaseLayerInactive++;
+                    }
+                });
+                
                 selector = '.gxm-layer-item';
                 found = dq.select(selector, elem);
-                t.eq(found.length, mappanel.map.layers.length, 'for every layer (cnt = ' + mappanel.map.layers.length + ') we generate list-item-markup');
+                var layswitcherFalseCntGeneral = mappanel.map.getLayersBy('displayInLayerSwitcher', false).length;
+                
+                
+                var expCnt = mappanel.map.layers.length - layswitcherFalseCntGeneral;
+                t.eq(found.length, expCnt, 'for every layer (cnt = ' + expCnt + ') we generate list-item-markup');
                 
                 selector = '.' + layerpanel.visibleOverlayCls;
                 found = dq.select(selector, elem);
+                visibleLyrCnt -= layswitcherFalseCntVisible
                 t.eq(found.length, visibleLyrCnt, 'for every visible layer (cnt = ' + visibleLyrCnt + ') we generate correct markup');
                                 
                 selector = '.' + layerpanel.invisibleOverlayCls;
                 found = dq.select(selector, elem);
+                invisibleLyrCnt -= layswitcherFalseCntInvisible
                 t.eq(found.length, invisibleLyrCnt, 'for every invisible layer (cnt = ' + invisibleLyrCnt + ') we generate correct markup');
                 
                 selector = '.' + layerpanel.activeBaselayerCls;
                 found = dq.select(selector, elem);
+                activeBaseLayerCnt -= layswitcherFalseCntBaseLayerActive
                 t.eq(found.length, activeBaseLayerCnt, 'for every active base layer (cnt = ' + activeBaseLayerCnt + ') we generate correct markup');
                                 
                 selector = '.' + layerpanel.inactiveBaselayerCls;
                 found = dq.select(selector, elem);
+                inactiveBaseLayerCnt -= layswitcherFalseCntBaseLayerInactive
                 t.eq(found.length, inactiveBaseLayerCnt, 'for every inactive base layer (cnt = ' + inactiveBaseLayerCnt + ') we generate correct markup');
                 
             });
@@ -188,7 +222,15 @@ function test_updatingHtml(t){
         t.delay_call(1, function(){
             myTabPanel.setActiveItem(1);
             t.delay_call(1, function(){
-                t.plan(2 * mappanel.map.getLayersBy('isBaseLayer', false).length);
+                
+                var numTest = 0;
+                Ext.each(mappanel.map.getLayersBy('isBaseLayer', false), function(candidate){
+                    if (candidate.displayInLayerSwitcher !== false){
+                        numTest++;
+                    }
+                });
+                
+                t.plan( 2 * numTest );
                 
                 var layerpanel = myTabPanel.items.get(1);
                 
