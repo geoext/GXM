@@ -1,11 +1,12 @@
 # Makefile for GXM
 
-VERSION = "0.0.1"
+VERSION = 0.0.1
 LIB_NAME = GXM
 ZIP_NAME = $(LIB_NAME)-$(VERSION).zip
 TGZ_NAME = $(LIB_NAME)-$(VERSION).tar.gz
 TODAY = $(shell date +'%Y%m%d')
-DATE = $(shell date +'%Y-%m-%d %H:%M:%S')
+DATE = $(shell date +'%Y-%m-%d, %H:%M:%S')
+YEAR = $(shell date +'%Y')
 NIGHTLY = $(LIB_NAME)-$(TODAY)
 
 .PHONEY: help lib zip tgz release nightly examplelib clean
@@ -34,7 +35,11 @@ lib:
 	mkdir -p $(LIB_NAME)
 	# see http://trac.geoext.org/wiki/builds to get jsbuild installation help
 	./build.py -c "closure_ws" "full.cfg" $(LIB_NAME)/$(LIB_NAME).js
-	echo "This is GXM version $(VERSION), created on $(DATE)." >> $(LIB_NAME)/VERSION 
+	echo "This is GXM version $(VERSION), created $(DATE)." >> $(LIB_NAME)/VERSION 
+	
+	sed -i 's/<VERSION>/$(VERSION)/g' $(LIB_NAME)/$(LIB_NAME).js
+	sed -i 's/<BUILDDATE>/$(DATE)/g' $(LIB_NAME)/$(LIB_NAME).js
+	sed -i 's/<YEAR>/$(YEAR)/g' $(LIB_NAME)/$(LIB_NAME).js
 	
 	rsync -au --exclude=.svn `pwd`/../lib `pwd`/$(LIB_NAME)
 	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)

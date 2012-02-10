@@ -1,8 +1,10 @@
 /**
- * Copyright (c) 2011 The Open Source Geospatial Foundation
+ * GeoExt Mobile (GXM), Version <VERSION>, built <BUILDDATE>.
  * 
- * Published under the BSD license. 
+ * Copyright (c) <YEAR> The Open Source Geospatial Foundation
  * 
- * See http://svn.geoext.org/sandbox/gxm/geoext/gxm/license.txt for the full 
- * text of the license.
+ * Published under the BSD license.
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full text of
+ * the license.
  */

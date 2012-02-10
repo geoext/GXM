@@ -1,11 +1,11 @@
 The following license applies to all code and content in all directories of
-this sandbox (http://svn.geoext.org/sandbox/gxm/geoext/gxm/) except for the
+this repository (http://github.com/geoext/GXM) except for the
 folders "external" and "tools".
 
 LICENSE
 =======
 
-Copyright (c) 2011, The Open Source Geospatial Foundation
+Copyright (c) 2012, The Open Source Geospatial Foundation
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
