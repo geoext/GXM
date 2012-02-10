@@ -37,8 +37,7 @@ lib:
 	echo "This is GXM version $(VERSION), created on $(DATE)." >> $(LIB_NAME)/VERSION 
 	
 	rsync -au --exclude=.svn `pwd`/../lib `pwd`/$(LIB_NAME)
-	rsync -au --exclude=.svn `pwd`/../img `pwd`/$(LIB_NAME)
-	rsync -au --exclude=.svn `pwd`/../css `pwd`/$(LIB_NAME)
+	rsync -au --exclude=.svn `pwd`/../resources `pwd`/$(LIB_NAME)
 
 zip: lib
 	@echo "Archiving the library a zipfile."
