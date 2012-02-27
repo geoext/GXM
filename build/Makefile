@@ -1,6 +1,6 @@
 # Makefile for GXM
 
-VERSION = 0.0.1
+VERSION = 0.1
 LIB_NAME = GXM
 ZIP_NAME = $(LIB_NAME)-$(VERSION).zip
 TGZ_NAME = $(LIB_NAME)-$(VERSION).tar.gz
