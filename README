@@ -1,1 +1,8 @@
-This is the github repository for GeoExt Mobile. See http://trac.geoext.org/wiki/mobile for more info.
+This is the github repository for GeoExt Mobile. See e.g. 
+http://trac.geoext.org/wiki/mobile for more info.
+
+The master branch will likely be unstable for some time because we are going to 
+make GXM work with the new Sencha Touch 2 (currently in RC status).
+
+For a stable version of GXM that works with Sencha Touch 1.1 please refer to the
+branch '0.1' (coming soon). 
