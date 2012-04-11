@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GXM.data.LayerModelPlugin &mdash; gxm v0.0.1 documentation</title>
+    <title>gxm_layer &mdash; GXM v0.2 beta documentation</title>
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.0.1',
+        VERSION:     '0.2 beta',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,8 +22,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="gxm v0.0.1 documentation" href="../../../index.html" />
-    <link rel="prev" title="GXM.data.LayerStore" href="../LayerStore.html" /> 
+    <link rel="top" title="GXM v0.2 beta documentation" href="../../../index.html" />
+    <link rel="prev" title="gxm_feature" href="Feature.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,9 +33,9 @@
           <a href="../../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../LayerStore.html" title="GXM.data.LayerStore"
+          <a href="Feature.html" title="gxm_feature"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,12 +44,63 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="gxm-data-layermodelplugin">
-<h1><tt class="xref py py-class docutils literal"><span class="pre">GXM.data.LayerModelPlugin</span></tt><a class="headerlink" href="#gxm-data-layermodelplugin" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="gxm-layer">
+<h1><a class="reference internal" href="#gxm_layer" title="gxm_layer"><tt class="xref py py-class docutils literal"><span class="pre">gxm_layer</span></tt></a><a class="headerlink" href="#gxm-layer" title="Permalink to this headline">¶</a></h1>
 <dl class="meta docutils">
-<dt>ptype</dt>
-<dd><tt class="docutils literal"><span class="pre">gxm_layermodel</span></tt></dd>
+<dt>Extends</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Model">Ext.data.Model</a></li>
+</ul>
+</dd>
+<dt>xtype</dt>
+<dd><tt class="docutils literal"><span class="pre">gxm_layer</span></tt></dd>
 </dl>
+<dl class="class">
+<dt id="gxm_layer">
+<em class="property">class </em><tt class="descname">gxm_layer</tt><a class="headerlink" href="#gxm_layer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Class defines a model for records containing an OpenLayers layer object.
+Usually this class is not instantiated directly, but referenced by its name <tt class="docutils literal"><span class="pre">gxm_layer</span></tt>
+as string representation as a config option within creation of a superior component,
+for example a store.</p>
+<div class="section" id="example-use">
+<h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
+<p>Sample code to use a gxm_layer model:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.data.Store&#39;</span><span class="p">,</span> <span class="p">{</span>
+
+        <span class="nx">model</span><span class="o">:</span> <span class="s1">&#39;gxm_layer&#39;</span><span class="p">,</span>
+
+        <span class="nx">proxy</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;memory&#39;</span><span class="p">,</span>
+            <span class="nx">reader</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+                <span class="nx">root</span><span class="o">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="public-methods">
+<h2>Public Methods<a class="headerlink" href="#public-methods" title="Permalink to this headline">¶</a></h2>
+<p>Public methods in addition to those
+listed for <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Model">Ext.data.Model</a>.</p>
+<dl class="method">
+<dt id="gxm_layer.getLayer">
+<tt class="descclassname">gxm_layer.</tt><tt class="descname">getLayer</tt><big>(</big><big>)</big><a class="headerlink" href="#gxm_layer.getLayer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Return :</th><td class="field-body"><tt class="docutils literal"><span class="pre">OpenLayers.Layer</span></tt> The raw layer object of this record</td>
+</tr>
+</tbody>
+</table>
+<p>Returns the layer object of the record created with this model.</p>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -58,9 +109,18 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">gxm_layer</span></tt></a><ul>
+<li><a class="reference internal" href="#example-use">Example Use</a></li>
+<li><a class="reference internal" href="#public-methods">Public Methods</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../LayerStore.html"
-                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">GXM.data.LayerStore</span></tt></a></p>
+  <p class="topless"><a href="Feature.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gxm_feature</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../_sources/gxm/data/models/Layer.txt"
@@ -90,14 +150,14 @@
           <a href="../../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../LayerStore.html" title="GXM.data.LayerStore"
+          <a href="Feature.html" title="gxm_feature"
              >previous</a> |</li>
-        <li><a href="../../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, contributors of gxm.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2012, contributors of GXM.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
     </div>
   </body>
 </html>

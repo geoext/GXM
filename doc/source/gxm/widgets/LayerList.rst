@@ -9,20 +9,17 @@
 
 
 Extends
-    * `Ext.List <http://dev.sencha.com/deploy/touch/docs/?class=Ext.List>`_
+    * `Ext.List <http://docs.sencha.com/touch/2-0/#!/api/Ext.dataview.List>`_
     
 
 
-
-xtype
-    ``gxm_layerlist``
 
 
 
 
 .. class:: LayerList(config)
 
-    The class that is used to build a GXM list of layers.
+    The class that is used to construct a GXM LayerList.
 
 
 
@@ -37,10 +34,7 @@ Sample code to create a GXM.LayerList:
   var layerList = {
       xtype: 'gxm_layerlist',
       // call with mapPanel...
-      mapPanel: mapPanel,
-      // ... or with layers and map, e.g.
-      // layers: mapPanel.layers,
-      // map: map,
+      map: gxmMap,
       listeners: {
           itemtap: function(){
               Ext.Msg.alert(
@@ -59,21 +53,17 @@ Config Options
 --------------
 
 Configuration properties in addition to
-those listed for `Ext.List <http://dev.sencha.com/deploy/touch/docs/?class=Ext.List>`_.
+those listed for `Ext.List <http://docs.sencha.com/touch/2-0/#!/api/Ext.dataview.List>`_.
 
 
 .. describe:: layers
 
-    :class:``GXM.data.LayerStore`` The layerstore this list is about to use.
+    :class:`GXM.data.LayerStore` The layerstore this list is about to use.
 
 .. describe:: map
 
-    ``OpenLayers.Map`` The map that the Layer-records belong to.
-
-.. describe:: mapPanel
-
-    ``GXM.MapPanel`` The MapPanel this list belongs to. Might be used to
-    derive the :attr:`map` and the :attr:`layers`
+    :class:`GXM.Map` The GXM Map component this `LayerList` refers to. Might be used to
+    derive the corresponding OpenLayers Map object.
 
 
 
@@ -82,7 +72,7 @@ Public Properties
 -----------------
 
 Public properties in addition to those
-listed for `Ext.List <http://dev.sencha.com/deploy/touch/docs/?class=Ext.List>`_.
+listed for `Ext.List <http://docs.sencha.com/touch/2-0/#!/api/Ext.dataview.List>`_.
 
 
 .. attribute:: LayerList.activeBaselayerCls
@@ -101,22 +91,16 @@ listed for `Ext.List <http://dev.sencha.com/deploy/touch/docs/?class=Ext.List>`_
 
 .. attribute:: LayerList.invisibleOverlayCls
 
-    ``String`` The CSS class that the list items forcurrently invisible
+    ``String`` The CSS class that the list items for currently invisible
     overlay layers will get.
     
     Defaults to ``gxm-invisible-overlay-indicator``.
 
-.. attribute:: LayerList.layers
+.. attribute:: LayerList.olMap
 
-    :class:``GXM.data.LayerStore`` The layerstore this list uses.
-
-.. attribute:: LayerList.map
-
-    ``OpenLayers.Map`` The map that the Layer-records belong to.
-
-.. attribute:: LayerList.mapPanel
-
-    ``GXM.MapPanel`` The MapPanel of this list.
+    ``OpenLayers.Map``  The reference to the related OpenLayers Map object.
+    This is for readonly use. To pass a map object to this class use the
+    :attr:`map` config option.
 
 .. attribute:: LayerList.visibleOverlayCls
 

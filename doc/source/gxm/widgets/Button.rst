@@ -9,20 +9,17 @@
 
 
 Extends
-    * `Ext.Button <http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button>`_
+    * `Ext.Button <http://docs.sencha.com/touch/2-0/#!/api/Ext.Button>`_
     
 
 
-
-xtype
-    ``gxm_button``
 
 
 
 
 .. class:: Button(config)
 
-    The class that is used to build a GXM button.
+    The class that is used to construct a GXM Button.
 
 
 
@@ -34,7 +31,7 @@ Sample code to create a GXM.Button that controls zooms in:
 .. code-block:: javascript
 
   // create the GXM.Button:
-  var btnZoomIn = new GXM.Button({
+  var btnZoomIn = Ext.create('GXM.Button', {
       control: new OpenLayers.Control.ZoomIn(),
       map: map,
       iconCls: 'add',
@@ -45,10 +42,10 @@ Sample code to create a GXM.Button that controls zooms in:
   });
 
   // The GXM.Button can be used e.g. in a toolbar that is docked to a panel:
-  new Ext.Panel({
-      dockedItems: [{
+  Ext.create('Ext.Panel', {
+      items: [{
           xtype: 'toolbar',
-          dock: 'top',
+          docked: 'top',
           items: [
               btnZoomIn
           ]
@@ -63,7 +60,7 @@ Config Options
 --------------
 
 Configuration properties in addition to
-those listed for `Ext.Button <http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button>`_.
+those listed for `Ext.Button <http://docs.sencha.com/touch/2-0/#!/api/Ext.Button>`_.
 
 
 .. describe:: control
@@ -84,14 +81,13 @@ those listed for `Ext.Button <http://dev.sencha.com/deploy/touch/docs/?class=Ext
 
 .. describe:: map
 
-    ``OpenLayers.Map`` The map that this control belongs to. If the control
-    isn't already added to the map's list of controls, it'll be added by the
-    class.
+    ``GXM.Map`` The GXM Map component this button belongs to. Might be used to
+    derive the corresponding OpenLayers Map object.
 
-.. describe:: mapPanel
+.. describe:: pressed
 
-    ``GXM.MapPanel`` The MapPanel this button belongs to. Might be used to
-    derive the :attr:`map`.
+    ``Boolean`` The initial state of this button.
+    Defaults to ``false``.
 
 
 
@@ -100,25 +96,14 @@ Public Properties
 -----------------
 
 Public properties in addition to those
-listed for `Ext.Button <http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button>`_.
+listed for `Ext.Button <http://docs.sencha.com/touch/2-0/#!/api/Ext.Button>`_.
 
 
-.. attribute:: Button.control
+.. attribute:: Button.olMap
 
-    ``OpenLayers.Control`` The control instance that this button works on.
-
-.. attribute:: Button.exclusiveGroup
-
-    ``String`` An identifier for the exclusive group of GXM-Buttons that
-    this button belongs to.
-
-.. attribute:: Button.map
-
-    ``OpenLayers.Map`` An OpenLayers-Map-instance.
-
-.. attribute:: Button.mapPanel
-
-    ``GXM.MapPanel`` The MapPanel of this button.
+    ``OpenLayers.Map``  The reference to the related OpenLayers Map object.
+    This is for readonly use. To pass a map object to this class use the
+    :attr:`map` config option.
 
 
 
@@ -127,7 +112,7 @@ Public Methods
 --------------
 
 Public methods in addition to those
-listed for `Ext.Button <http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button>`_.
+listed for `Ext.Button <http://docs.sencha.com/touch/2-0/#!/api/Ext.Button>`_.
 
 
 .. method:: Button.getExclusiveGroupMembers

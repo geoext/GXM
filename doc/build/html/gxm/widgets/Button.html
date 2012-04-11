@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GXM.Button &mdash; gxm v0.0.1 documentation</title>
+    <title>GXM.Button &mdash; GXM v0.2 beta documentation</title>
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.0.1',
+        VERSION:     '0.2 beta',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,9 +22,9 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="gxm v0.0.1 documentation" href="../../index.html" />
-    <link rel="next" title="GXM.LayerList" href="LayerList.html" />
-    <link rel="prev" title="Welcome to gxm’s documentation!" href="../../index.html" /> 
+    <link rel="top" title="GXM v0.2 beta documentation" href="../../index.html" />
+    <link rel="next" title="GXM.FeatureList" href="FeatureList.html" />
+    <link rel="prev" title="Welcome to GXM’s documentation!" href="../../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,12 +34,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="LayerList.html" title="GXM.LayerList"
+          <a href="FeatureList.html" title="GXM.FeatureList"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../index.html" title="Welcome to gxm’s documentation!"
+          <a href="../../index.html" title="Welcome to GXM’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,23 +53,21 @@
 <dl class="meta docutils">
 <dt>Extends</dt>
 <dd><ul class="first last simple">
-<li><a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button">Ext.Button</a></li>
+<li><a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Button">Ext.Button</a></li>
 </ul>
 </dd>
-<dt>xtype</dt>
-<dd><tt class="docutils literal"><span class="pre">gxm_button</span></tt></dd>
 </dl>
 <dl class="class">
 <dt id="GXM.Button">
 <em class="property">class </em><tt class="descclassname">GXM.</tt><tt class="descname">Button</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#GXM.Button" title="Permalink to this definition">¶</a></dt>
-<dd><p>The class that is used to build a GXM button.</p>
+<dd><p>The class that is used to construct a GXM Button.</p>
 </dd></dl>
 
 <div class="section" id="example-use">
 <h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
 <p>Sample code to create a GXM.Button that controls zooms in:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// create the GXM.Button:</span>
-<span class="kd">var</span> <span class="nx">btnZoomIn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GXM</span><span class="p">.</span><span class="nx">Button</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">btnZoomIn</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;GXM.Button&#39;</span><span class="p">,</span> <span class="p">{</span>
     <span class="nx">control</span><span class="o">:</span> <span class="k">new</span> <span class="nx">OpenLayers</span><span class="p">.</span><span class="nx">Control</span><span class="p">.</span><span class="nx">ZoomIn</span><span class="p">(),</span>
     <span class="nx">map</span><span class="o">:</span> <span class="nx">map</span><span class="p">,</span>
     <span class="nx">iconCls</span><span class="o">:</span> <span class="s1">&#39;add&#39;</span><span class="p">,</span>
@@ -80,10 +78,10 @@
 <span class="p">});</span>
 
 <span class="c1">// The GXM.Button can be used e.g. in a toolbar that is docked to a panel:</span>
-<span class="k">new</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">Panel</span><span class="p">({</span>
-    <span class="nx">dockedItems</span><span class="o">:</span> <span class="p">[{</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;Ext.Panel&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span>
         <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;toolbar&#39;</span><span class="p">,</span>
-        <span class="nx">dock</span><span class="o">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+        <span class="nx">docked</span><span class="o">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
         <span class="nx">items</span><span class="o">:</span> <span class="p">[</span>
             <span class="nx">btnZoomIn</span>
         <span class="p">]</span>
@@ -95,7 +93,7 @@
 <div class="section" id="config-options">
 <h2>Config Options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h2>
 <p>Configuration properties in addition to
-those listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button">Ext.Button</a>.</p>
+those listed for <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Button">Ext.Button</a>.</p>
 <dl class="describe">
 <dt>
 <tt class="descname">control</tt></dt>
@@ -118,53 +116,35 @@ state will be managed automatically.</p>
 <dl class="describe">
 <dt>
 <tt class="descname">map</tt></dt>
-<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt> The map that this control belongs to. If the control
-isn&#8217;t already added to the map&#8217;s list of controls, it&#8217;ll be added by the
-class.</p>
+<dd><p><tt class="docutils literal"><span class="pre">GXM.Map</span></tt> The GXM Map component this button belongs to. Might be used to
+derive the corresponding OpenLayers Map object.</p>
 </dd></dl>
 
 <dl class="describe">
 <dt>
-<tt class="descname">mapPanel</tt></dt>
-<dd><p><tt class="docutils literal"><span class="pre">GXM.MapPanel</span></tt> The MapPanel this button belongs to. Might be used to
-derive the <tt class="xref py py-attr docutils literal"><span class="pre">map</span></tt>.</p>
+<tt class="descname">pressed</tt></dt>
+<dd><p><tt class="docutils literal"><span class="pre">Boolean</span></tt> The initial state of this button.
+Defaults to <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="public-properties">
 <h2>Public Properties<a class="headerlink" href="#public-properties" title="Permalink to this headline">¶</a></h2>
 <p>Public properties in addition to those
-listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button">Ext.Button</a>.</p>
+listed for <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Button">Ext.Button</a>.</p>
 <dl class="attribute">
-<dt id="GXM.Button.control">
-<tt class="descclassname">Button.</tt><tt class="descname">control</tt><a class="headerlink" href="#GXM.Button.control" title="Permalink to this definition">¶</a></dt>
-<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Control</span></tt> The control instance that this button works on.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="GXM.Button.exclusiveGroup">
-<tt class="descclassname">Button.</tt><tt class="descname">exclusiveGroup</tt><a class="headerlink" href="#GXM.Button.exclusiveGroup" title="Permalink to this definition">¶</a></dt>
-<dd><p><tt class="docutils literal"><span class="pre">String</span></tt> An identifier for the exclusive group of GXM-Buttons that
-this button belongs to.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="GXM.Button.map">
-<tt class="descclassname">Button.</tt><tt class="descname">map</tt><a class="headerlink" href="#GXM.Button.map" title="Permalink to this definition">¶</a></dt>
-<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt> An OpenLayers-Map-instance.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="GXM.Button.mapPanel">
-<tt class="descclassname">Button.</tt><tt class="descname">mapPanel</tt><a class="headerlink" href="#GXM.Button.mapPanel" title="Permalink to this definition">¶</a></dt>
-<dd><p><tt class="docutils literal"><span class="pre">GXM.MapPanel</span></tt> The MapPanel of this button.</p>
+<dt id="GXM.Button.olMap">
+<tt class="descclassname">Button.</tt><tt class="descname">olMap</tt><a class="headerlink" href="#GXM.Button.olMap" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">OpenLayers.Map</span></tt>  The reference to the related OpenLayers Map object.
+This is for readonly use. To pass a map object to this class use the
+<tt class="xref py py-attr docutils literal"><span class="pre">map</span></tt> config option.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="public-methods">
 <h2>Public Methods<a class="headerlink" href="#public-methods" title="Permalink to this headline">¶</a></h2>
 <p>Public methods in addition to those
-listed for <a class="reference external" href="http://dev.sencha.com/deploy/touch/docs/?class=Ext.Button">Ext.Button</a>.</p>
+listed for <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Button">Ext.Button</a>.</p>
 <dl class="method">
 <dt id="GXM.Button.getExclusiveGroupMembers">
 <tt class="descclassname">Button.</tt><tt class="descname">getExclusiveGroupMembers</tt><big>(</big><big>)</big><a class="headerlink" href="#GXM.Button.getExclusiveGroupMembers" title="Permalink to this definition">¶</a></dt>
@@ -172,12 +152,12 @@ listed for <a class="reference external" href="http://dev.sencha.com/deploy/touc
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><tt class="docutils literal"><span class="pre">Array(GXM.Button)</span></tt> An array of all members of the
-<a class="reference internal" href="#GXM.Button.exclusiveGroup" title="GXM.Button.exclusiveGroup"><tt class="xref py py-attr docutils literal"><span class="pre">exclusiveGroup</span></tt></a> that this Button belongs to.</td>
+<tr class="field"><th class="field-name">Return :</th><td class="field-body"><tt class="docutils literal"><span class="pre">Array(GXM.Button)</span></tt> An array of all members of the
+<tt class="xref py py-attr docutils literal"><span class="pre">exclusiveGroup</span></tt> that this Button belongs to.</td>
 </tr>
 </tbody>
 </table>
-<p>Returns an array of all members of the <a class="reference internal" href="#GXM.Button.exclusiveGroup" title="GXM.Button.exclusiveGroup"><tt class="xref py py-attr docutils literal"><span class="pre">exclusiveGroup</span></tt></a> that this
+<p>Returns an array of all members of the <tt class="xref py py-attr docutils literal"><span class="pre">exclusiveGroup</span></tt> that this
 Button belongs to.</p>
 </dd></dl>
 
@@ -203,10 +183,10 @@ Button belongs to.</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="../../index.html"
-                        title="previous chapter">Welcome to gxm&#8217;s documentation!</a></p>
+                        title="previous chapter">Welcome to GXM&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="LayerList.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">GXM.LayerList</span></tt></a></p>
+  <p class="topless"><a href="FeatureList.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">GXM.FeatureList</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/gxm/widgets/Button.txt"
@@ -236,17 +216,17 @@ Button belongs to.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="LayerList.html" title="GXM.LayerList"
+          <a href="FeatureList.html" title="GXM.FeatureList"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../index.html" title="Welcome to gxm’s documentation!"
+          <a href="../../index.html" title="Welcome to GXM’s documentation!"
              >previous</a> |</li>
-        <li><a href="../../index.html">gxm v0.0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, contributors of gxm.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2012, contributors of GXM.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
     </div>
   </body>
 </html>

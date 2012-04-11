@@ -1,0 +1,192 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GXM.FeaturePopup &mdash; GXM v0.2 beta documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="GXM v0.2 beta documentation" href="../../index.html" />
+    <link rel="next" title="GXM.LayerList" href="LayerList.html" />
+    <link rel="prev" title="GXM.FeatureList" href="FeatureList.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LayerList.html" title="GXM.LayerList"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FeatureList.html" title="GXM.FeatureList"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gxm-featurepopup">
+<h1><a class="reference internal" href="#GXM.FeaturePopup" title="GXM.FeaturePopup"><tt class="xref py py-class docutils literal"><span class="pre">GXM.FeaturePopup</span></tt></a><a class="headerlink" href="#gxm-featurepopup" title="Permalink to this headline">¶</a></h1>
+<dl class="meta docutils">
+<dt>Extends</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel">Ext.Panel</a></li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="GXM.FeaturePopup">
+<em class="property">class </em><tt class="descclassname">GXM.</tt><tt class="descname">FeaturePopup</tt><big>(</big><em>config</em><big>)</big><a class="headerlink" href="#GXM.FeaturePopup" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class that is used to construct a GXM FeaturePopup.</p>
+</dd></dl>
+
+<div class="section" id="example-use">
+<h2>Example Use<a class="headerlink" href="#example-use" title="Permalink to this headline">¶</a></h2>
+<p>Sample code to create a GXM.FeaturePopup:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// create a lazily instanciated GXM.LayerList:</span>
+<span class="kd">var</span> <span class="nx">featPopup</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xtype</span><span class="o">:</span> <span class="s1">&#39;gxm_featurepopup&#39;</span><span class="p">,</span>
+    <span class="c1">// call with GXM.Map...</span>
+    <span class="nx">map</span> <span class="o">:</span> <span class="nx">gxmMap</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="config-options">
+<h2>Config Options<a class="headerlink" href="#config-options" title="Permalink to this headline">¶</a></h2>
+<p>Configuration properties in addition to
+those listed for <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel">Ext.Panel</a>.</p>
+<dl class="describe">
+<dt>
+<tt class="descname">centered</tt></dt>
+<dd><p><cite>Boolean</cite> shall the popup be centered within the viewport? Also see <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered">the original documentation</a></p>
+<p>Default is <cite>true</cite>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">feature</tt></dt>
+<dd><p><a class="reference external" href="http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html">OpenLayers.Feature.Vector</a>
+The feature this popup is about to derive its information from.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">hideOnMaskTap</tt></dt>
+<dd><p><cite>Boolean</cite> shall the popup hide when the surrounding mask is being
+tapped? Also see <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-hideOnMaskTap">the original documentation</a></p>
+<p>Default is <cite>true</cite>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">modal</tt></dt>
+<dd><p><cite>Boolean</cite> shall the popup be modal? Also see <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-modal">the original documentation</a></p>
+<p>Default is <cite>true</cite>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">styleHtmlContent</tt></dt>
+<dd><p><cite>Boolean</cite> shall HTML content be styled when rendering content? Also see <a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent">the original documentation</a></p>
+<p>Default is <cite>true</cite>.</p>
+</dd></dl>
+
+<dl class="describe">
+<dt>
+<tt class="descname">tpl</tt></dt>
+<dd><p><a class="reference external" href="http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate">Ext.XTemplate</a>
+The template used to render the popup content. If not provided, a
+rudimentary template is being used.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">GXM.FeaturePopup</span></tt></a><ul>
+<li><a class="reference internal" href="#example-use">Example Use</a></li>
+<li><a class="reference internal" href="#config-options">Config Options</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="FeatureList.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">GXM.FeatureList</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="LayerList.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">GXM.LayerList</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/gxm/widgets/FeaturePopup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LayerList.html" title="GXM.LayerList"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FeatureList.html" title="GXM.FeatureList"
+             >previous</a> |</li>
+        <li><a href="../../index.html">GXM v0.2 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, contributors of GXM.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>
