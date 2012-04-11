@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 .gxm-layer-item {
     margin-left: 10px;
     padding-top: 3px;
@@ -27,4 +30,9 @@
 
 .gxm-inactive-baselayer-indicator {
     background-image: url(../images/round-grey.png);
+}
+
+
+.x-list-item.gxm-display-in-layerswitcher-false {
+    display: none;
 }
