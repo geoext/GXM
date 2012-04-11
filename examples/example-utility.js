@@ -1,4 +1,18 @@
-// this holds methods that are being shared by the examples
+/**
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ *
+ * See http://svn.geoext.org/sandbox/gxm/geoext/gxm/license.txt for the full
+ * text of the license.
+ */
+
+/** 
+ *  Example utility
+ *  ----------------
+ *  This file holds methods that are being shared by the examples.
+ */
+
 Ext.ns('example');
 
 example.utility = {
@@ -38,9 +52,9 @@ example.utility = {
                 lines.push(ind + ind + '} )');
                 lines.push(ind + ']');
                 lines.push('} );');
-                lines.push(varCode + ' mapPanel = ' + newCode + ' GXM.MapPanel( {');
+                lines.push(varCode + ' mapPanel = ' + newCode + ' GXM.MapPanel({');
                 lines.push(ind + 'map: map');
-                lines.push('} );');
+                lines.push('});');
                 lines.push('');
                 lines.push(comS + '// If you bookmark the current page after zooming' + comE);
                 lines.push(comS + '// and panning around and revisit this page through' + comE);
@@ -88,11 +102,11 @@ example.utility = {
                 lines.push(ind + 'control: ctrlDrawPoint');
                 lines.push(ind + comS + "// more GXM.Button-configuration" + comE);
                 lines.push('} );');
-                lines.push(varCode + ' btnDigi = ' + newCode + ' GXM.Button( {');
+                lines.push(varCode + ' btnDigi = ' + newCode + ' GXM.Button({');
                 lines.push(ind + 'exclusiveGroup:' + strS + '"working-on-map",' + strE);
                 lines.push(ind + 'control: ctrlNav');
                 lines.push(ind + comS + "// more GXM.Button-configuration" + comE);
-                lines.push('} );');
+                lines.push('});');
                 break;
             
             case 'layerlist':
@@ -119,57 +133,82 @@ example.utility = {
                 lines.push(comS + '// with direct instanciation of GXM.LayerList.'+ comE);
                 lines.push(comS + '// Here we use the configuration "layers" that takes an'+ comE);
                 lines.push(comS + '// instance of GXM.data.LayerStore:'+ comE);
-                lines.push(varCode +' anotherLayerList = ' + newCode + ' GXM.LayerList( {');
+                lines.push(varCode +' anotherLayerList = ' + newCode + ' GXM.LayerList({');
                 lines.push(ind + 'layers: myLayerStore,');
                 lines.push(ind + 'map: myOpenLayersMap');
-                lines.push('} );');
+                lines.push('});');
                 break;
             
             case 'mappanel-simple':
                 lines.push('{');
-                lines.push(ind + 'xtype : ' + strS + '"gxm_mappanel"' + strE + ',');
+                lines.push(ind + 'xtype : ' + strS + '"gxm_map"' + strE + ',');
                 lines.push(ind + comS + '// A reference to' + comE);
                 lines.push(ind + comS + '// an OpenLayers.Map' + comE);
-                lines.push(ind + 'map   : map');
-                lines.push('}');
+                lines.push(ind + 'map : map');
+                lines.push('};');
                 break;
             
             case 'mappanel-layers':
                 lines.push('{');
-                lines.push(ind + 'xtype  : ' + strS + '"gxm_mappanel"' + strE + ',');
+                lines.push(ind + 'xtype  : ' + strS + '"gxm_map"' + strE + ',');
+                lines.push(ind + comS + '// A reference to' + comE);
+                lines.push(ind + comS + '// an OpenLayers.Layer' + comE);
                 lines.push(ind + 'layers : [');
-                lines.push(ind + ind + comS + '// A reference to' + comE);
-                lines.push(ind + ind + comS + '// an OpenLayers.Layer' + comE);
                 lines.push(ind + ind + 'myLayer');
                 lines.push(ind + ']');
-                lines.push('}');
+                lines.push('};');
                 break;
             
             case 'mappanel-center':
-                lines.push('new GXM.MapPanel( {');
-                lines.push(ind + 'layers : [');
-                lines.push(ind + ind + 'myLayer');
-                lines.push(ind + '],');
+                lines.push('{');
+                lines.push(ind + 'xtype : ' + strS + '"gxm_map"' + strE + ',');
                 lines.push(ind + comS + '// pass as array, as string' + comE);
                 lines.push(ind + comS + '// or OpenLayers.LonLat-instance' + comE);
-                lines.push(ind + 'center : [');
-                lines.push(ind + ind + numS + '8' + numE + ',');
-                lines.push(ind + ind + numS + '51' + numE);
+                lines.push(ind + 'mapCenter : [');
+                lines.push(ind + ind + numS + '7.1' + numE + ',');
+                lines.push(ind + ind + numS + '50.74' + numE);
                 lines.push(ind + '],');
                 lines.push(ind + comS + '// pass an integer as zoom' + comE);
-                lines.push(ind + 'zoom   : ' + numS + '11' + numE);
-                lines.push('} )');
+                lines.push(ind + 'mapZoom : ' + numS + '12' + numE);
+                lines.push('};');
                 break;
             
             case 'mappanel-extent':
-                lines.push('new GXM.MapPanel( {');
-                lines.push(ind + 'layers : [');
-                lines.push(ind + ind + 'myLayer');
-                lines.push(ind + '],');
+                lines.push('{');
+                lines.push(ind + 'xtype : ' + strS + '"gxm_map"' + strE + ',');
                 lines.push(ind + comS + '// pass as array, as string' + comE);
                 lines.push(ind + comS + '// or OpenLayers.Bounds-instance' + comE);
-                lines.push(ind + 'extent : ' + strS + '"7,51,8,52"' + strE);
-                lines.push('} )');
+                lines.push(ind + 'mapExtent : ' + strS + '"7,51,8,52"' + strE);
+                lines.push('};');
+                break;
+            
+            case 'featurelist':
+                lines.push('{');
+                lines.push(ind + comS + '// Use the "xtype"-configuration string "gxm_featurelist"' + comE);
+                lines.push(ind + comS + '// to create a FeatureList with default styling' + comE);
+                lines.push(ind + 'xtype : ' + strS + '"gxm_featurelist"' + strE + ',');
+                lines.push(ind + 'ollayer: myLayer,');
+                lines.push(ind + 'title : ' + strS + '"myFeatureList"' + strE + ',');
+                lines.push(ind + comS + '// Register usual event listeners, e.g. the "itemtap"-event' + comE);
+                lines.push(ind + 'listeners: [');
+                lines.push(ind + ind + 'scope: ' + keyS + 'this' + keyE+ ',');
+                lines.push(ind + ind + 'itemtap: ' + keyS + 'function' + keyE + '() {');
+                lines.push(ind + ind + ind + comS + '// your method...' + comE);
+                lines.push(ind + ind + '}');
+                lines.push(ind + ']');
+                lines.push('};');
+                break;
+            
+            case 'featurepopup':
+                lines.push('{');
+                lines.push(ind + comS + '// Use the "xtype"-configuration string "gxm_featurepopup"' + comE);
+                lines.push(ind + comS + '// to create a Popup for a FeatureList entry with default styling' + comE);
+                lines.push(ind + 'xtype : ' + strS + '"gxm_featurepopup"' + strE + ',');
+                lines.push(ind + 'olFeature: feature,');
+                lines.push(ind + comS + '// Define your custom Ext.Template, Ext.XTemplate or Array of' + comE);
+                lines.push(ind + comS + '// strings to change the view of the popup' + comE);
+                lines.push(ind + 'tpl : new Ext.XTemplate(...),');
+                lines.push('};');
                 break;
                 
             default:
@@ -194,12 +233,16 @@ example.utility = {
                 if (this.overlay && this.overlay instanceof Ext.Panel) {
                     this.overlay.destroy();
                 }
-                this.overlay = new Ext.Panel({
-                    floating: true,
-                    modal: true,
-                    centered: false,
-                    styleHtmlContent: true,
-                    scroll: 'both',
+                this.overlay = Ext.create('Ext.Panel', {
+                    fullscreen: false,
+                    draggable : false,
+                    modal : true,
+                	hideOnMaskTap: true,
+                    height: '80%',
+                    width: '50%',
+                    centered : false,
+                    styleHtmlContent : true,
+                    scrollable : true,
                     html: sourceCode
                 });
                 this.overlay.showBy(this);

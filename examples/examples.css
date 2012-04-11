@@ -1,19 +1,21 @@
-/* This CSS file is only used for the exmaples of GXM */
+.key-popup-info {
+    padding-left: 2px;
+    font-weight: bold;
+}
+.value-popup-info {
+    padding-left: 10px;
+}
 
 pre.example-code {
     font-weight: bold !important;
 }
 
-img.minus {
-    -webkit-mask-image: url(../resources/images/minus1.png);
-}
-
 span.string {
-    color: darkgreen;
+    color: #008000;
 }
 
 span.number {
-    color: darkblue;
+    color: #0000A0;
 }
 
 span.comment {

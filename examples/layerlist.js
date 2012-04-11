@@ -1,152 +1,163 @@
-// intentially global for better debugging
-var map,
-    mapPanel,
-    viewport;
+/**
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ *
+ * See http://svn.geoext.org/sandbox/gxm/geoext/gxm/license.txt for the full
+ * text of the license.
+ */
+
+/** api: example[layerlist]
+ *  MapPanel and interacting LayerList
+ *  ----------------
+ *  This example shows the use of the GXM.LayerList-class to generate
+ *  a list to manage and interact with the Layers of a GXM.MapPanel.
+ */
 
 Ext.setup({
-    onReady: function(){
+    viewport : {
+        autoMaximize : true
+    },
+    onReady : function() {
         OpenLayers.Layer.Vector.prototype.renderers = ["SVG2", "VML", "Canvas"];
+
+        var projection4326 = new OpenLayers.Projection("EPSG:4326");
+        var projection900913 = new OpenLayers.Projection("EPSG:900913");
         
-        var gg = new OpenLayers.Projection("EPSG:4326");
-        var sm = new OpenLayers.Projection("EPSG:900913");
-        var vector = new OpenLayers.Layer.Vector('Vector data');
+        // Create a vector layer for drawing features
+        var layerVector = new OpenLayers.Layer.Vector('Vector data');
         
+        // Create and draw a number (253) of random features 
         var dx = 15;
         var dy = 15;
         var px, py;
         var feature, features = [];
-        for(var x=-170; x<=170; x+=dx) {
-            for(var y=-80; y<=80; y+=dy) {
+        for(var x = -170; x <= 170; x += dx) {
+            for(var y = -80; y <= 80; y += dy) {
                 px = x + (2 * dx * (Math.random() - 0.5));
                 py = y + (2 * dy * (Math.random() - 0.5));
-                feature = new OpenLayers.Feature.Vector(
-                    new OpenLayers.Geometry.Point(px, py).transform(gg, sm), {x: px, y: py}
-                );
+                feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(px, py).transform(projection4326, projection900913), {
+                    x : px,
+                    y : py
+                });
                 features.push(feature);
             }
         }
-        vector.addFeatures(features);
+        layerVector.addFeatures(features);
         
-        map = new OpenLayers.Map({
-            theme: null,
-            projection: sm,
-            units: "m",
-            numZoomLevels: 18,
-            maxResolution: 156543.0339,
-            maxExtent: new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
-            controls: [new OpenLayers.Control.Attribution(), new OpenLayers.Control.TouchNavigation({
-                dragPanOptions: {
-                    interval: 100,
-                    enableKinetic: true
-                }
-            })],
-            layers: [
-                new OpenLayers.Layer.OSM.Mapnik(
-                    'OpenStreetMap Mapnik', 
-                    { 
-                        sphericalMercator : true, 
-                        attribution : 'Data <a href="http://creativecommons.org/licenses/by-sa/2.0">CC-By-SA</a> from <a href="http://openstreetmap.org/">OpenStreetMap</a>'
+        // Create another layer but hide it from the 
+        // layerlist by setting display in layer switcher false
+        var hiddenLayer = new OpenLayers.Layer.Vector('I should not be in the list!', {
+            displayInLayerSwitcher : false
+        });
+        
+        // OpenLayers specific configurations
+        // Create map object including all layer definitions (OpenStreetMap)
+        var map = new OpenLayers.Map({
+            theme : null,
+            projection : projection900913,
+            units : "m",
+            numZoomLevels : 18,
+            maxResolution : 156543.0339,
+            maxExtent : new OpenLayers.Bounds(-20037508.34, -20037508.34, 20037508.34, 20037508.34),
+            controls : [
+                new OpenLayers.Control.Attribution(),
+                new OpenLayers.Control.TouchNavigation({
+                    dragPanOptions : {
+                        interval : 100,
+                        enableKinetic : true
                     }
-                ),
-                new OpenLayers.Layer.OSM.Osmarender(
-                    'OpenStreetMap Osmarender', 
-                    { 
-                        sphericalMercator : true, 
-                        attribution : 'Data <a href="http://creativecommons.org/licenses/by-sa/2.0">CC-By-SA</a> from <a href="http://openstreetmap.org/">OpenStreetMap</a>'
-                    }
-                ),
-                new OpenLayers.Layer.OSM.CycleMap(
-                    'OpenStreetMap CycleMap', 
-                    {
-                        sphericalMercator : true, 
-                        attribution : 'Data <a href="http://creativecommons.org/licenses/by-sa/2.0">CC-By-SA</a> from <a href="http://openstreetmap.org/">OpenStreetMap</a> &amp; <a href="http://www.opencyclemap.org/">OpenCycleMap</a>'
-                    }
-                ),
-                vector
+                })
+            ],
+            layers : [
+                new OpenLayers.Layer.OSM.Mapnik('OpenStreetMap Mapnik', {
+                    sphericalMercator : true,
+                    attribution : 'Data <a href="http://creativecommons.org/licenses/by-sa/2.0">CC-By-SA</a> from <a href="http://openstreetmap.org/">OpenStreetMap</a>'
+                }), new OpenLayers.Layer.OSM.CycleMap('OpenStreetMap CycleMap', {
+                    sphericalMercator : true,
+                    attribution : 'Data <a href="http://creativecommons.org/licenses/by-sa/2.0">CC-By-SA</a> from <a href="http://openstreetmap.org/">OpenStreetMap</a> &amp; <a href="http://www.opencyclemap.org/">OpenCycleMap</a>'
+                }), 
+                layerVector,
+                hiddenLayer
             ]
-            
         });
         
-        var btnLayerlist = {
-            xtype: 'button',
-            text: 'Layerlist',
-            handler: function(){
-                if (!this.popup) {
-                    this.popup = new Ext.Panel({
-                        floating: true,
-                        modal: true,
-                        centered: true,
-                        hideOnMaskTap: true,
-                        items: [{
-                            xtype: 'gxm_layerlist',
-                            mapPanel: mapPanel
-                        }],
-                        scroll: 'vertical'
-                    });
-                }
-                this.popup.show('pop');
-            }
-        };
-        
-        mapPanel = new GXM.MapPanel({
-            map: map,
-            title: 'MapPanel',
-            center: new OpenLayers.LonLat(8,51).transform(gg, sm),
-            zoom: 3
-            
+        // Create the map panel using the map configuration from above (see OpenLayers.Map constructor)
+        var mapPanel = Ext.create('GXM.Map', {
+            map : map,
+            title : 'MapPanel',
+            mapCenter : [0,3000000],
+            mapZoom : 2
         });
+        
+        // Create the GXM.LayerList
         var layerList = {
-            xtype: 'gxm_layerlist',
+            xtype : 'gxm_layerlist',
             // call with mapPanel...
-            mapPanel: mapPanel,
+            map : mapPanel,
+            title : 'LayerList',
             // ... or with layers and map
-            //            layers: mapPanel.layers,
-            //            map: map,
-            listeners: {
-                itemtap: function(){
+            //layers: mapPanel.layers,
+            //map: map,
+            listeners : {
+                itemtap : function() {
                     Ext.Msg.alert('Application event "itemtap"', 'You can still register events as usual.');
                 }
             }
         };
-        var layerPanel = {
-            xtype: 'panel',
-            title: 'LayerList',
-            fullscreen: true,
-            items: [layerList]
-        };
         
-//        var sourcePanel = {
-//            xtype: 'panel',
-//            title: 'Source',
-//            fullscreen: true,
-//            styleHtmlContent: true,
-//            scroll: 'both',
-//            html: example.utility.getExampleCode('layerlist')
-//        };
-        var btnSource = example.utility.getSourceCodeButton('layerlist')
-        
-        viewport = new Ext.TabPanel({
-            tabBar: {
-                dock: 'top',
-                layout: {
-                    pack: 'center'
+        // A button to show relevant code parts
+        var btnSource = example.utility.getSourceCodeButton('layerlist');
+        var layerListBtn = {
+                xtype: 'button',
+                text: 'layerlist',
+                handler: function(){
+                    if (this.overlay && this.overlay instanceof Ext.Panel) {
+                        this.overlay.destroy();
+                    }
+                    this.overlay = Ext.create('Ext.Panel', {
+                        fullscreen: false,
+                        draggable : false,
+                        modal : true,
+                        hideOnMaskTap: true,
+                        height: ( Ext.os.deviceType === 'Desktop' || Ext.os.is.iPad 
+                                  ? 150 
+                                  : '25%' ),
+                        width: ( Ext.os.deviceType === 'Desktop' || Ext.os.is.iPad 
+                                 ? 300 
+                                 : '80%' ),
+                        centered : true,
+                        layout: 'fit',
+                        items: [
+                            {
+                                xtype : 'gxm_layerlist',
+                                // call with mapPanel...
+                                map : mapPanel,
+                                title : 'LayerList'
+                            }
+                        ]
+                    });
+                    this.overlay.show();
                 }
-            },
-            cardSwitchAnimation: 'slide',
-            dockedItems: [
+            }
+        
+        // Create the viewports
+        var viewport = Ext.create('Ext.TabPanel', {
+            fullscreen : true,
+            items : [
+                mapPanel, 
+                layerList, 
                 {
-                    xtype: 'toolbar',
-                    dock: 'bottom',
-                    items: [
-                        btnLayerlist,
-                        {xtype: 'spacer'},
+                    xtype : 'toolbar',
+                    docked : 'bottom',
+                    items : [
+                        layerListBtn,
+                        {xtype : 'spacer'},
                         btnSource
                     ]
                 }
-            ],
-            fullscreen: true,
-            layout: 'card',
-            items: [mapPanel, layerPanel]
+            ]
         });
+        layerList = viewport.items.get(2);
     }
 });
