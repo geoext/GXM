@@ -47,6 +47,11 @@
 Ext.define('GXM.LayerList', {
 	
     extend: 'Ext.List',
+    
+    requires: [
+        'GXM.data.LayerStore'
+    ],
+   
     xtype : 'gxm_layerlist',
     
     /** api: property[olMap]

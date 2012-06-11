@@ -44,6 +44,11 @@
 Ext.define('GXM.FeatureList', {
 
     extend: 'Ext.List',
+    
+    requires: [
+        'GXM.data.FeatureStore'
+    ],
+   
     xtype : 'gxm_featurelist',
     
     /** api: property[olLayer]

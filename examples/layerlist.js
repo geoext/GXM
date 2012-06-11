@@ -14,6 +14,12 @@
  *  a list to manage and interact with the Layers of a GXM.MapPanel.
  */
 
+Ext.require([
+    'GXM.Map',
+    'GXM.LayerList'
+]);
+
+
 Ext.setup({
     viewport : {
         autoMaximize : true
