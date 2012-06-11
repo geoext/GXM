@@ -114,7 +114,7 @@ Ext.setup({
         });
         
         // Create the GXM.Map using the map configuration from above (see OpenLayers.Map constructor)
-        var mapPanel = new GXM.Map({
+        var mapPanel = Ext.create('GXM.Map', {
             map : map,
             title : 'MapPanel',
             mapCenter : [0,3000000],
@@ -140,7 +140,7 @@ Ext.setup({
         };
         
         // A button to show relevant code parts
-        var btnSource = example.utility.getSourceCodeButton('featurelist')
+        var btnSource = example.utility.getSourceCodeButton('featurelist');
         
         // Create the viewport
         viewport = Ext.create('Ext.TabPanel', {

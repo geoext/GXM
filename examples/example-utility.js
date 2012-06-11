@@ -33,6 +33,7 @@ example.utility = {
             ind = '  ',
             varCode = keyS + 'var' + keyE,
             newCode = keyS + 'new' + keyE,
+            extCreateCode = keyS + 'Ext.create(\'' + keyE,
             lines = [];
         
         lines.push('<pre class="example-code">');
@@ -66,7 +67,7 @@ example.utility = {
                 lines.push(comS + '// usually you generate a OpenLayers control and' + comE);
                 lines.push(comS + '// pass it over to the GXM.Button-constructor:' + comE);
                 lines.push(varCode + ' zoomin = ' + newCode + ' OpenLayers.Control.ZoomIn();');
-                lines.push(varCode + ' btnZoomIn = ' + newCode + ' GXM.Button( {');
+                lines.push(varCode + ' btnZoomIn = ' + extCreateCode + 'GXM.Button\', {');
                 lines.push(ind + 'control: zoomin,');
                 lines.push(ind + 'map: map, ' + comS + '// adds the control to the map' + comE);
                 lines.push(ind + 'title: ' + strS + '"Zoom In"' + strE);
@@ -82,12 +83,13 @@ example.utility = {
                 lines.push(comS + '// "pressedCls" will reflect the buttons state.' + comE);
                 lines.push(comS + '// the "pressed"-configuration is used to autoactivate the control:' + comE);
                 lines.push(varCode + ' nav = ' + newCode + ' OpenLayers.Control.TouchNavigation();');
-                lines.push(varCode + ' btnNav = ' + newCode + ' GXM.Button( {');
+                lines.push(varCode + ' btnNav = ' + extCreateCode + 'GXM.Button\', {');
                 lines.push(ind + 'control: nav,');
                 lines.push(ind + 'map: map,');
                 lines.push(ind + 'title: ' + strS + '"Navigation",' + strE);
                 lines.push(ind + 'pressed: ' + boolS + 'true' + boolE + ', ' + comS + '// autoactivate this control' + comE);
                 lines.push(ind + 'pressedCls: ' + strS + '"my-btn-pressed-cls",' + strE);
+                lines.push('} );');
                 lines.push('');
                 lines.push(comS + '// Use the "exclusiveGroup" configuration to make sure' + comE);
                 lines.push(comS + '// that from a group of controls only one is active at' + comE);
@@ -97,12 +99,12 @@ example.utility = {
                 lines.push(ind + comS + "// more OpenLayers-configuration" + comE);
                 lines.push(');');
                 lines.push(varCode + ' ctrlNav = ' + newCode + ' OpenLayers.Control.TouchNavigation();');
-                lines.push(varCode + ' btnNav = ' + newCode + ' GXM.Button( {');
+                lines.push(varCode + ' btnNav = ' + extCreateCode + 'GXM.Button\', {');
                 lines.push(ind + 'exclusiveGroup:' + strS + '"working-on-map",' + strE);
                 lines.push(ind + 'control: ctrlDrawPoint');
                 lines.push(ind + comS + "// more GXM.Button-configuration" + comE);
                 lines.push('} );');
-                lines.push(varCode + ' btnDigi = ' + newCode + ' GXM.Button({');
+                lines.push(varCode + ' btnDigi = ' + extCreateCode + 'GXM.Button\', {');
                 lines.push(ind + 'exclusiveGroup:' + strS + '"working-on-map",' + strE);
                 lines.push(ind + 'control: ctrlNav');
                 lines.push(ind + comS + "// more GXM.Button-configuration" + comE);
@@ -133,7 +135,7 @@ example.utility = {
                 lines.push(comS + '// with direct instanciation of GXM.LayerList.'+ comE);
                 lines.push(comS + '// Here we use the configuration "layers" that takes an'+ comE);
                 lines.push(comS + '// instance of GXM.data.LayerStore:'+ comE);
-                lines.push(varCode +' anotherLayerList = ' + newCode + ' GXM.LayerList({');
+                lines.push(varCode +' anotherLayerList = ' + extCreateCode + 'GXM.LayerList\', {');
                 lines.push(ind + 'layers: myLayerStore,');
                 lines.push(ind + 'map: myOpenLayersMap');
                 lines.push('});');
@@ -207,7 +209,7 @@ example.utility = {
                 lines.push(ind + 'olFeature: feature,');
                 lines.push(ind + comS + '// Define your custom Ext.Template, Ext.XTemplate or Array of' + comE);
                 lines.push(ind + comS + '// strings to change the view of the popup' + comE);
-                lines.push(ind + 'tpl : new Ext.XTemplate(...),');
+                lines.push(ind + 'tpl : ' + extCreateCode + 'Ext.XTemplate\', ...),');
                 lines.push('};');
                 break;
                 
