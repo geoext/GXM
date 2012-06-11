@@ -47,6 +47,7 @@
 Ext.define('GXM.Map', {
     
     requires: [
+        'GXM.version',
         'GXM.util.Base',
         'GXM.data.LayerStore'
     ],

@@ -50,6 +50,11 @@
 Ext.define('GXM.Button', {
 	
     extend: 'Ext.Button',
+    
+    requires: [
+        'GXM.version'
+    ],
+    
     xtype: 'gxm_button',
     
     /** private: property[autoadded]
