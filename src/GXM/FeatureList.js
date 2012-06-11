@@ -46,6 +46,7 @@ Ext.define('GXM.FeatureList', {
     extend: 'Ext.List',
     
     requires: [
+        'GXM.version',
         'GXM.data.FeatureStore'
     ],
    
