@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+<span id='global-property-'>/** api: (define)
+</span> *  module = GXM
+ *  class = FeaturePopup
+ *  base_link = `Ext.Panel &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel&gt;`_
+ */
+
+<span id='global-property-'>/** api: example
+</span> *  Sample code to create a GXM.FeaturePopup:
+ * 
+ *  .. code-block:: javascript
+ *  
+ *    // create a lazily instanciated GXM.LayerList:
+ *    var featPopup = {
+ *        xtype: 'gxm_featurepopup',
+ *        // call with GXM.Map...
+ *        map : gxmMap
+ *    };
+ *    
+ */
+
+<span id='GXM-FeaturePopup'>/** api: constructor
+</span> *  .. class:: FeaturePopup(config)
+ *   
+ *      The class that is used to construct a GXM FeaturePopup.
+ */
+Ext.define('GXM.FeaturePopup', {
+
+    extend: 'Ext.Panel',
+    xtype : 'gxm_featurepopup',
+    
+<span id='GXM-FeaturePopup-property-scrollable'>    /** private: property[scrollable]
+</span>     *  
+     *  ``Boolean`` A FeaturePopup is always scrollable.  
+     *  
+     *  Defaults to ``true``.
+     */
+	scrollable: true,
+	
+<span id='GXM-FeaturePopup-property-layout'>	/** private: property[layout]
+</span>     *  
+     *  ``String`` Currently all FeaturePopups are in the fit-layout. 
+     *  
+     *  Defaults to ``fit``.
+     */
+	layout: 'fit',
+	
+    config: {
+    	
+<span id='GXM-FeaturePopup-property-hideOnMaskTap'>        /** api: config[hideOnMaskTap] 
+</span>         * 
+         *  `Boolean` shall the popup hide when the surrounding mask is being 
+         *  tapped? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-hideOnMaskTap&gt;`_
+         *  
+         *  Default is `true`.
+         */
+    	hideOnMaskTap: true,
+    	
+<span id='GXM-FeaturePopup-property-feature'>    	/** api: config[feature]
+</span>         * 
+         *  `OpenLayers.Feature.Vector &lt;http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html&gt;`_ 
+         *  The feature this popup is about to derive its information from.
+         */
+        feature: null,
+        
+<span id='GXM-FeaturePopup-property-tpl'>        /** api: config[tpl]
+</span>         * 
+         *  `Ext.XTemplate &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate&gt;`_
+         *  The template used to render the popup content. If not provided, a 
+         *  rudimentary template is being used. 
+         */
+        tpl: null,
+        
+<span id='GXM-FeaturePopup-property-styleHtmlContent'>        /** api: config[styleHtmlContent] 
+</span>         * 
+         *  `Boolean` shall HTML content be styled when rendering content? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent&gt;`_
+         *  
+         *  Default is `true`.
+         */
+        styleHtmlContent: true,
+        
+<span id='GXM-FeaturePopup-property-centered'>        /** api: config[centered] 
+</span>         * 
+         *  `Boolean` shall the popup be centered within the viewport? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered&gt;`_
+         *  
+         *  Default is `true`.
+         */
+        centered : true,
+        
+<span id='GXM-FeaturePopup-property-modal'>        /** api: config[modal] 
+</span>         * 
+         *  `Boolean` shall the popup be modal? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-modal&gt;`_
+         *  
+         *  Default is `true`.
+         */
+        modal : true
+    },
+    
+<span id='GXM-FeaturePopup-method-constructor'>    /** private: method[constructor]
+</span>     * 
+     *  The constructor function
+     */
+    constructor: function(config){
+        if (!config.tpl) {
+            config.tpl = new Ext.XTemplate('&lt;p&gt;You clicked the feature with the ID: {feature.id}&lt;/p&gt;', '&lt;p&gt;Overwrite the config-property tpl to get a custom text.&lt;/p&gt;');
+        }
+        if (config.feature) {
+            this._feature = config.feature;
+            delete config.feature;
+        }
+        this.callParent(arguments);
+    },
+    
+<span id='GXM-FeaturePopup-method-initialize'>    /** private: method[initialize]
+</span>     * 
+     *  Initializes the Component.
+     */
+    initialize: function() {
+    	
+    	var feature = this.getFeature();
+    	
+    	// set the given feature in order
+    	// to call the apply method
+    	// which cares about the data types
+    	// necessary because we do the manual setting
+    	// of feature in constructor due to 
+    	// known issues with circular
+    	// references
+    	if (Ext.isDefined(feature)) {
+    		this.setFeature(feature);
+    	}
+    	
+        this.callParent();
+    },
+    
+<span id='GXM-FeaturePopup-method-applyFeature'>    /** private: method[applyFeature]
+</span>     * 
+     *  ``Function`` Intersects the :func:`setFeature` function.
+     *  Adds the passed feature via setData to prevent data loss. Is needed to 
+     *  support more than one datatype for the new feature. 
+     */
+    applyFeature: function(newFeature) {
+		if(newFeature instanceof OpenLayers.Feature.Vector) {
+			
+			// set the feature as data, because if we pass
+			// an OL object directly as data it gets lost
+			this.setData({
+				feature: newFeature
+			});
+		}
+		else if (feature instanceof OpenLayers.Geometry) {
+			// TODO
+		}
+		else if (feature instanceof Ext.Record) {
+			// TODO
+		}
+		
+		return newFeature;
+	}
+    
+});
+</pre>
+</body>
+</html>

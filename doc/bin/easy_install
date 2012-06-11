@@ -1,9 +1,0 @@
-#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
-# EASY-INSTALL-ENTRY-SCRIPT: 'setuptools==0.6c12dev-r88795','console_scripts','easy_install'
-__requires__ = 'setuptools==0.6c12dev-r88795'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('setuptools==0.6c12dev-r88795', 'console_scripts', 'easy_install')()
-)

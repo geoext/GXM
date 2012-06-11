@@ -1,9 +1,0 @@
-#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
-# EASY-INSTALL-ENTRY-SCRIPT: 'Sphinx==1.0.7','console_scripts','sphinx-build'
-__requires__ = 'Sphinx==1.0.7'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('Sphinx==1.0.7', 'console_scripts', 'sphinx-build')()
-)

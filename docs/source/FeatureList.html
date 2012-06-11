@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+<span id='global-property-'>/** api: (define)
+</span> *  module = GXM
+ *  class = FeatureList
+ *  base_link = `Ext.List &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.dataview.List&gt;`_
+ */
+
+<span id='global-property-'>/** api: example
+</span> *  Sample code to create a GXM.FeatureList:
+ * 
+ *  .. code-block:: javascript
+ *  
+ *     var featureList = {
+ *         xtype : 'gxm_featurelist',
+ *         layer : layerVector,
+ *         title : 'FeatureList',
+ *         listeners : {
+ *             itemtap : function(list, idx, target, record, e, eOpts) {
+ *                 var feature = record.getFeature(), 
+ *                     geom = feature.geometry, 
+ *                     center = new OpenLayers.LonLat(geom.x, geom.y), 
+ *                     zoom = 5
+ *                 mapPanel.getMap().setCenter(center, zoom);
+ *                 tp.setActiveItem(mapPanel);
+ *             }
+ *         }
+ *     };
+ *    
+ */
+
+<span id='GXM-FeatureList'>/** api: constructor
+</span> *  .. class:: FeatureList(config)
+ *   
+ *      The class that is used to construct a GXM FeatureList.
+ */
+Ext.define('GXM.FeatureList', {
+
+    extend: 'Ext.List',
+    
+    requires: [
+        'GXM.data.FeatureStore'
+    ],
+   
+    xtype : 'gxm_featurelist',
+    
+<span id='GXM-FeatureList-property-olLayer'>    /** api: property[olLayer]
+</span>     * 
+     *  `OpenLayers.Layer.Vector &lt;http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Layer/Vector-js.html&gt;`_  references the 
+     *  layer that was used to instantiate this list.
+     */
+    olLayer: null,
+    
+    config: {
+    	
+<span id='GXM-FeatureList-property-map'>        /** api: config[map] 
+</span>         * 
+         *  :class:`GXM.Map` The GXM Map component this `FeatureList` refers to. 
+         *  Might be used to derive the corresponding OpenLayers Map object.
+         */
+        map: null,
+        
+<span id='GXM-FeatureList-property-store'>        /** api: config[store]
+</span>         * 
+         *  :class:`GXM.data.FeatureStore` The featurestore this list is about 
+         *  to use.
+         */
+        store: null,
+        
+<span id='GXM-FeatureList-property-layer'>        /** api: config[layer]
+</span>         * 
+         *  `OpenLayers.Layer.Vector &lt;http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Layer/Vector-js.html&gt;`_ 
+         *  The layer this list is about to derive featuires from for display 
+         *  inside the list. Will override any existing configuration for 
+         *  :attr:`store`.
+         */
+        layer: null,
+        
+<span id='GXM-FeatureList-property-itemTpl'>        /** api: config[itemTpl]
+</span>         * 
+         *  `Ext.XTemplate &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate&gt;`_
+         *  The template used to render every list-item of the list of features. 
+         *  If not provided, a rudimentary template is being used. 
+         */
+        itemTpl: null
+    },
+    
+<span id='GXM-FeatureList-method-constructor'>    /** private: method[constructor]
+</span>     * 
+     *  The constructor function
+     */
+    constructor: function(config) {
+        if (config.layer) {
+            this._layer = config.layer;
+            delete config.layer;
+        }
+        this.callParent(arguments);
+    },
+    
+<span id='GXM-FeatureList-method-initialize'>    /** private: method[initialize]
+</span>     * 
+     *  Initializes the Component.
+     */
+    initialize: function() {
+       
+        var map = this.getMap();
+        
+        if (map &amp;&amp; map instanceof GXM.Map) {
+            this.olMap = map.getMap();
+        }
+        
+        // TODO
+        // Allow also initialization with an array of features
+        
+        var layer = this.getLayer();
+        
+        if (layer) {
+            var features = layer.features;
+            var store =  Ext.create('GXM.data.FeatureStore', {
+                data: features
+            });
+            this.setStore(store);
+            
+            // bind OL events
+        	layer.events.on({
+                &quot;featureadded&quot;: this.onFeatureAdded,
+                &quot;featureremoved&quot;: this.onFeatureRemoved,
+                scope: this
+            });
+        }
+        
+        var tpl = this.getItemTpl();
+        if (Ext.isDefined(tpl) &amp;&amp; tpl instanceof Ext.XTemplate) {
+        	this.setItemTpl(tpl);
+        } else {
+        	this.setItemTpl(new Ext.XTemplate(
+                '{[this.renderFeatureListItem(values.feature)]}', {
+                    renderFeatureListItem: function(feature){
+                        var data = feature.data,
+                            geom = feature.geometry,
+                            str = geom.toString().substr(0, 30);
+                        if (geom.toString().length &gt; 30) {
+                            str += '...';
+                        }
+                        return Ext.String.format('Feature ({0})', str);
+                    }
+                }
+            ));
+        }
+        
+                
+        this.callParent();
+    },
+    
+<span id='GXM-FeatureList-method-prepareData'>    /** private: method[prepareData]
+</span>     *  :param data: ``Object`` The raw data object that was used to create the
+     *      record.
+     *  :param index: ``Number`` the index number of the Record being prepared 
+     *      for rendering.
+     *  :param record: ``Record`` The Record being prepared for rendering.
+     *  
+     *  :return: ``Object`` the adjusted data with a new member ``feature`` 
+     *      referencing the raw ``OpenLayers.Feature``-object
+     *      
+     *  A private method to give this DataViews template-methods access to the 
+     *  raw ``OpenLayers.Feature``-object.
+     */
+    prepareData: function(data, index, record) {
+        if (record) {
+            data.feature = record.getFeature();
+        }
+        return data;
+    },
+        
+<span id='GXM-FeatureList-method-onFeatureAdded'>    /** private: method[onFeatureAdded]
+</span>     *  :param evt: ``Ext.EventObject`` The event-object 
+     *  
+     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
+     */
+	onFeatureAdded: function(evt) {
+		this.getStore().add(evt.feature);
+	},
+	
+<span id='GXM-FeatureList-method-onFeatureRemoved'>    /** private: method[onFeatureRemoved]
+</span>     *  :param evt: ``Ext.EventObject`` The event-object 
+     *  
+	 *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
+	 */
+	onFeatureRemoved: function(evt) {
+		var store = this.getStore(),
+			rec = store.findRecord(&quot;id&quot;, evt.feature.id);
+		
+		this.getStore().remove(rec);
+	}
+    
+});
+</pre>
+</body>
+</html>

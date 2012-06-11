@@ -15,6 +15,13 @@
  *  on a list entry.
  */
 
+Ext.require([
+    'GXM.FeatureList',
+    'GXM.FeaturePopup'
+]);
+
+
+
 Ext.setup({
     onReady : function() {
         // Create a random string (used for the description of a random feature)
