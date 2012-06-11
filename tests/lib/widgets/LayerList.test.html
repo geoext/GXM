@@ -8,15 +8,25 @@
         <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
-        <!-- This file loads all relevant files -->
-        <script type="text/javascript" src="../../../lib/GXM.loader.js"></script>
-        
         <!-- load test helper functions -->
         <script type="text/javascript" src="../../helperfunctions.js"></script>
         
         <script type="text/javascript">
+        
+Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        GXM: "../../../src/GXM",
+        Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+    }
+});
 
-
+Ext.require([
+    'GXM.LayerList',
+    'GXM.Map'
+])
+        
 // can be copied to other testfiles, simply adjust the first variables  
 function test_definition(t) {
     var undef,
