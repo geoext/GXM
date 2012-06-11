@@ -1,0 +1,16 @@
+{
+    "--title": "GeoExt mobile (GXM) 0.2 documentation",
+    "-o": "docs",
+    // the "-extend,-link,-type_name" warning removals are used to prevent warnings
+    // when the documentation is built without ExtJS
+    "--warnings": "-extend,-link,-type_name",
+    "--external": [
+        "OpenLayers.Map"
+    ],
+    "--": [
+        "src"
+        // Uncomment the following line and modify the path to match yours
+        // if you wish to build with the ExtJS doc.
+        // ,"/tmp/sencha-touch-2.0.1.1/src"
+    ]
+}

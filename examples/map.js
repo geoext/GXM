@@ -15,6 +15,11 @@
  *  embedable into other Sench Touch components.
  */
 
+Ext.require([
+    'GXM.Map'
+]);
+
+
 Ext.setup({
     viewport : {
         autoMaximize : true

@@ -1,9 +1,0 @@
-#!/home/jansen/SphinxGeoExt/GeoExtSite/bin/python2.6
-# EASY-INSTALL-ENTRY-SCRIPT: 'Trac==0.12.2','console_scripts','trac-admin'
-__requires__ = 'Trac==0.12.2'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('Trac==0.12.2', 'console_scripts', 'trac-admin')()
-)
