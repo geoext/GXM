@@ -51,7 +51,7 @@
 
 <span id='global-property-'>/** api: xtype = gxm_layer */
 </span>
-<span id='gxm_layer'>/** api: constructor
+<span id='GXM-data-LayerModel'>/** api: constructor
 </span> *  .. class:: gxm_layer
  *  
  *  Class defines a model for records containing an OpenLayers layer object.
@@ -59,8 +59,9 @@
  *  as string representation as a config option within creation of a superior component, 
  *  for example a store. 
  */
-Ext.define('gxm_layer', { 
+Ext.define('GXM.data.LayerModel', { 
     extend: &quot;Ext.data.Model&quot;,
+    alias: 'model.gxm_layer',
     config: {
         fields: [
             {
@@ -70,7 +71,7 @@ Ext.define('gxm_layer', {
         ]
     },
     
-<span id='gxm_layer-method-getLayer'>    /** api: method[getLayer]
+<span id='GXM-data-LayerModel-method-getLayer'>    /** api: method[getLayer]
 </span>     *  :return:  ``OpenLayers.Layer`` The raw layer object of this record
      *  
      *  Returns the layer object of the record created with this model.

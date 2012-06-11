@@ -51,7 +51,7 @@
 
 <span id='global-property-'>/** api: xtype = gxm_feature */
 </span>
-<span id='gxm_feature'>/** api: constructor
+<span id='GXM-data-FeatureModel'>/** api: constructor
 </span> *  .. class:: gxm_feature
  *  
  *  Class defines a model for records containing an OpenLayers feature object.
@@ -59,8 +59,9 @@
  *  as string representation as a config option within creation of a superior component, 
  *  for example a store. 
  */
-Ext.define('gxm_feature', { 
+Ext.define('GXM.data.FeatureModel', { 
     extend: &quot;Ext.data.Model&quot;,
+    alias: 'model.gxm_feature',
     config: {
         fields: [
              {
@@ -69,7 +70,7 @@ Ext.define('gxm_feature', {
         ]
     },
     
-<span id='gxm_feature-method-getFeature'>    /** api: method[getLayer]
+<span id='GXM-data-FeatureModel-method-getFeature'>    /** api: method[getLayer]
 </span>     *  :return:  ``OpenLayers.Feature`` The raw feature object of the corresponding record
      *  
      *  Returns the feature object of the record created with this model.

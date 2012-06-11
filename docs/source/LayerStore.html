@@ -41,6 +41,9 @@
  */
 Ext.define('GXM.data.LayerStore', {
     extend: 'Ext.data.Store',
+    requires: [
+        'GXM.data.LayerModel'
+    ],
     config: {
     	
 <span id='GXM-data-LayerStore-property-model'>        /** api: config[model]
@@ -48,7 +51,7 @@ Ext.define('GXM.data.LayerStore', {
          *  ``String`` The identifier for the model to be used. 
          *  Defaults to ``gxm_layer``.
          */
-        model: 'gxm_layer',
+        model: 'GXM.data.LayerModel',
         
 <span id='GXM-data-LayerStore-property-proxy'>        /** api: config[proxy]
 </span>         * 

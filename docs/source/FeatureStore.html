@@ -41,6 +41,9 @@
  */
 Ext.define('GXM.data.FeatureStore', {
     extend: 'Ext.data.Store',
+    requires: [
+        'GXM.data.FeatureModel'
+    ],
     config: {
     	
 <span id='GXM-data-FeatureStore-property-model'>        /** api: config[model]
@@ -48,9 +51,9 @@ Ext.define('GXM.data.FeatureStore', {
          *  ``String`` The identifier for the model to be used. 
          *  Defaults to ``gxm_layer``.
          */
-        model: 'gxm_feature',
+        model: 'GXM.data.FeatureModel',
         
-<span id='GXM-data-FeatureStore-property-proxy'>        /** api: config[proxy]
+<span id='GXM-data-FeatureStore-property-proxy'>        /** api: config[proxy] 
 </span>         * 
          *  ``String/Ext.data.Proxy/Object`` The proxy to be used by the store.
          *  Defaults to a configuration object for a `Ext.data.MemoryProxy &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.proxy.Memory&gt;`_
