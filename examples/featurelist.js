@@ -14,6 +14,14 @@
  *  interact with the features of a GXM.MapPanel.
  */
 
+Ext.require([
+    'GXM.Map',
+    'GXM.FeatureList'
+]);
+
+
+
+
 Ext.setup({
     viewport : {
         autoMaximize : true
@@ -124,7 +132,7 @@ Ext.setup({
         // Create the GXM FeatureList that also contains a listener dealing with
         // tap events on a specific feature in the list triggering a map zoom to the feature.
         var featureList = {
-            xtype : 'gxm_featurelist',
+            xtype: 'gxm_featurelist',
             layer : layerVector,
             title : 'FeatureList',
             listeners : {
