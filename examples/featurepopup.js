@@ -101,7 +101,7 @@ Ext.setup({
                     var popup = {
                         xtype: 'gxm_featurepopup',
                         feature : feature,
-                        tpl : new Ext.XTemplate('<p class="key-popup-info">You clicked the feature: </p>', '<p class="value-popup-info">{feature.attributes.r1} {feature.attributes.r2}</p>', '<p class="key-popup-info">At the position: </p>', '<p class="value-popup-info">', '    <ul><li>x = {[values.feature.geometry.x.toFixed(3)]}', '        <li>y = {[values.feature.geometry.y.toFixed(3)]} </ul>', '</p>', '<p class="key-popup-info">Which is in WGS84: </p>', '<p class="value-popup-info">', '    <ul><li>lon = {[values.feature.data.x.toFixed(3)]}', '        <li>lat = {[values.feature.data.y.toFixed(3)]} </ul>', '</p>')
+                        tpl : Ext.create('Ext.XTemplate', '<p class="key-popup-info">You clicked the feature: </p>', '<p class="value-popup-info">{feature.attributes.r1} {feature.attributes.r2}</p>', '<p class="key-popup-info">At the position: </p>', '<p class="value-popup-info">', '    <ul><li>x = {[values.feature.geometry.x.toFixed(3)]}', '        <li>y = {[values.feature.geometry.y.toFixed(3)]} </ul>', '</p>', '<p class="key-popup-info">Which is in WGS84: </p>', '<p class="value-popup-info">', '    <ul><li>lon = {[values.feature.data.x.toFixed(3)]}', '        <li>lat = {[values.feature.data.y.toFixed(3)]} </ul>', '</p>')
                     };
                     
                     Ext.Viewport.add(popup);

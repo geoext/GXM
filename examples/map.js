@@ -126,7 +126,7 @@ Ext.setup({
         
         // Create viewport and also add a button showing a snipped of sourcecode in a
         // floating Ext.Panel. See example-utility.js for the shown code.
-        var viewport = new Ext.TabPanel({
+        var viewport = Ext.create('Ext.TabPanel', {
             fullscreen : true,
             ui : 'dark',
             tabBar : {
@@ -153,6 +153,7 @@ Ext.setup({
                                 centered : false,
                                 styleHtmlContent : true,
                                 scrollable : true,
+                                hideOnMaskTap: true,
                                 html : viewport.getActiveItem().config.sourceCode
                             }).showBy(this);
                         }
