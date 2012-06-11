@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+Ext.ns('GXM');
+
+(function(){
+
+<span id='global-property-singleFile'>    /**
+</span>     * Check to see if GXM.singleFile is true. It is true if the
+     * GXM/SingleFile.js is included before this one, as it is
+     * the case in single file builds.
+     */
+    var singleFile = (Ext.isObject(GXM) &amp;&amp; GXM.singleFile);
+
+    window.GXM = Ext.apply(GXM || {}, {version:'0.0.1'});
+    
+<span id='global-property-scriptName'>    /**
+</span>     * The relative path of this script.
+     */
+    var scriptName = singleFile ? &quot;GXM.js&quot; : &quot;lib/GXM.loader.js&quot;;
+
+<span id='global-method-getScriptLocation'>    /**
+</span>     * Function returning the path of this script.
+     */
+    var getScriptLocation = function() {
+        var scriptLocation = &quot;&quot;;
+        // If we load other scripts right before GXM using the same
+        // mechanism to add script resources dynamically (e.g. OpenLayers), 
+        // document.getElementsByTagName will not find the GXM script tag
+        // in FF2. Using document.documentElement.getElementsByTagName instead
+        // works around this issue.
+        var scripts = document.documentElement.getElementsByTagName('script');
+        for(var i=0, len=scripts.length; i&lt;len; i++) {
+            var src = scripts[i].getAttribute('src');
+            if(src) {
+                var index = src.lastIndexOf(scriptName); 
+                // set path length for src up to a query string
+                var pathLength = src.lastIndexOf('?');
+                if(pathLength &lt; 0) {
+                    pathLength = src.length;
+                }
+                // is it found, at the end of the URL?
+                if((index &gt; -1) &amp;&amp; (index + scriptName.length == pathLength)) {
+                    scriptLocation = src.slice(0, pathLength - scriptName.length);
+                    break;
+                }
+            }
+        }
+        return scriptLocation;
+    };
+    
+<span id='global-property-'>    /**
+</span>     * If GXM.singleFile is false then the JavaScript files in the jsfiles
+     * array are autoloaded.
+     */
+    if(!singleFile) {
+        var jsfiles = [
+            &quot;util/Base.js&quot;,
+            &quot;widgets/Map.js&quot;,
+            &quot;widgets/Button.js&quot;,
+            &quot;data/models/Layer.js&quot;,
+            &quot;data/LayerStore.js&quot;,
+            &quot;widgets/LayerList.js&quot;,
+            &quot;data/models/Feature.js&quot;,
+            &quot;data/FeatureStore.js&quot;,
+            &quot;widgets/FeatureList.js&quot;,
+            &quot;widgets/FeaturePopup.js&quot;
+        ];
+
+        var len = jsfiles.length;
+        var allScriptTags = [];
+        var host = getScriptLocation() + &quot;lib/GXM/&quot;;    
+        
+        Ext.each(jsfiles, function(jsfile) {
+            allScriptTags.push(
+                &quot;&lt;script type='text/javascript' src='&quot; 
+                + host + jsfile 
+                +&quot;'&gt;&lt;/script&gt;&quot; );
+        });
+        
+        document.write(allScriptTags.join(&quot;&quot;));
+    }    
+    
+})();
+</pre>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See http://svn.geoext.org/sandbox/gxm/geoext/gxm/license.txt for the full 
+ * text of the license.
+ */
+
+<span id='global-property-'>/**
+</span> * @requires GXM/data/models/Feature.js
+ */
+
+<span id='global-property-'>/** api: (define)
+</span> *  module = GXM.data
+ *  class = FeatureStore
+ *  base_link = `Ext.data.Store &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Store&gt;`_
+ */
+
+<span id='GXM-data-FeatureStore'>/** api: constructor
+</span> *  .. class:: FeatureStore(config)
+ *   
+ *      The class that is used to construct a GXM FeatureStore.
+ */
+Ext.define('GXM.data.FeatureStore', {
+    extend: 'Ext.data.Store',
+    config: {
+    	
+<span id='GXM-data-FeatureStore-property-model'>        /** api: config[model]
+</span>         * 
+         *  ``String`` The identifier for the model to be used. 
+         *  Defaults to ``gxm_layer``.
+         */
+        model: 'gxm_feature',
+        
+<span id='GXM-data-FeatureStore-property-proxy'>        /** api: config[proxy]
+</span>         * 
+         *  ``String/Ext.data.Proxy/Object`` The proxy to be used by the store.
+         *  Defaults to a configuration object for a `Ext.data.MemoryProxy &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.proxy.Memory&gt;`_
+         *  that has a :class:`Ext.data.reader.Json` set as `reader`-property.
+         */
+        proxy: {
+            type: 'memory',
+            reader: {
+                type: 'json',
+                root: ''
+            }
+        }
+    }
+});</pre>
+</body>
+</html>

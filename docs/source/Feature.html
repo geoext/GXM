@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='global-property-'>/**
+</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+<span id='global-property-'>/** api: (define)
+</span> *  module = 
+ *  class = gxm_feature
+ *  base_link = `Ext.data.Model &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Model&gt;`_
+ */
+
+<span id='global-property-'>/** api: example
+</span> *  Sample code to use a gxm_feature model:
+ * 
+ *  .. code-block:: javascript
+ *  
+ *     Ext.create('Ext.data.Store', {
+ *     
+ *             model: 'gxm_feature',
+ *        
+ *             proxy: {
+ *                 type: 'memory',
+ *                 reader: {
+ *                     type: 'json',
+ *                     root: ''
+ *                 }
+ *             }
+ *     });
+ */
+
+<span id='global-property-'>/** api: xtype = gxm_feature */
+</span>
+<span id='gxm_feature'>/** api: constructor
+</span> *  .. class:: gxm_feature
+ *  
+ *  Class defines a model for records containing an OpenLayers feature object.
+ *  Usually this class is not instantiated directly, but referenced by its name ``gxm_feature`` 
+ *  as string representation as a config option within creation of a superior component, 
+ *  for example a store. 
+ */
+Ext.define('gxm_feature', { 
+    extend: &quot;Ext.data.Model&quot;,
+    config: {
+        fields: [
+             {
+                 name: 'id'
+             }
+        ]
+    },
+    
+<span id='gxm_feature-method-getFeature'>    /** api: method[getLayer]
+</span>     *  :return:  ``OpenLayers.Feature`` The raw feature object of the corresponding record
+     *  
+     *  Returns the feature object of the record created with this model.
+     */ 
+    getFeature: function(){
+        return this.raw;
+    }
+});
+</pre>
+</body>
+</html>
