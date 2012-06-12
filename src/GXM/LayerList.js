@@ -45,7 +45,7 @@
  *      The class that is used to construct a GXM LayerList.
  */
 Ext.define('GXM.LayerList', {
-	
+    
     extend: 'Ext.List',
     
     requires: [
@@ -102,7 +102,7 @@ Ext.define('GXM.LayerList', {
      * These do all get a getter-, setter- and applier-method
      */
     config: {
-    	
+        
         /** api: config[map] 
          * 
          *  :class:`GXM.Map` The GXM Map component this `LayerList` refers to. Might be used to 
@@ -130,17 +130,17 @@ Ext.define('GXM.LayerList', {
      *  Initializes the Component.
      */
     initialize: function(){
-    	var me = this,
-        	map = this.getMap();
-    	
+        var me = this,
+            map = this.getMap();
+        
         if (map && map instanceof GXM.Map) {
-        	me.olMap = map.getMap();
-        	me.setStore(map.layers);
+            me.olMap = map.getMap();
+            me.setStore(map.layers);
         }
         
         me.setItemTpl(new Ext.XTemplate(
-            '<span class="{[this.getVisibilityIconClass(values.layer)]} {[this.getDisplayInLayerSwitcherClass(values.layer)]}"></span>',
-            '<span class="gxm-layer-item">{name}</span>',
+                '<span class="{[this.getVisibilityIconClass(values.layer)]}"></span>',
+                '<span class="gxm-layer-item">{name}</span>',
             {
                 // template member functions
                 getVisibilityIconClass: function(layer) {
@@ -160,34 +160,55 @@ Ext.define('GXM.LayerList', {
                         }
                     }
                     return cls;
-                },
-                getDisplayInLayerSwitcherClass: function(layer){
-                    var cls = '';
-                    
-                    if (!Ext.isDefined(layer.displayInLayerSwitcher) || layer.displayInLayerSwitcher === true) {
-                        cls = 'gxm-display-in-layerswitcher-true'
-                    } else {
-                        cls = 'gxm-display-in-layerswitcher-false'
-                    }
-                    
-                    return cls;
                 }
             }
         ));
         
         if (me.olMap) {
-        	me.olMap.events.on({
+            me.olMap.events.on({
                 "changelayer": me.onChangeLayer,
-                "addlayer": me.onChangeLayer,
-                "removelayer": me.onChangeLayer,
+                "addlayer": me.onAddLayer,
+                "removelayer": me.onRemoveLayer,
                 scope: me
             });
         }
         
         me.addListener('itemtap', me.reactOnItemTap, me);
-        me.addListener('refresh', me.hideUndesiredRecords, me);    
+        
+        var internalLayerStore = me.createInternalLayerStore(me.getStore().data.items);
+        me.setStore(internalLayerStore);
         
         me.callParent();
+    },
+    
+    /** private: method[createStoreClone]
+     * 
+     * :param originalData: ``Array`` The original records of the layer store with all possible layers
+     *   of the passed map
+     * :return: ``GXM.data.LayerStore`` the new LayerStore instance with the layers to be drawn in the LayerList
+     *   
+     * A private method creating a new LayerStore instance containing only the layers which should be displayed
+     *   in the LayerList. This becomes necessary due to the remove 'collecData' method of the Ext.dataview.ListView 
+     *   since Sencha Touch 2.0 and the fact that the original layer store has to be unfiltered/untouched due to
+     *   possible references.
+     * 
+     */
+    createInternalLayerStore: function(originalData) {
+        
+        var dspLayers = [];
+        Ext.each(originalData, function (record, idx){
+            var layer = record.getLayer();
+            if (!Ext.isDefined(layer.displayInLayerSwitcher) || layer.displayInLayerSwitcher === true) {
+                record.name = record.get('name');
+                dspLayers.push(record.raw);
+            } 
+        }, this);
+        
+        var newStore = Ext.create('GXM.data.LayerStore', {
+            data: dspLayers
+        });
+        
+        return newStore;
     },
     
     /** private: method[prepareData]
@@ -210,18 +231,33 @@ Ext.define('GXM.LayerList', {
         return data;
     },
     
-    /** private: method[onItemTap]
+    /** private: method[onAddLayer]
+     *  :param evt: ``Ext.EventObject`` The event-object 
      *  
-     *  Hides the records having the layers with displayInLayerSwitcher=false
+     *  Adds the new layer to the internal LayerStore instance.
+     *  Reloads the store and refreshes the lists UI so it reflects the current 
+     *  state of layers managed by the list.
      */
-    hideUndesiredRecords: function() {
-        var allItems = this.getViewItems();
-        
-        Ext.each(allItems, function(domItem) {
-            if (Ext.DomQuery.select('.gxm-display-in-layerswitcher-false', domItem).length > 0) {
-                Ext.fly(domItem).addCls('gxm-display-in-layerswitcher-false')
-            }
-        });
+    onAddLayer: function(evt) {
+        if(evt && evt.layer) {
+            this.getStore().add(evt.layer);
+        }
+    },
+    
+    /** private: method[onRemoveLayer]
+     *  :param evt: ``Ext.EventObject`` The event-object 
+     *  
+     *  Removes the layer from the internal LayerStore instance, which has been removed
+     *  from the map.
+     *  Reloads the store and refreshes the lists UI so it reflects the current 
+     *  state of layers managed by the list.
+     */
+    onRemoveLayer: function(evt) {
+        if(evt && evt.layer) {
+            var layer = evt.layer;
+            var record = this.getStore().findRecord('id', layer.id);
+            this.getStore().remove(record);
+        }
     },
     
     /** private: method[onChangeLayer]
@@ -252,6 +288,29 @@ Ext.define('GXM.LayerList', {
         }
         this.refresh();
         return true;
+    },
+    
+    /** private: method[destroy]
+     *  
+     *  Called prior to destroying the list. We remove all our registered 
+     *  handlers and nullify relevant properties.
+     */
+    destroy: function(){
+        if (this.olMap && this.olMap.events) {
+            
+            this.olMap.events.un({
+                "changelayer": this.onChangeLayer,
+                "addlayer": this.onAddLayer,
+                "removelayer": this.onRemoveLayer,
+                scope: this
+            });            
+        }
+        delete this.olMap;
+        delete this.map;
+        delete this.store;
+        delete this.layers;
+        
+        this.callParent();
     }
 }, 
 

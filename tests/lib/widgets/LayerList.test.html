@@ -34,7 +34,7 @@ function test_definition(t) {
         className = 'GXM.LayerList',    // please adjust
         clazz = GXM.LayerList || undef, // please adjust
         minimumConf = {                 // please adjust
-            mapPanel: getMapPanel()
+            map: getMapPanel()
         },
         isRegistered = false,
         cmp = null;
@@ -48,13 +48,13 @@ function test_definition(t) {
     isRegistered = (clazz.xtype === xtype);
     t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
     
-    if (true) {
+    if (isRegistered) {
         cmp = Ext.ComponentMgr.create( minimumConf, xtype );
  
         t.ok(cmp instanceof clazz, 'The xtype "' + xtype + '" points to the class "' + className + '".');
     } else {
         t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
-    }
+    } 
 }
 
 function getMultiLayerMapPanel(){
@@ -90,7 +90,7 @@ function getMultiLayerMapPanel(){
 }
 
 function test_basics(t) {
-    t.plan(10);
+    t.plan(9);
     
     t.delay_call(1, function(){
         var mappanel = getMultiLayerMapPanel();
@@ -109,12 +109,8 @@ function test_basics(t) {
         t.delay_call(1, function(){
             myTabPanel.setActiveItem(1);
             t.delay_call(1, function(){
-                var layerpanel = myTabPanel.items.get(2),
+                var layerpanel = myTabPanel.getAt(2),
                     store = layerpanel.getStore();
-                
-                console.log(store);
-                
-                window.aaa = store
                 
                 // are we working with a store?
                 t.ok(store, 'Layerpanel has a store');
@@ -123,19 +119,20 @@ function test_basics(t) {
                 t.ok(store instanceof GXM.data.LayerStore, 'Layerpanel is a GXM.LayerStore');
                 
                 // Does the store have the correct model?
-                t.eq(store.getModel().modelName, 'gxm_layer', 'Layerpanel.store works on the gxm_layer model');
+                t.eq(store.getModel().modelName, 'GXM.data.LayerModel', 'Layerpanel.store works on the GXM.data.LayerModel');
                 
-                // compairing the count
-                t.eq(store.getCount(), mappanel.getMap().layers.length, 'store count and map.layers.length are the same');
-                
+                var firstOrLast;
+                if(!Ext.isEmpty(mappanel.layers.getSorters()) && mappanel.layers.getSorters()[0].direction === "DESC") {
                 // compairing the managed layers by id:
-                var firstOrLast = ( mappanel.layers.sorters.get(0).direction === "DESC") 
-                                    ? 'last' 
-                                    : 'first';
-                t.eq(store[firstOrLast]().getLayer().id, mappanel.map.layers[0].id, 'managed entities are the same');
+                    firstOrLast = 'last'; 
+                } else {
+                    firstOrLast = 'first';
+                }
+                
+                t.eq(store[firstOrLast]().getLayer().id, mappanel.getMap().layers[0].id, 'managed entities are the same');
                 
                 // check the generated HTML:
-                var elem = layerpanel.el.dom;
+                var elem = layerpanel.innerElement.dom;
                 var found = null;
                 var selector = "";
                 var dq = Ext.DomQuery;
@@ -145,7 +142,7 @@ function test_basics(t) {
                 var inactiveBaseLayerCnt = 0;
                 
                 // visible overlay cnt and active baselayer cnt
-                Ext.each(mappanel.map.getLayersBy('visibility', true), function(l){
+                Ext.each(mappanel.getMap().getLayersBy('visibility', true), function(l){
                     if (!l.isBaseLayer) {
                         visibleLyrCnt++;
                     } else {
@@ -156,7 +153,7 @@ function test_basics(t) {
                 });
                 
                 // invisible overlay cnt and inactive baselayer cnt
-                Ext.each(mappanel.map.getLayersBy('visibility', false), function(l){
+                Ext.each(mappanel.getMap().getLayersBy('visibility', false), function(l){
                     if (!l.isBaseLayer) {
                         invisibleLyrCnt++;
                     } else {
@@ -168,7 +165,7 @@ function test_basics(t) {
                 
                 var layswitcherFalseCntVisible = 0;
                 var layswitcherFalseCntInvisible = 0;
-                Ext.each(mappanel.map.getLayersBy('displayInLayerSwitcher', false), function(l){
+                Ext.each(mappanel.getMap().getLayersBy('displayInLayerSwitcher', false), function(l){
                     if (l.visibility === true && !l.isBaseLayer) {
                         layswitcherFalseCntVisible++;
                     } else if (!l.isBaseLayer) {
@@ -178,7 +175,7 @@ function test_basics(t) {
                 
                 var layswitcherFalseCntBaseLayerActive = 0;
                 var layswitcherFalseCntBaseLayerInactive = 0;
-                Ext.each(mappanel.map.getLayersBy('displayInLayerSwitcher', false), function(l){
+                Ext.each(mappanel.getMap().getLayersBy('displayInLayerSwitcher', false), function(l){
                     if (l.isBaseLayer === true && l.map.baseLayer === l ) {
                         layswitcherFalseCntBaseLayerActive++;
                     } else if (l.isBaseLayer === true) {
@@ -188,10 +185,9 @@ function test_basics(t) {
                 
                 selector = '.gxm-layer-item';
                 found = dq.select(selector, elem);
-                var layswitcherFalseCntGeneral = mappanel.map.getLayersBy('displayInLayerSwitcher', false).length;
+                var layswitcherFalseCntGeneral = mappanel.getMap().getLayersBy('displayInLayerSwitcher', false).length;
                 
-                
-                var expCnt = mappanel.map.layers.length - layswitcherFalseCntGeneral;
+                var expCnt = mappanel.getMap().layers.length - layswitcherFalseCntGeneral;
                 t.eq(found.length, expCnt, 'for every layer (cnt = ' + expCnt + ') we generate list-item-markup');
                 
                 selector = '.' + layerpanel.visibleOverlayCls;
@@ -245,10 +241,7 @@ function test_updatingHtml(t){
                 });
                 
                 t.plan( 2 * numTest );
-                
                 var layerpanel = myTabPanel.items.get(2);
-                
-                console.log(layerpanel);
                 
                 var dq = Ext.DomQuery;
                 // get initial classes:
@@ -303,7 +296,7 @@ function test_destroy(t) {
     var funcToStringSupported = !!(Function.prototype.toString);
     
     if (funcToStringSupported) {
-        t.plan(6);
+        t.plan(9);
     } else {
         t.plan(6);
     }
@@ -322,21 +315,14 @@ function test_destroy(t) {
             map: map
         });
         
-        console.log("www ", map);
-        
         // remove existing default handlers to make comparison easy:
         map.events.listeners.changelayer = [];
         map.events.listeners.addlayer = [];
         map.events.listeners.removelayer = [];
         
-        console.log("nachm ");
-        
-        var onChangeLayerFunc = function(){ return 'onChangeLayer'; };
-        
         var layerlist = {
             xtype: 'gxm_layerlist',
-            mapPanel: mappanel,
-            onChangeLayer: onChangeLayerFunc
+            map: mappanel
         };
     
         var myTabPanel = Ext.create('Ext.TabPanel', {
@@ -344,35 +330,49 @@ function test_destroy(t) {
             fullscreen: true
         });
         
-        t.delay_call(3, function() {
+        t.delay_call(1, function() {
             
             // 
-            var map = myTabPanel.items.get(2).getMap();
-            
-            console.log(" eee " , myTabPanel, myTabPanel.items.get(2).olMap);
+            var map = myTabPanel.items.get(2).olMap;
             
             // 3 tests
             // have the events been registered?    
             t.eq(map.events.listeners.changelayer.length, 1,
                 'A changelayer eventlistener was added to the map');
-                t.ok(true);
             t.eq(map.events.listeners.addlayer.length, 1,
                 'A addlayer eventlistener was added to the map');
             t.eq(map.events.listeners.removelayer.length, 1,
                 'A removelayer eventlistener was added to the map');
             
             if (funcToStringSupported) {
+                
+                // keep this formatting due to toString() comparison
+                //TODO implement a better comparison
+                var onChangeLayerFunc = "function (evt){\n" +
+                    "        this.refresh();\n" +
+                    "    }";
+                var onAddLayerFunc = "function (evt) {\n" +
+                    "        if(evt && evt.layer) {\n" +
+                    "            this.getStore().add(evt.layer);\n" +
+                    "        }\n" +
+                    "    }";
+                var onRemoveLayerFunc = "function (evt) {\n" +
+                    "        if(evt && evt.layer) {\n" +
+                    "            var layer = evt.layer;\n" +
+                    "            var record = this.getStore().findRecord('id', layer.id);\n" +
+                    "            this.getStore().remove(record);\n" +
+                    "        }\n" +
+                    "    }";
+                
                 // 3 tests
                 // have the correct event listeners been registered?    
                 t.eq(map.events.listeners.changelayer[0].func.toString(), 
-                    onChangeLayerFunc.toString(), 
+                    onChangeLayerFunc, 
                     'The correct changelayer eventlistener was added to the map');
-                t.eq(map.events.listeners.addlayer[0].func.toString(), 
-                    onChangeLayerFunc.toString(), 
-                    'The correct changelayer eventlistener was added to the map');
-                t.eq(map.events.listeners.removelayer[0].func.toString(), 
-                    onChangeLayerFunc.toString(), 
-                    'The correct changelayer eventlistener was added to the map');
+                t.eq(map.events.listeners.addlayer[0].func.toString(), onAddLayerFunc, 
+                    'The correct addlayer eventlistener was added to the map');
+                t.eq(map.events.listeners.removelayer[0].func.toString(), onRemoveLayerFunc, 
+                    'The correct removelayer eventlistener was added to the map');
             }
             
             myTabPanel.items.get(2).destroy();
