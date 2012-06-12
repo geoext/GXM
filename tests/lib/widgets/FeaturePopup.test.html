@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LayerList.test.html</title>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.0/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../../helperfunctions.js"></script>
+        
+        <script type="text/javascript">
+        
+Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        GXM: "../../../src/GXM",
+        Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+    }
+});
+
+Ext.require([
+    'GXM.FeaturePopup',
+    'GXM.Map'
+]);
+
+function getMapPanel() {
+    var map = new OpenLayers.Map({
+        layers: [
+            new OpenLayers.Layer(null, {
+                isBaseLayer: true
+            })
+        ]
+        // ,allOverlays: true
+    });
+
+    var mappanel = Ext.create('GXM.Map', {
+        map: map
+    });
+    return mappanel;
+}
+
+//can be copied to other testfiles, simply adjust the first variables  
+function test_definition(t) {
+    var undef,
+        xtype = 'gxm_featurepopup',        // please adjust
+        className = 'GXM.FeaturePopup',    // please adjust
+        clazz = GXM.FeaturePopup || undef, // please adjust
+        minimumConf = {                 // please adjust
+            feature: new OpenLayers.Feature.Vector()
+        },
+        isRegistered = false,
+        cmp = null;
+    
+    t.plan(3);
+ 
+    t.ok(GXM && 
+         Ext.isDefined( clazz ) 
+         && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
+
+    isRegistered = (clazz.xtype === xtype);
+    t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
+    
+    if (isRegistered) {
+        cmp = Ext.ComponentMgr.create( minimumConf, xtype );
+ 
+        t.ok(cmp instanceof clazz, 'The xtype "' + xtype + '" points to the class "' + className + '".');
+    } else {
+        t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
+    } 
+}
+
+        </script>
+    </head>
+    <body></body>
+</html>
