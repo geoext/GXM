@@ -25,7 +25,67 @@ Ext.Loader.setConfig({
 Ext.require([
     'GXM.FeatureList',
     'GXM.Map'
-])
+]);
+
+function getMapPanel() {
+    var map = new OpenLayers.Map({
+        layers: [
+            new OpenLayers.Layer(null, {
+                isBaseLayer: true
+            })
+        ]
+        // ,allOverlays: true
+    });
+
+    var mappanel = Ext.create('GXM.Map', {
+        map: map
+    });
+    return mappanel;
+}
+
+function getActiveFeatureListPanel(numOfFeatures, useCustomTpl) {
+    
+    var mappanel = getMapPanel();
+    
+    var features = [];
+    for(var i=0; i<numOfFeatures; i++) {
+        features.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(i, i)));
+    }
+    var vectorLayer = new OpenLayers.Layer.Vector();
+    vectorLayer.addFeatures(features);
+    mappanel.getMap().addLayer(vectorLayer);
+    
+    var featurelist = {
+        xtype: 'gxm_featurelist',
+        layer: vectorLayer
+    };
+    if (useCustomTpl===true) {
+        
+        var itemTpl = new Ext.XTemplate(
+            '{[this.renderFeatureListItem(values.feature)]}', {
+                renderFeatureListItem: function(feature){
+                    var data = feature.data,
+                        geom = feature.geometry,
+                        str = geom.toString().substr(0, 30);
+                    if (geom.toString().length > 30) {
+                        str += '...';
+                    }
+                    return Ext.String.format('Custom tpl Feature ({0})', str);
+                }
+            }
+        );
+        featurelist.itemTpl = itemTpl;
+    }
+     
+    var myTabPanel = Ext.create('Ext.TabPanel', {
+         items: [mappanel, featurelist],
+         fullscreen: true
+    });
+    
+    myTabPanel.setActiveItem(1);
+    
+    return myTabPanel.getAt(2);
+}
         
 // can be copied to other testfiles, simply adjust the first variables  
 function test_definition(t) {
@@ -55,6 +115,150 @@ function test_definition(t) {
     } else {
         t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
     } 
+}
+
+function test_basics(t) {
+    t.plan(6);
+        
+    t.delay_call(1, function(){
+          /*  myTabPanel.setActiveItem(1); */
+           t.delay_call(1, function(){
+               var featureListPanel = getActiveFeatureListPanel(4),
+                   store = featureListPanel.getStore(),
+                   layer = featureListPanel.getLayer();
+               
+               // are we working with a store?
+               t.ok(store, 'Layerpanel has a store');
+               
+               // are we working with a GXM.FeatureStore ?
+               t.ok(store instanceof GXM.data.FeatureStore, 'FeatureList.store is a GXM.FeatureStore');
+               
+               // Does the store have the correct model?
+               t.eq(store.getModel().modelName, 'GXM.data.FeatureModel', 'FeatureList.store works on the GXM.data.FeatureModel');
+               
+               // do we have the default tpl, becuase nothing special was defined
+               t.eq(featureListPanel.getItemTpl().html, '{[this.renderFeatureListItem(values.feature)]}', 'FeatureList has the default template');
+               
+               t.eq (store.getCount(), layer.features.length, 
+               'Store of feature list has the same record amount than the layer has features');
+       
+               var firstOrLast;
+               if(!Ext.isEmpty(store.getSorters()) && store.getSorters()[0].direction === "DESC") {
+               // compairing the managed layers by id:
+                   firstOrLast = 'last'; 
+               } else {
+                   firstOrLast = 'first';
+               }
+               
+               t.eq(store[firstOrLast]().internalId, layer.features[0].id, 'Managed entities are the same');
+               
+               //TODO
+               featureListPanel.destroy();
+               
+           });
+    });
+}
+
+function test_feature_rendering(t) {
+    t.plan(4);
+    
+    var featureListPanel = getActiveFeatureListPanel(4),
+        store = featureListPanel.getStore(),
+        layer = featureListPanel.getLayer(),
+        elem = featureListPanel.innerElement.dom,
+        found = null,
+        selector = "",
+        dq = Ext.DomQuery;
+    
+    selector = '.x-list-item';
+    found = dq.select(selector, elem);
+    
+    t.eq(found.length, store.getCount(), 'All objects in the store are rendered as list items');
+    
+    selector = '.x-list-item-label';
+    found = dq.select(selector, found[0]);
+    var labelDom = null,
+        html = null;
+    if (found && found.length === 1) {
+        labelDom = Ext.fly(found[0]);
+        html = labelDom.getHtml();
+    }
+    
+    t.eq(html, 'Feature (POINT(0 0))', 'Rendered the first item with the default template');
+    
+    // cleanup
+    featureListPanel.destroy();
+    store.destroy();
+    layer = null;
+    selector = "";
+    
+    // get  a new list with a custom template
+    featureListPanel = getActiveFeatureListPanel(4, true);
+    store = featureListPanel.getStore();
+    layer = featureListPanel.getLayer();
+    elem = featureListPanel.innerElement.dom;
+    
+    selector = '.x-list-item';
+    found = dq.select(selector, elem);
+    
+    t.eq(found.length, store.getCount(), 'All objects in the store are rendered as list items');
+    
+    selector = '.x-list-item-label';
+    found = dq.select(selector, found[0]);
+    var labelDom = null,
+        html = null;
+    if (found && found.length === 1) {
+        labelDom = Ext.fly(found[0]);
+        html = labelDom.getHtml();
+    }
+    
+    t.eq(html, 'Custom tpl Feature (POINT(0 0))', 'Rendered the first item with the default template');
+}
+
+function test_events(t) {
+    t.plan(6);
+    
+    var featureListPanel = getActiveFeatureListPanel(0),
+        store = featureListPanel.getStore(),
+        layer = featureListPanel.getLayer(),
+        elem = featureListPanel.innerElement.dom,
+        found = null,
+        selector = "",
+        dq = Ext.DomQuery;
+    
+    // have the events been registered?    
+    t.eq(layer.events.listeners.featureadded.length, 1,
+        'A featureadded eventlistener was added to the source layer');
+    t.eq(layer.events.listeners.featureremoved.length, 1,
+        'A featureremoved eventlistener was added to the source layer');
+    
+    layer.addFeatures([new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0))]);
+    t.eq(store.getCount(), layer.features.length, "Added Feature: FeatureList's store is in sync with the source layer");
+    
+    selector = '.x-list-item';
+    found = dq.select(selector, elem);
+    t.eq(found.length, store.getCount(), 'List is refreshed when record is added to store');
+    
+    layer.removeFeatures(layer.features[0]);
+    t.eq(store.getCount(), layer.features.length, "Removed Feature: FeatureList's store is in sync with the source layer");
+    found = dq.select(selector, elem);
+    t.eq(found.length, store.getCount(), 'List is refreshed when record is removed from store');
+}
+
+function test_destroy(t) {
+    t.plan(2);
+    
+    var featureListPanel = getActiveFeatureListPanel(0),
+        store = featureListPanel.getStore(),
+        layer = featureListPanel.getLayer();
+    
+    featureListPanel.destroy();
+    
+    // 2 tests
+    t.eq(layer.events.listeners.featureadded.length, 0,
+        'The featureadded eventlistener was removed from the layer');
+    t.eq(layer.events.listeners.featureremoved.length, 0,
+        'The featureremoved eventlistener was removed from the layer');
 }
 
         </script>
