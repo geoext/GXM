@@ -62,6 +62,9 @@
 Ext.define('GXM.data.FeatureModel', { 
     extend: &quot;Ext.data.Model&quot;,
     alias: 'model.gxm_feature',
+    requires: [
+        'GXM.version'
+    ],
     config: {
         fields: [
              {

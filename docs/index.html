@@ -9,30 +9,7 @@
   <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
   <link rel="stylesheet" href="resources/css/app.css" type="text/css" />
   <link rel="stylesheet" href="resources/prettify/prettify.css" type="text/css" />
-  <!--[if IE]>
-    <link rel="stylesheet" href="resources/css/ie.css" type="text/css" />
-    <link rel="stylesheet" href="resources/css/welcome_ie6.css" type="text/css" />
-  <![endif]-->
-
-  <!-- Async script to not block while loading TypeKit fonts -->
-  <script type="text/javascript">
-  (function() {
-    var TypekitConfig = {
-      kitId: 'uxj6dew'
-    };
-    var tk = document.createElement('script');
-    tk.src = '//use.typekit.com/' + TypekitConfig.kitId + '.js';
-    tk.type = 'text/javascript';
-    tk.async = 'true';
-    tk.onload = tk.onreadystatechange = function() {
-      var rs = this.readyState;
-      if (rs && rs != 'complete' && rs != 'loaded') return;
-      try { Typekit.load(TypekitConfig); } catch (e) {}
-    };
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(tk, s);
-  })();
-  </script>
+  <link href="http://fonts.googleapis.com/css?family=Exo" rel="stylesheet" type="text/css" />
 
   <script type="text/javascript" src="extjs/ext-all.js"></script>
   <script type="text/javascript" src="data.js"></script>
@@ -45,11 +22,6 @@
 <body id="ext-body">
 
   <div id="loading"><span class="title"></span><span class="logo"></span></div>
-
-  <form id="history-form" class="x-hide-display">
-      <input type="hidden" id="x-history-field" />
-      <iframe id="x-history-frame"></iframe>
-  </form>
 
   <div id="header-content">GeoExt mobile (GXM) 0.2 documentation</div>
   
@@ -68,6 +40,7 @@
 <div class='middle-column'>
 <h3>Others...</h3>
 <div class='links'>
+<a href="#!/api/GXM" rel="GXM" class="docClass">GXM</a>
 <a href="#!/api/GXM.Button" rel="GXM.Button" class="docClass">GXM.Button</a>
 <a href="#!/api/GXM.FeatureList" rel="GXM.FeatureList" class="docClass">GXM.FeatureList</a>
 <a href="#!/api/GXM.FeaturePopup" rel="GXM.FeaturePopup" class="docClass">GXM.FeaturePopup</a>
@@ -98,7 +71,7 @@
         </div>
 
   
-  <div id='footer-content' style='display: none'>Generated with <a href='https://github.com/senchalabs/jsduck'>JSDuck</a> 3.7.0.</div>
+  <div id='footer-content' style='display: none'>Generated with <a href='https://github.com/senchalabs/jsduck'>JSDuck</a> 3.10.0.</div>
 
   
 
