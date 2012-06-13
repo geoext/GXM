@@ -3,17 +3,28 @@
     <head>
         <title>LayerReader.test.html</title>
         
-        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.0/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
         <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
         
-        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
-        <!-- This file loads all relevant files -->
-        <script type="text/javascript" src="../../../lib/GXM.loader.js"></script>
-        
-        <!-- load test helper functions -->
-        <script type="text/javascript" src="../../helperfunctions.js"></script>
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require([
+            'GXM.data.LayerStore',
+            'GXM.Map'
+        ]);
+        </script>
         
         <script type="text/javascript">
 
@@ -32,29 +43,6 @@ function getMap(){
     return map;
 }
 
-function getMapPanel() {
-    var map = getMap();
-    var mappanel = new GXM.MapPanel({
-        map: map
-    });
-    return mappanel;
-}
-
-function getLazyMapPanel() {
-    var map = getMap();
-    var mappanel = {
-        xtype: 'gxm_mappanel',
-        map: map  
-    };
-    
-    var panel = new Ext.Panel({
-        fullscreen: true,
-        items:[ mappanel ]
-    });
-    
-    return panel.items.get(0);
-}
-
 // can be copied to other testfiles, simply adjust the first variables  
 function test_definition(t) {
     var undef,
@@ -67,13 +55,12 @@ function test_definition(t) {
         cmp = null;
     
     t.plan(3);
- 
+    
     t.ok(GXM && 
          Ext.isDefined( clazz ) 
          && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
-    isRegistered = Ext.ComponentMgr.isRegistered( xtype );
- 
-    
+
+    isRegistered = (clazz.xtype === xtype);
     t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
     
     if (isRegistered) {
@@ -82,11 +69,36 @@ function test_definition(t) {
         t.ok(cmp instanceof clazz, 'The xtype "' + xtype + '" points to the class "' + className + '".');
     } else {
         t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
-    }
-    
+    } 
 }
 
-
+function test_basics(t) {
+    t.plan(4);
+    
+    var map = getMap(),
+        layerStore = Ext.create('GXM.data.LayerStore', {
+            data: map.layers
+        });
+    
+    // Does the store have the correct model?
+    t.eq(layerStore.getModel().modelName, 'GXM.data.LayerModel', 'LayerStore works on the GXM.data.LayerModel');
+    
+    // All layers in store?
+    t.eq(layerStore.getCount(), map.layers.length, 'LayerStore has the correct amount of records')
+    
+    var firstOrLast;
+    if(!Ext.isEmpty(layerStore.getSorters()) && layerStore.getSorters()[0].direction === "DESC") {
+    
+        firstOrLast = 'last'; 
+    } else {
+        firstOrLast = 'first';
+    }
+    // compairing the managed layers by id:
+    t.eq(layerStore[firstOrLast]().getLayer().id, map.layers[0].id, 'Managed layers are the same');
+    
+    // record access?
+    t.ok(layerStore.getLayerByIndex(0) instanceof OpenLayers.Layer, 'Record access via "getLayerByIndex" successful');
+}
         
         </script>
     </head>
