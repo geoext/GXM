@@ -20,7 +20,7 @@
         });
         Ext.require(
             "GXM.data.LayerModel", 
-        	"GXM.Map"
+            "GXM.Map"
         );
         </script>
         
@@ -28,14 +28,14 @@
 
 function test_definition(t) {
     var undef,
-	    xtype = 'gxm_layer',        // please adjust
-	    className = 'GXM.data.LayerModel',    // please adjust
-	    clazz = GXM.data.LayerModel || undef, // please adjust
-	    minimumConf = {                 // please adjust
-	    },
-	    isRegistered = false,
-	    cmp = null,
-	    record = null;
+        xtype = 'gxm_layer',        // please adjust
+        className = 'GXM.data.LayerModel',    // please adjust
+        clazz = GXM.data.LayerModel || undef, // please adjust
+        minimumConf = {                 // please adjust
+        },
+        isRegistered = false,
+        cmp = null,
+        record = null;
     
     t.plan(2);
     
@@ -48,11 +48,37 @@ function test_definition(t) {
         } catch (e) {
             t.ok(false, 'Exception "' + e + '".');    
         } finally {
-            t.ok(Ext.isObject(record) && , 'A record-object without data could be created for model "' + className + '".');
+            t.ok(Ext.isObject(record), 'A record-object without data could be created for model "' + className + '".');
         }
     } else {
         t.ok(false, 'Since there is no registered model named "' + className + '" we cannot try to create an object.');
     }
+}
+
+function test_record_creation(t) {
+    t.plan(8);
+    
+    var layer = new OpenLayers.Layer('test-layer'),
+        record = null;
+    
+    // create on the type directly
+    record = new GXM.data.LayerModel(layer);
+    
+    t.ok(record instanceof Ext.data.Record, 'Directly created record is an instance of Ext.data.Record');
+    t.ok(record.getLayer() == layer, 'Directly created record offers access to the correct source layer');
+    t.eq(record.getId(), layer.id, 'Directly created record has the right ID property');
+    t.eq(record.get('name'), layer.name, 'Directly created record has the right name property');
+    
+    // cleanup
+    record = null;
+    
+    // create using Ext.create
+    record = Ext.create('GXM.data.LayerModel', layer);
+    
+    t.ok(record instanceof Ext.data.Record, 'Ext.create returns an instance of Ext.data.Record');
+    t.ok(record.getLayer() == layer, 'Ext.create returns record offering access to the correct source layer');
+    t.eq(record.getId(), layer.id, 'Ext.create returns a record having the right ID property');
+    t.eq(record.get('name'), layer.name, 'Ext.create returns a record having the right name property');
 }
         
         </script>
