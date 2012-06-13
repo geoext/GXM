@@ -28,8 +28,9 @@ Ext.define('GXM.data.FeatureStore', {
         'GXM.version',
         'GXM.data.FeatureModel'
     ],
+    xtype: 'gxm_featurestore',
     config: {
-    	
+        
         /** api: config[model]
          * 
          *  ``String`` The identifier for the model to be used. 
