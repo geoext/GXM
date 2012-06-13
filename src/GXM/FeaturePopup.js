@@ -7,30 +7,25 @@
  * text of the license.
  */
 
-/** api: (define)
- *  module = GXM
- *  class = FeaturePopup
- *  base_link = `Ext.Panel <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel>`_
- */
-
-/** api: example
- *  Sample code to create a GXM.FeaturePopup:
+/**
+ * @class GXM.FeaturePopup
+ * The class that is used to construct a GXM FeaturePopup.
  * 
- *  .. code-block:: javascript
- *  
- *    // create a lazily instanciated GXM.LayerList:
- *    var featPopup = {
- *        xtype: 'gxm_featurepopup',
- *        // call with GXM.Map...
- *        map : gxmMap
- *    };
- *    
- */
-
-/** api: constructor
- *  .. class:: FeaturePopup(config)
- *   
- *      The class that is used to construct a GXM FeaturePopup.
+ * Sample code create a lazily instanciated GXM.FeaturePopup:
+ * 
+ *      var featPopup = {
+ *          xtype: 'gxm_featurepopup',
+ *          // call with OL feature
+ *          feature : olFeature
+ *      };
+ *      
+ * Sample code create a directly instanciated GXM.FeaturePopup:
+ * 
+ *      var featPopup = Ext.create('GXM.FeaturePopup', {
+ *          feature : olFeature,
+ *          renderTo: 'popup'
+ *      });
+ *     
  */
 Ext.define('GXM.FeaturePopup', {
 
@@ -38,84 +33,75 @@ Ext.define('GXM.FeaturePopup', {
     requires: [
         'GXM.version'
     ],
-   
     xtype : 'gxm_featurepopup',
     
-    /** private: property[scrollable]
-     *  
-     *  ``Boolean`` A FeaturePopup is always scrollable.  
-     *  
-     *  Defaults to ``true``.
+    /**
+     * @property {Boolean} scrollable
+     * @private
+     *  A FeaturePopup is always scrollable.
      */
 	scrollable: true,
 	
-	/** private: property[layout]
-     *  
-     *  ``String`` Currently all FeaturePopups are in the fit-layout. 
-     *  
-     *  Defaults to ``fit``.
+    /**
+     * @property {String} layout
+     * @private
+     *  Currently all FeaturePopups are in the fit-layout.
      */
 	layout: 'fit',
 	
     config: {
     	
-    	/** api: config[cls] 
-    	 * 
-    	 */
+        /**
+         * @cfg {String} cls
+         * The CSS class used to customize this popup.
+         */
     	cls: 'gxm-feature-popup',
     	
-        /** api: config[hideOnMaskTap] 
-         * 
-         *  `Boolean` shall the popup hide when the surrounding mask is being 
+        /**
+         * @cfg {Boolean} hideOnMaskTap
+         * shall the popup hide when the surrounding mask is being 
          *  tapped? Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-hideOnMaskTap>`_
-         *  
-         *  Default is `true`.
          */
     	hideOnMaskTap: true,
     	
-    	/** api: config[feature]
-         * 
-         *  `OpenLayers.Feature.Vector <http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html>`_ 
+        /**
+         * @cfg {OpenLayers.Feature.Vector} feature
+         * <http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html>`_ 
          *  The feature this popup is about to derive its information from.
          */
         feature: null,
         
-        /** api: config[tpl]
-         * 
-         *  `Ext.XTemplate <http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate>`_
-         *  The template used to render the popup content. If not provided, a 
+        /**
+         * @cfg {Ext.XTemplate <http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate>} tpl
+         * The template used to render the popup content. If not provided, a 
          *  rudimentary template is being used. 
          */
         tpl: null,
         
-        /** api: config[styleHtmlContent] 
-         * 
-         *  `Boolean` shall HTML content be styled when rendering content? Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent>`_
-         *  
-         *  Default is `true`.
+        /**
+         * @cfg {Boolean} styleHtmlContent
+         *  shall HTML content be styled when rendering content? 
+         *   Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent>`_
          */
         styleHtmlContent: true,
         
-        /** api: config[centered] 
-         * 
-         *  `Boolean` shall the popup be centered within the viewport? Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered>`_
-         *  
-         *  Default is `true`.
+        /**
+         * @cfg {Boolean} centered
+         * shall the popup be centered within the viewport? 
+         *  Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered>`_
          */
         centered : true,
         
-        /** api: config[modal] 
-         * 
-         *  `Boolean` shall the popup be modal? Also see `the original documentation <http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-modal>`_
-         *  
-         *  Default is `true`.
+        /**
+         * @cfg {Boolean} modal
+         *  Should the panel be modal? 
          */
         modal : true
     },
     
-    /** private: method[constructor]
-     * 
-     *  The constructor function
+    /**
+     * @private
+     * The constructor function
      */
     constructor: function(config){
         if (!config.tpl) {
@@ -128,9 +114,9 @@ Ext.define('GXM.FeaturePopup', {
         this.callParent(arguments);
     },
     
-    /** private: method[initialize]
-     * 
-     *  Initializes the Component.
+    /**
+     * @private
+     * Initializes the Component.
      */
     initialize: function() {
     	
@@ -150,11 +136,14 @@ Ext.define('GXM.FeaturePopup', {
         this.callParent();
     },
     
-    /** private: method[applyFeature]
-     * 
-     *  ``Function`` Intersects the :func:`setFeature` function.
+    /**
+     * @private
+     * Intersects the :func:`setFeature` function.
      *  Adds the passed feature via setData to prevent data loss. Is needed to 
-     *  support more than one datatype for the new feature. 
+     *  support more than one datatype for the new feature.
+     *  
+     *  @param {Object} newFeature the new feature representation.
+     *  @return {OpenLayers.Feature}
      */
     applyFeature: function(newFeature) {
 		if(newFeature instanceof OpenLayers.Feature.Vector) {
