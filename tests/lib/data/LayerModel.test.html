@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require(
+            "GXM.data.LayerModel", 
+        	"GXM.Map"
+        );
+        </script>
+        
+        <script type="text/javascript">
+
+function test_definition(t) {
+    var undef,
+	    xtype = 'gxm_layer',        // please adjust
+	    className = 'GXM.data.LayerModel',    // please adjust
+	    clazz = GXM.data.LayerModel || undef, // please adjust
+	    minimumConf = {                 // please adjust
+	    },
+	    isRegistered = false,
+	    cmp = null,
+	    record = null;
+    
+    t.plan(2);
+    
+    isRegistered = Ext.ModelMgr.isRegistered( className );
+    t.ok(isRegistered, 'A model "' + className + '" is registered in the ModelMgr.');
+    
+    if (isRegistered) {
+        try {
+            record = Ext.ModelMgr.create(minimumConf, className);
+        } catch (e) {
+            t.ok(false, 'Exception "' + e + '".');    
+        } finally {
+            t.ok(Ext.isObject(record) && , 'A record-object without data could be created for model "' + className + '".');
+        }
+    } else {
+        t.ok(false, 'Since there is no registered model named "' + className + '" we cannot try to create an object.');
+    }
+}
+        
+        </script>
+    </head>
+    <body></body>
+</html>
