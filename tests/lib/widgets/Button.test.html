@@ -2,19 +2,30 @@
 <html>
     <head>
         <title>Button.test.html</title>
-        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.0/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
         
-        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
-        
-        <!-- This file loads all relevant files -->
-        <script type="text/javascript" src="../../../lib/GXM.loader.js"></script>
         
         <!-- load test helper functions -->
         <script type="text/javascript" src="../../helperfunctions.js"></script>     
 
         <script type="text/javascript">
+        
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+
+        Ext.require([
+            'GXM.Button'
+        ]);
+        
 var recordedEventData = {
     test_activateControlCalled: { 
         checkpoints: [], 
@@ -212,7 +223,7 @@ function test_definition(t) {
     t.ok(GXM && 
          Ext.isDefined( clazz ) 
          && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
-    isRegistered = Ext.ComponentMgr.isRegistered( xtype );
+    isRegistered = (clazz.xtype === xtype);
 
     t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
     if (isRegistered) {
@@ -228,7 +239,8 @@ function test_definition(t) {
 }
 
 function test_triggerControlCalled(t){
-    if (Ext.is.Phone || Ext.is.Tablet) {
+    //if (Ext.is.Phone || Ext.is.Tablet) {
+    if (Ext.feature.has.Touch) {	
         t.plan(1);
         t.ok(true, 'skipped because of missing event emulation for mobile device. Revisited in test "test_triggerAndHandler".');
         return;
@@ -252,8 +264,8 @@ function test_triggerControlCalled(t){
     }, 5);
 }
 
-function test_activateControlCalled(t){
-    if (Ext.is.Phone || Ext.is.Tablet) {
+ function test_activateControlCalled(t){
+	 if (Ext.feature.has.Touch) {    
         t.plan(1);
         t.ok(true, 'skipped because of missing event emulation for mobile device. Revisited in test "test_activateAndHandler".');
         return;
@@ -274,7 +286,7 @@ function test_activateControlCalled(t){
             t.eq(wnd.btnNavStates.length, 3, "Navigation button was clicked three times.");
             
             var stateAfterFirstClick = wnd.btnNavStates[0];
-            var exp_stateAfterSecondClick = (stateAfterFirstClick === 'active') ? 'inactive' : 'active';
+            var exp_stateAfterSecondClick = (stateAfterFirstClick === 'true') ? 'false' : 'true';
             var exp_stateAfterThirdClick = stateAfterFirstClick;
             
             t.eq(wnd.btnNavStates[1], exp_stateAfterSecondClick, "State was correct toggled.");
@@ -283,6 +295,7 @@ function test_activateControlCalled(t){
         });
     }, 5);
 }
+ 
 
 
 function test_triggerAndHandler(t){
@@ -291,41 +304,33 @@ function test_triggerAndHandler(t){
     t.delay_call(1, function(){
         var triggerCnt = 0,
             handlerCnt = 0;
-            
+        
         var ctrl = new OpenLayers.Control({
             type: OpenLayers.Control.TYPE_BUTTON,
             trigger: function() {
                 triggerCnt++;
             }
         });
-        
-        var btn = new GXM.Button({
+        var btn = Ext.create('GXM.Button', {
             control: ctrl,
-            mapPanel: getMapPanel(),
+            map: getMapPanel(),
             handler: function() {
                 handlerCnt++;
             }
         });
-    
-        var tb = new Ext.Toolbar({
-            renderTo: "btn",
-            items: [btn]
-        });
-    
-        var myToolbar = new Ext.Toolbar({
-            dock: 'top',
+        
+        var myToolbar = Ext.create('Ext.Toolbar', {
+            docked: 'top',
             title: 'My Toolbar',
             items: [btn] 
         });
         
-        var myPanel = new Ext.Panel({
-            dockedItems: [myToolbar],
+        var myPanel = Ext.create('Ext.Panel', {
+            items: [myToolbar],
             fullscreen: true,
             html: 'Test Panel'
         });
-        
-        // press the button, call internal method
-        btn.onPress();
+        btn.doTap(btn, {preventDefault: function(){}});
         
         t.delay_call(1, function(){
             t.eq(triggerCnt, 1, 'The controls trigger method has been called once (triggerCnt incremented)');
@@ -335,9 +340,9 @@ function test_triggerAndHandler(t){
             btn.destroy();
         });
     });
-}
+} 
 
-
+ 
 function test_activateAndHandler(t){
     t.plan(6);
     
@@ -357,22 +362,22 @@ function test_activateAndHandler(t){
     });
     ctrl.activate();
     
-    var btn = new GXM.Button({
+    var btn = Ext.create('GXM.Button', {
         control: ctrl,
-        mapPanel: getMapPanel(),
+        map: getMapPanel(),
         handler: function() {
             handlerCnt++;
         }
     });
 
-    var myToolbar = new Ext.Toolbar({
-        dock: 'top',
+    var myToolbar = Ext.create('Ext.Toolbar', {
+        docked: 'top',
         title: 'My Toolbar',
         items: [btn] 
     });
     
-    var myPanel = new Ext.Panel({
-        dockedItems: [myToolbar],
+    var myPanel = Ext.create('Ext.Panel', {
+        items: [myToolbar],
         fullscreen: true,
         html: 'Test Panel'
     });
@@ -383,7 +388,7 @@ function test_activateAndHandler(t){
     handlerCnt = 0;
     
     // press the button, call internal method
-    btn.onPress();
+    btn.doTap(btn, {preventDefault: function(){}});
     
     t.delay_call(1, function(){
         t.eq(activateCnt, 0, 'ctrl.activate() was not called.');
@@ -396,7 +401,7 @@ function test_activateAndHandler(t){
         handlerCnt = 0;
         
         // press the button, call internal method
-        btn.onPress();
+        btn.doTap(btn, {preventDefault: function(){}});
         t.delay_call(1, function(){
             t.eq(activateCnt, 1, 'ctrl.activate() was called.');
             t.eq(deactivateCnt, 0, 'ctrl.deactivateCnt() was not called.');
@@ -419,35 +424,35 @@ function test_handlerGetsControlStatePassed(t){
     var ctrl = new OpenLayers.Control({});
     ctrl.activate();
     
-    var stdBtn = new Ext.Button({
+    var stdBtn = Ext.create('Ext.Button', {
         handler: function(){
             passedArguments.stdBtn = arguments;
         }
     });
     
-    var gxmBtn = new GXM.Button({
+    var gxmBtn = Ext.create('GXM.Button', {
         control: ctrl,
-        mapPanel: getMapPanel(),
+        map: getMapPanel(),
         handler: function() {
             passedArguments.gxmBtn = arguments;
         }
     });
 
-    var myToolbar = new Ext.Toolbar({
-        dock: 'top',
+    var myToolbar = Ext.create('Ext.Toolbar', {
+        docked: 'top',
         title: 'My Toolbar',
         items: [gxmBtn, stdBtn] 
     });
     
-    var myPanel = new Ext.Panel({
-        dockedItems: [myToolbar],
+    var myPanel = Ext.create('Ext.Panel', {
+        items: [myToolbar],
         fullscreen: true,
         html: 'Test Panel'
     });
     
     // press the button, call internal method
-    gxmBtn.onPress();
-    stdBtn.onPress();
+    gxmBtn.doTap(gxmBtn, {preventDefault: function(){}});
+    stdBtn.doTap(stdBtn, {preventDefault: function(){}});
     
     t.delay_call(1, function(){
         t.eq(passedArguments.gxmBtn.length, passedArguments.stdBtn.length + 1, 'GXM.Button instances pass one additional argument to the handler-method (compaired to Ext.Button).');
@@ -465,42 +470,49 @@ function test_pressedCls(t){
     
     var ctrl = new OpenLayers.Control({});
     
-    var gxmBtn = new GXM.Button({
+    var gxmBtn = Ext.create('GXM.Button', {
         control: ctrl,
-        mapPanel: getMapPanel()
+        exclusiveGroup: 'test',
+        //using a pressedCls because default pressedCls is x-button-pressing, but Button get "x-button-pressed" when pressed...
+        pressedCls: 'x-button-pressed',
+        map: getMapPanel()
+    });
+    
+    var segBtn = Ext.create('Ext.SegmentedButton', {
+            items: [gxmBtn]
     });
 
-    var myToolbar = new Ext.Toolbar({
-        dock: 'top',
+    var myToolbar = Ext.create('Ext.Toolbar', {
+        docked: 'top',
         title: 'My Toolbar',
         items: [gxmBtn] 
     });
     
-    var myPanel = new Ext.Panel({
-        dockedItems: [myToolbar],
+    var myPanel = Ext.create('Ext.Panel', {
+        items: [myToolbar],
         fullscreen: true,
         html: 'Test Panel'
     });
     
     // press the button, call internal method
-    gxmBtn.onPress();
+    gxmBtn.doTap(gxmBtn, {preventDefault: function(){}});
     
     t.delay_call(1, function(){
-        t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+        t.eq(gxmBtn.element.hasCls(gxmBtn.getPressedCls()), gxmBtn.getControl().active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.element.hasCls(gxmBtn.getPressedCls()) + ', control active? ' + gxmBtn.getControl().active);
         // press the button, call internal method
-        gxmBtn.onPress();
+        gxmBtn.doTap(gxmBtn, {preventDefault: function(){}});
         t.delay_call(1, function(){
-            t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+            t.eq(gxmBtn.element.hasCls(gxmBtn.getPressedCls()), gxmBtn.getControl().active, 'states and pressedCls are in sync (triggered via btn), class present? ' + gxmBtn.element.hasCls(gxmBtn.getPressedCls()) + ', control active? ' + gxmBtn.getControl().active);
             
             // now activate the ctrl, not through the button
             ctrl.activate(); 
             t.delay_call(1, function(){
-                t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+                t.eq(gxmBtn.element.hasCls(gxmBtn.getPressedCls()), gxmBtn.getControl().active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.element.hasCls(gxmBtn.getPressedCls()) + ', control active? ' + gxmBtn.getControl().active);
                 
                 // now deactivate the ctrl, not through the button
                 ctrl.deactivate(); 
                 t.delay_call(1, function(){
-                    t.eq(gxmBtn.getEl().hasCls(gxmBtn.pressedCls), gxmBtn.control.active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.getEl().hasCls(gxmBtn.pressedCls) + ', control active? ' + gxmBtn.control.active);
+                    t.eq(gxmBtn.element.hasCls(gxmBtn.getPressedCls()), gxmBtn.getControl().active, 'states and pressedCls are in sync (triggered via ctrl), class present? ' + gxmBtn.element.hasCls(gxmBtn.getPressedCls()) + ', control active? ' + gxmBtn.getControl().active);
                     gxmBtn.destroy();
                 });
             });
@@ -508,54 +520,6 @@ function test_pressedCls(t){
     });
 }
 
-function test_destroy(t) {
-    var funcToStringSupported = !!(Function.prototype.toString);
-    
-    if (funcToStringSupported) {
-        t.plan(6);
-    } else {
-        t.plan(4);
-    }
-    
-    // setup   
-    var ctrl = new OpenLayers.Control({});
-    var map = new OpenLayers.Map({controls:[]});
-    var onCtrlDeactivateFunc = function(){return 'deactivate';};
-    var onCtrlActivateFunc = function(){return 'activate';};
-    
-    var btn = new GXM.Button({
-        control: ctrl,
-        map: map,
-        onCtrlDeactivate: onCtrlDeactivateFunc,
-        onCtrlActivate: onCtrlActivateFunc
-    });
-        
-    // 2 tests
-    // have the events been registered?    
-    t.eq(ctrl.events.listeners.activate.length, 1,
-        'A activate eventlistener was added to the control');
-    t.eq(ctrl.events.listeners.deactivate.length, 1,
-        'A deactivate eventlistener was added to the control');
-    
-    if (funcToStringSupported) {
-        // 2 tests
-        // have the correct event listeners been registered?    
-        t.eq(ctrl.events.listeners.activate[0].func.toString(), 
-            onCtrlActivateFunc.toString(), 
-            'The correct activate eventlistener was added to the control');
-        t.eq(ctrl.events.listeners.deactivate[0].func.toString(), 
-            onCtrlDeactivateFunc.toString(), 
-            'The correct deactivate eventlistener was added to the control');
-    }
-    btn.destroy();
-    
-    // 2 tests
-    // destroy the button... our eventlisteners should be gone
-    t.eq(ctrl.events.listeners.activate.length, 0,
-        'The activate eventlistener was removed from the control');
-    t.eq(ctrl.events.listeners.deactivate.length, 0,
-        'The deactivate eventlistener was removed from the control');
-}
 
 function test_controlRemovalOnButtonDestroy(t){
     t.plan(4);
@@ -565,7 +529,7 @@ function test_controlRemovalOnButtonDestroy(t){
     var map = new OpenLayers.Map({controls:[]});
     map.addControl(ctrl);
     
-    var btn = new GXM.Button({
+    var btn = Ext.create('GXM.Button', {
         control: ctrl
     });
     
@@ -587,10 +551,13 @@ function test_controlRemovalOnButtonDestroy(t){
     // setup
     ctrl = new OpenLayers.Control({});
     map = new OpenLayers.Map({controls:[]});
-        
-    btn = new GXM.Button({
-        control: ctrl,
+    var mapPanel = Ext.create('GXM.Map', {
         map: map
+    });
+        
+    btn = Ext.create('GXM.Button', {
+        control: ctrl,
+        map: mapPanel
     });
     
     // 1 test
@@ -606,42 +573,6 @@ function test_controlRemovalOnButtonDestroy(t){
     t.eq(map.controls.length, 0, 
         'map does not contain a control that was once managed by a button ' +
         'because that button is destroyed and we added it to the map.');
-}
-
-function test_ButtonManager(t){
-    t.plan(5);
-    
-    // 2 tests
-    // we always have a ButtonManager instance.
-    t.ok(GXM.Button.manager && Ext.isDefined(GXM.Button.manager), 
-        'GXM.Button.manager is truthy and defined');
-    t.ok(GXM.Button.manager instanceof Ext.AbstractManager, 
-        'GXM.Button.manager is an instance of Ext.AbstractManager');
-    
-    var ctrl = new OpenLayers.Control({});
-    var map = new OpenLayers.Map();
-        
-    var btn = new GXM.Button({
-        control: ctrl,
-        map: map
-    });
-    var btnId = btn.id;
-    
-    // 2 tests
-    // a button is added to the manager on instanciation
-    t.eq(GXM.Button.manager.getCount(), 1,
-        'GXM.Button.manager manages exactly one button.');
-    t.eq(GXM.Button.manager.get(btnId).id, btn.id,
-        'GXM.Button.manager manages the right button.');
-    
-    // a button is removed from the manager when it is being destroyed
-    btn.destroy();
-    
-    // 1 test
-    // a button is added to the manager on instanciation
-    t.eq(GXM.Button.manager.getCount(), 0,
-        'GXM.Button.manager manages exactly zero buttons.');
-
 }
 
         </script>

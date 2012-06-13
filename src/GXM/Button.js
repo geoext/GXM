@@ -21,7 +21,7 @@
  *    // create the GXM.Button:
  *    var btnZoomIn = Ext.create('GXM.Button', {
  *        control: new OpenLayers.Control.ZoomIn(),
- *        map: map,
+ *        map: gxmMap,
  *        iconCls: 'add',
  *        iconMask: true,
  *        handler: function(){
@@ -187,11 +187,18 @@ Ext.define('GXM.Button', {
             
             // register the handlers that sync the visual pressed
             // state with the controls active-state
-            this.getControl().events.on({
-                activate: this.onCtrlActivate,
-                deactivate: this.onCtrlDeactivate,
-                scope: this
-            });
+            	this.getControl().events.on({
+                    activate: this.onCtrlActivate,
+                    deactivate: this.onCtrlDeactivate,
+                    scope: this
+                });
+            // remove the control before we destroy the button
+            // in case the control was not added to the map before
+            	this.onBefore("destroy", function() {
+                	if (this.autoadded) {
+                		this.getControl().destroy();
+                	}
+                }, this);
         }
     },
     
@@ -217,31 +224,37 @@ Ext.define('GXM.Button', {
      * 
      *  Called when the configured control is activated. Handles the 
      *  deactivation of the other OpenLayers.Controls and the updating of the 
-     *  visual states (removal of `pressedCls`).
+     *  visual states (removal of `pressedCls`), but only when using a 
+     *  segmented button and an exclusiveGroup
      */
     onCtrlActivate: function(){
-        var exclusiveGroupMembers = this.getExclusiveGroupMembers();
-        var myId = this.id;
-        this._isDeactivating = true;
-        Ext.each(exclusiveGroupMembers, function(member) {
-            var elem = member.element;
-            if (myId !== member.id) {
-                member.setPressed(false);
-            }
-        });
-        this._isDeactivating = false;
-
-        this.setPressed(true);
+        if (this.getExclusiveGroup()) {
+	        var exclusiveGroupMembers = this.getExclusiveGroupMembers();
+	        var myId = this.id;
+	        this._isDeactivating = true;
+	        Ext.each(exclusiveGroupMembers, function(member) {
+	            var elem = member.element;
+	            if (myId !== member.id) {
+	                member.setPressed(false);
+	            }
+	        });
+	        this._isDeactivating = false;
+	
+	        this.setPressed(true);
+        }
     },
     
     /** private: method[onCtrlDeactivate]
      * 
-     *  Called on control deactivation. Removes this button's `pressedCls`
+     *  Called on control deactivation. Removes this button's `pressedCls`,
+     *  but only when using a segmented button and an exclusiveGroup
      */
     onCtrlDeactivate: function(){
-        if(!this._isDeactivating) {
-            this.setPressed(false);
-        }
+    	if (this.getExclusiveGroup()) {
+	        if(!this._isDeactivating) {
+	            this.setPressed(false);
+	        }
+    	}
     },
     
     /** private: method[pHandler]
