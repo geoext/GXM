@@ -35,6 +35,10 @@
 Ext.define('GXM.FeaturePopup', {
 
     extend: 'Ext.Panel',
+    requires: [
+        'GXM.version'
+    ],
+   
     xtype : 'gxm_featurepopup',
     
     /** private: property[scrollable]
