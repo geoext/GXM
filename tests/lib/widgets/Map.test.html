@@ -5,7 +5,9 @@
         <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
         <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
-        
+        <script type="text/javascript"
+    src="https://maps.google.com/maps/api/js?sensor=false">
+</script>
         <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
@@ -30,12 +32,13 @@
 // can be copied to other testfiles, simply adjust the first variables
 function test_definition(t) {
     var undef,
-        xtype = 'gxm_mappanel',        // please adjust
-        className = 'GXM.MapPanel',    // please adjust
-        clazz = GXM.MapPanel || undef, // please adjust
+        xtype = 'gxm_map',        // please adjust
+        className = 'GXM.Map',    // please adjust
+        clazz = GXM.Map || undef, // please adjust
         minimumConf = {                // please adjust
             map: getMap()              
         },
+        alias = 'widget.' + xtype, // might be adjusted, e.g. for models
         isRegistered = false,
         cmp = null;
     
@@ -44,9 +47,9 @@ function test_definition(t) {
     t.ok(GXM && 
          Ext.isDefined( clazz ) 
          && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
-    isRegistered = Ext.ComponentMgr.isRegistered( xtype );
+    isRegistered = (Ext.ClassManager.getByAlias(alias) !== null);
 
-    t.ok(isRegistered, 'A xtype "' + xtype + '" is registered.');
+    t.ok(isRegistered, 'A component with alias "' + alias + '" is registered.');
     if (isRegistered) {
         cmp = Ext.ComponentMgr.create( minimumConf, xtype );
  
@@ -63,109 +66,132 @@ function test_constructor(t){
     
     var mappanel = getMapPanel();
     
-    t.ok(mappanel instanceof GXM.MapPanel, 'Instanciation works as expected.');
+    t.ok(mappanel instanceof GXM.Map, 'Instanciation works as expected.');
     
     mappanel.destroy();
     
-    lazyMappanel = getLazyMapPanel();
+    var lazyMappanel = getLazyMapPanel();
 
-    t.ok(lazyMappanel instanceof GXM.MapPanel, 'Lazy loading works as expected.');
+    t.ok(lazyMappanel instanceof GXM.Map, 'Lazy loading works as expected.');
     
     lazyMappanel.destroy();
 }
 
+var openedWindow = null
 function test_mappanel(t){
+    
     t.plan(4);
     
-    map = getMap();
-
-    var moveToCnt = 0;
-    map.moveTo = function(){
-        moveToCnt++;
-        OpenLayers.Map.prototype.moveTo.apply(this, arguments);
-    };
-    
-    var mappanel = new GXM.MapPanel({
-        map: map,
-        center: '5,45',
-        zoom: 4
-    });
-    
-    t.eq(moveToCnt, 1, "map.moveTo called exactly once");
-    t.eq(mappanel.map.getCenter().toString(), "lon=5,lat=45", "Map center set correctly");
-    t.eq(mappanel.map.getZoom(), 4, "Zoom set correctly");
-    t.eq(GXM.MapPanel.guess().id, mappanel.id, "MapPanel guessed correctly");
-    
-    map.destroy();
-    mappanel.destroy();
-    
+    t.open_window('./winopen/map-center-zoom-extent.html', function(wnd){
+        var expected = wnd.testExpectations.centerAndZoom,
+            results = wnd.testResults.centerAndZoom;
+        
+        window.openedWindow = wnd; // store for later use in other tests
+        
+        t.eq(
+            results.moveToCnt, 
+            expected.moveToCnt, 
+            "map.moveTo called exactly once"
+        );
+        t.eq(
+            results.centerAsString,
+            expected.centerAsString, 
+            "Map center set correctly"
+        );
+        t.eq(
+            results.zoom,
+            expected.zoom,
+            "Zoom set correctly"
+        );
+        t.eq(
+            results.mapPanelId,
+            expected.mapPanelId,
+            "GXM.Map::guess() guessed correctly"
+        );
+    }, 15); 
 }
+
+
 
 function test_allOverlays(t) {
     t.plan(4);
     var map, panel;
     
     map = getMap();
-    panel = new GXM.MapPanel({
+    panel = Ext.create('GXM.Map', {
         map: map
     });
-    t.eq(panel.map.allOverlays, false, "allOverlays is not set if map is provided to panel");
+    t.eq(panel.getMap().allOverlays, false, "allOverlays is not set if map is provided to panel");
     // since we created the map, we destroy it
     map.destroy();
     panel.destroy();
     
-    panel = new GXM.MapPanel({
+    panel = Ext.create('GXM.Map', {
         fullscreen: false // so we don't render the map
     });
     
-    t.eq(panel.map.allOverlays, true, "allOverlays set to true if no map is provided to panel");
+    t.eq(panel.getMap().allOverlays, true, "allOverlays set to true if no map is provided to panel");
     panel.destroy();
     
-    panel = new GXM.MapPanel({
+    panel = Ext.create('GXM.Map', {
         fullscreen: false,  // so we don't render the map
         map: {
             units: "humptydumpty"
         }
     });
-    t.eq(panel.map.allOverlays, true, "allOverlays set to true if map config is provided to panel");
-    t.eq(panel.map.units, 'humptydumpty', "other map configs get set");
+    t.eq(panel.getMap().allOverlays, true, "allOverlays set to true if map config is provided to panel");
+    t.eq(panel.getMap().units, 'humptydumpty', "other map configs get set");
     panel.destroy();
     
 }
 
+
+
 function test_zoom(t){
     t.plan(1);
-    var panel = getMapPanel({
-        zoom: 4,
-        layers: [new OpenLayers.Layer()]
-    });
-    t.eq(panel.map.zoom, 4, "zoom is set on the map");
-    panel.destroy();
+    
+    // opened and stored in global varioable in test_mappanel above
+    if (openedWindow) {
+        
+        var expected = openedWindow.testExpectations.zoomOnly,
+            results = openedWindow.testResults.zoomOnly;
+    
+        
+        t.eq(
+            results.zoom,
+            expected.zoom,
+            "zoom is set on the map"
+        );
+    }
+
 }
 
 function test_center(t){
     t.plan(3);
-    var panel;
-    panel = getMapPanel({
-        center: new OpenLayers.LonLat(1, 1),
-        layers: [new OpenLayers.Layer()]
-    });
-    t.eq(panel.map.center.toString(), 'lon=1,lat=1', "center as OpenLayers.LonLat-object is set on the map");
-    panel.destroy();
     
-    panel = getMapPanel({
-        center: '2,2',
-        layers: [new OpenLayers.Layer()]
-    });
-    t.eq(panel.map.center.toString(), 'lon=2,lat=2', "center as string is set on the map");
-    panel.destroy();
-    
-    panel = getMapPanel({
-        center: [3,3],
-        layers: [new OpenLayers.Layer()]
-    });
-    t.eq(panel.map.center.toString(), 'lon=3,lat=3', "center as array is set on the map");
-    panel.destroy();
+    // opened and stored in global varioable in test_mappanel above
+    if (openedWindow) {
+        
+        var expected = openedWindow.testExpectations.center,
+            results = openedWindow.testResults.center;
+        
+        t.eq(
+            results.fromOpenLayersLonLatObject,
+            expected.fromOpenLayersLonLatObject,
+            "center as OpenLayers.LonLat-object is set on the map"
+        );
+        t.eq(
+            results.fromString,
+            expected.fromString,
+            "center as string is set on the map"
+        );
+        
+        t.eq(
+            results.fromArray,
+            expected.fromArray,
+            "center as array is set on the map"
+        );
+    }
 }
 
 function test_extent(t){
@@ -180,7 +206,7 @@ function test_extent(t){
     
     panel = getMapPanel({
         map: map,
-        extent: new OpenLayers.Bounds(1, 2, 3, 4)
+        mapExtent: new OpenLayers.Bounds(1, 2, 3, 4)
     });
     
     t.eq(logger.extent.toString(), '1,2,3,4', "extent as OpenLayers.Bounds-object is set on the map");
@@ -189,7 +215,7 @@ function test_extent(t){
     
     panel = getMapPanel({
         map: map,
-        extent: [5,6,7,8]
+        mapExtent: [5,6,7,8]
     });
     t.eq(logger.extent.toString(), '5,6,7,8', "extent as array is set on the map");
     panel.destroy();
@@ -205,13 +231,13 @@ function test_destroy(t) {
      * creates the OpenLayers.Map instance, and the panel destroys the
      * map in its destroy sequence.
      */
-    var mappanel = new GXM.MapPanel({
+    var mappanel = Ext.create('GXM.Map', {
         layers: [
             new OpenLayers.Layer()
         ],
-        center: '0,0'
+        mapCenter: '0,0'
     });
-    t.ok(mappanel.map instanceof OpenLayers.Map, 'GXM.MapPanel creates an OpenLayers.Map-instance');
+    t.ok(mappanel.getMap() instanceof OpenLayers.Map, 'GXM.Map creates an OpenLayers.Map-instance');
     
     var called = false;
     mappanel.map.destroy = function() {
@@ -224,7 +250,7 @@ function test_destroy(t) {
     } catch(err) {
         t.fail("mappanel.destroy causes problems: " + err);
     }
-    t.ok(!mappanel.map, "mappanel has no reference to a map");
+    t.ok(!mappanel.getMap(), "mappanel has no reference to a map");
     
     
     // if we have a reference to a map, do not touch it
@@ -237,16 +263,16 @@ function test_destroy(t) {
     });
     
     
-    var mappanel2 = new GXM.MapPanel({
+    var mappanel2 = Ext.create('GXM.Map', {
         fullscreen: false,
         map: map,
-        center: '1,1'
+        mapCenter: '1,1'
     });
     
-    t.eq(mappanel2.map.humptyDumpty , 'foo-bar-baz' , 'GXM.MapPanel respects a given OpenLayers.Map-instance');
+    t.eq(mappanel2.getMap().humptyDumpty , 'foo-bar-baz' , 'GXM.Map respects a given OpenLayers.Map-instance');
     
     called = false;
-    mappanel2.map.destroy = function(){
+    mappanel2.getMap().destroy = function(){
         called = true;
         OpenLayers.Map.prototype.destroy.apply(mappanel2.map, arguments);
     }
@@ -382,5 +408,7 @@ function test_MapManelsLayerStore(t){
 
         </script>
     </head>
-    <body></body>
+    <body>
+        <div id="gxm-map-render-target" style="width: 200px; height: 200px;"></div>
+    </body>
 </html>
