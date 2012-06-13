@@ -66,7 +66,7 @@ function test_definition(t) {
 }
 
 function test_basics(t) {
-    t.plan(3);
+    t.plan(4);
     
     var features = getFeatures(10),
         featureStore = Ext.create('GXM.data.FeatureStore', {
@@ -90,8 +90,7 @@ function test_basics(t) {
     t.eq(featureStore[firstOrLast]().getFeature().id,features[0].id, 'Managed features are the same');
     
     // record access?
-    // TODO implement access function
-    //t.ok(featureStore.getFeatureByIndex(0) instanceof OpenLayers.Feature, 'Record access via "getFeatureByIndex" successful');
+    t.ok(featureStore.getFeatureByIndex(0) instanceof OpenLayers.Feature, 'Record access via "getFeatureByIndex" successful');
 }
         
         </script>

@@ -51,5 +51,15 @@ Ext.define('GXM.data.FeatureStore', {
                 root: ''
             }
         }
+    },
+    
+    /** api: method[getFeatureByIndex]
+     *  :param idx: ``Integer`` The index of the record having the feature to return.
+     *  :return:  ``OpenLayers.Feature`` The feature object the record at the given index contains.
+     *  
+     *  Returns the feature object of the record at the given index.
+     */ 
+    getFeatureByIndex: function(idx) {
+        return this.getAt(idx).raw;
     }
 });
