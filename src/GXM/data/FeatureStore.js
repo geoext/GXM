@@ -25,6 +25,7 @@
 Ext.define('GXM.data.FeatureStore', {
     extend: 'Ext.data.Store',
     requires: [
+        'GXM.version',
         'GXM.data.FeatureModel'
     ],
     config: {

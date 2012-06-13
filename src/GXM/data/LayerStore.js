@@ -25,6 +25,7 @@
 Ext.define('GXM.data.LayerStore', {
     extend: 'Ext.data.Store',
     requires: [
+        'GXM.version',
         'GXM.data.LayerModel'
     ],
     config: {

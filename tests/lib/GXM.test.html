@@ -2,14 +2,25 @@
 <html>
     <head>
         <title>GXM.test.html</title>
-        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.0/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
         <link rel="stylesheet" href="../../resources/css/gxm.css" type="text/css">
         
-        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.0/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
-        <!-- This file loads all relevant files -->
-        <script type="text/javascript" src="../../lib/GXM.loader.js"></script>
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require("GXM.Map");
+        </script>
         
         <script type="text/javascript">
             

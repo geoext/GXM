@@ -18,6 +18,11 @@
  *      The class that is used to access the static util methods
  */
 Ext.define('GXM.util.Base', {
+    
+    requires: [
+        'GXM.version'
+    ],
+    
     statics: {
     	
         /** api: method[createConfigAlias]

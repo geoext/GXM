@@ -46,6 +46,7 @@ Ext.define('GXM.FeatureList', {
     extend: 'Ext.List',
     
     requires: [
+        'GXM.version',
         'GXM.data.FeatureStore'
     ],
    
@@ -59,7 +60,7 @@ Ext.define('GXM.FeatureList', {
     olLayer: null,
     
     config: {
-    	
+        
         /** api: config[map] 
          * 
          *  :class:`GXM.Map` The GXM Map component this `FeatureList` refers to. 
@@ -129,7 +130,7 @@ Ext.define('GXM.FeatureList', {
             this.setStore(store);
             
             // bind OL events
-        	layer.events.on({
+            layer.events.on({
                 "featureadded": this.onFeatureAdded,
                 "featureremoved": this.onFeatureRemoved,
                 scope: this
@@ -137,10 +138,11 @@ Ext.define('GXM.FeatureList', {
         }
         
         var tpl = this.getItemTpl();
+        
         if (Ext.isDefined(tpl) && tpl instanceof Ext.XTemplate) {
-        	this.setItemTpl(tpl);
+            this.setItemTpl(tpl);
         } else {
-        	this.setItemTpl(new Ext.XTemplate(
+            this.setItemTpl(new Ext.XTemplate(
                 '{[this.renderFeatureListItem(values.feature)]}', {
                     renderFeatureListItem: function(feature){
                         var data = feature.data,
@@ -184,20 +186,37 @@ Ext.define('GXM.FeatureList', {
      *  
      *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
-	onFeatureAdded: function(evt) {
-		this.getStore().add(evt.feature);
-	},
-	
+    onFeatureAdded: function(evt) {
+        this.getStore().add(evt.feature);
+    },
+    
     /** private: method[onFeatureRemoved]
      *  :param evt: ``Ext.EventObject`` The event-object 
      *  
-	 *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
-	 */
-	onFeatureRemoved: function(evt) {
-		var store = this.getStore(),
-			rec = store.findRecord("id", evt.feature.id);
-		
-		this.getStore().remove(rec);
-	}
+     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
+     */
+    onFeatureRemoved: function(evt) {
+        var store = this.getStore(),
+            rec = store.findRecord("id", evt.feature.id);
+        
+        this.getStore().remove(rec);
+    },
     
+    /** private: method[destroy]
+     *  
+     *  Called prior to destroying the list. We remove all our registered 
+     *  handlers and nullify relevant properties.
+     */
+    destroy: function() {
+        var layer = this.getLayer();
+        if (layer && layer.events) {
+            layer.events.un({
+                "featureadded": this.onFeatureAdded,
+                "featureremoved": this.onFeatureRemoved,
+                scope: this
+            });            
+        }
+        
+        this.callParent();
+    }
 });
