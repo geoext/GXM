@@ -28,6 +28,7 @@ Ext.define('GXM.data.LayerStore', {
         'GXM.version',
         'GXM.data.LayerModel'
     ],
+    xtype: 'gxm_layerstore',
     config: {
     	
         /** api: config[model]

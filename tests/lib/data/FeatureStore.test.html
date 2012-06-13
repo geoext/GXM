@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LayerReader.test.html</title>
+        <title>FeatureStore.test.html</title>
         
         <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
@@ -21,34 +21,27 @@
             }
         });
         Ext.require([
-            'GXM.data.LayerStore',
-            'GXM.Map'
+            'GXM.data.FeatureStore',
         ]);
         </script>
         
         <script type="text/javascript">
 
-function getMap(){
-    var map = new OpenLayers.Map({
-        layers: [
-            new OpenLayers.Layer.WMS(
-                "OpenLayers WMS", 
-                "http://vmap0.tiles.osgeo.org/wms/vmap0", 
-                {
-                    layers: "basic"
-                }
-            )
-        ]
-    });
-    return map;
+function getFeatures(numFeatures) {
+    var feats = [];
+    for (var i=0; i<numFeatures; i++) {
+        feats.push(new OpenLayers.Feature());
+    }
+    
+    return feats;
 }
 
 // can be copied to other testfiles, simply adjust the first variables  
 function test_definition(t) {
     var undef,
-        xtype = 'gxm_layerstore',             // please adjust
-        className = 'GXM.data.LayerStore',    // please adjust
-        clazz = GXM.data.LayerStore || undef, // please adjust
+        xtype = 'gxm_featurestore',             // please adjust
+        className = 'GXM.data.FeatureStore',    // please adjust
+        clazz = GXM.data.FeatureStore || undef, // please adjust
         minimumConf = {                       // please adjust
         },
         isRegistered = false,
@@ -75,29 +68,29 @@ function test_definition(t) {
 function test_basics(t) {
     t.plan(4);
     
-    var map = getMap(),
-        layerStore = Ext.create('GXM.data.LayerStore', {
-            data: map.layers
+    var features = getFeatures(10),
+        featureStore = Ext.create('GXM.data.FeatureStore', {
+            data: features
         });
     
     // Does the store have the correct model?
-    t.eq(layerStore.getModel().modelName, 'GXM.data.LayerModel', 'LayerStore works on the GXM.data.LayerModel');
+    t.eq(featureStore.getModel().modelName, 'GXM.data.FeatureModel', 'FeatureStore works on the GXM.data.FeatureModel');
     
     // All layers in store?
-    t.eq(layerStore.getCount(), map.layers.length, 'LayerStore has the correct amount of records')
+    t.eq(featureStore.getCount(), features.length, 'FeatureStore has the correct amount of records')
     
     var firstOrLast;
-    if(!Ext.isEmpty(layerStore.getSorters()) && layerStore.getSorters()[0].direction === "DESC") {
+    if(!Ext.isEmpty(featureStore.getSorters()) && featureStore.getSorters()[0].direction === "DESC") {
     
         firstOrLast = 'last'; 
     } else {
         firstOrLast = 'first';
     }
     // compairing the managed layers by id:
-    t.eq(layerStore[firstOrLast]().getLayer().id, map.layers[0].id, 'Managed layers are the same');
+    t.eq(featureStore[firstOrLast]().getFeature().id,features[0].id, 'Managed features are the same');
     
     // record access?
-    t.ok(layerStore.getLayerByIndex(0) instanceof OpenLayers.Layer, 'Record access via "getLayerByIndex" successful');
+    t.ok(featureStore.getFeatureByIndex(0) instanceof OpenLayers.Feature, 'Record access via "getFeatureByIndex" successful');
 }
         
         </script>

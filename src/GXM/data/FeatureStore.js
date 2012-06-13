@@ -28,8 +28,9 @@ Ext.define('GXM.data.FeatureStore', {
         'GXM.version',
         'GXM.data.FeatureModel'
     ],
+    xtype: 'gxm_featurestore',
     config: {
-    	
+        
         /** api: config[model]
          * 
          *  ``String`` The identifier for the model to be used. 
@@ -50,5 +51,15 @@ Ext.define('GXM.data.FeatureStore', {
                 root: ''
             }
         }
+    },
+    
+    /** api: method[getFeatureByIndex]
+     *  :param idx: ``Integer`` The index of the record having the feature to return.
+     *  :return:  ``OpenLayers.Feature`` The feature object the record at the given index contains.
+     *  
+     *  Returns the feature object of the record at the given index.
+     */ 
+    getFeatureByIndex: function(idx) {
+        return this.getAt(idx).raw;
     }
 });
