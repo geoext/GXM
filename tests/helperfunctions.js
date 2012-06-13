@@ -24,7 +24,7 @@ function getMapPanel(opts) {
 }
 
 function getLazyMapPanel(opts) {
-    var options = Ext.apply(opts || {}, { xtype: 'gxm_mappanel' });
+    var options = Ext.apply(opts || {}, { xtype: 'gxm_map' });
     options.map = ( opts && opts.map ) ? opts.map : getMap();
     var mappanel = options;
     
