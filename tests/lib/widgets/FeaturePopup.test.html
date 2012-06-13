@@ -27,20 +27,27 @@ Ext.require([
     'GXM.Map'
 ]);
 
-function getMapPanel() {
-    var map = new OpenLayers.Map({
-        layers: [
-            new OpenLayers.Layer(null, {
-                isBaseLayer: true
-            })
-        ]
-        // ,allOverlays: true
-    });
+function getFeaturePopup(feature, useCustomTpl) {
+    
+    var popup = null;
+    if (useCustomTpl === true) {
+        popup = Ext.create('GXM.FeaturePopup', {
+            xtype: 'gxm_featurepopup',
+            feature : feature,
+            renderTo: 'popup',
+            tpl : Ext.create('Ext.XTemplate', 'Custom tpl: ', 'Feat has position: x = {[values.feature.geometry.x.toFixed(3)]}', 
+                    ' y = {[values.feature.geometry.y.toFixed(3)]}')
+        });
+    } else {
+        popup = Ext.create('GXM.FeaturePopup', {
+            xtype: 'gxm_featurepopup',
+            feature : feature,
+            renderTo: 'popup'
+        });
+    }
 
-    var mappanel = Ext.create('GXM.Map', {
-        map: map
-    });
-    return mappanel;
+    
+    return popup;
 }
 
 //can be copied to other testfiles, simply adjust the first variables  
@@ -73,7 +80,67 @@ function test_definition(t) {
     } 
 }
 
+function test_basics(t) {
+    t.plan(3);
+    
+    var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0)),
+        featurePopup = getFeaturePopup(feature),
+        elem = featurePopup.element;
+    
+     t.delay_call(1, function() {
+         
+         var found = null,
+         selector = '.gxm-feature-popup',
+         dq = Ext.DomQuery;
+         found = dq.select(selector, Ext.getBody().dom);
+             
+         // is there a popup rendered?
+         t.eq(found.length, 1, 'There is a popup rendered within the document body');
+         
+         // right feature?
+         t.eq(featurePopup.getFeature().id, feature.id, 'FeaturePopup manages the same entities');
+         
+         // Default tpl?
+         t.eq(featurePopup.getTpl().html, 
+                 '<p>You clicked the feature with the ID: {feature.id}</p><p> Overwrite the config-property tpl to get a custom text.</p>', 
+                 'FeaturePopup has the default template');
+         
+         featurePopup.destroy();
+     });
+}
+
+function test_feature_rendering(t) {
+    t.plan(2);
+    
+    var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0)),
+        featurePopup = getFeaturePopup(feature),
+        elem = featurePopup.innerElement.dom;
+
+    var compareText = "You clicked the feature with the ID: " + feature.id + " Overwrite the config-property tpl to get a custom text.";
+    // little rework because of line breaks
+    var innerText = (elem.innerText.replace("\n\n", " "));
+    
+    t.eq(innerText, compareText, 'The popup is rendered correctly with the default template');
+    
+    // cleanup
+    featurePopup.destroy();
+    elem = null;
+    
+    // create new popup with custom tpl and check for adaption
+    featurePopup = getFeaturePopup(feature, true);
+    elem = featurePopup.innerElement.dom;
+    
+    compareText = "Custom tpl: Feat has position: x = 0.000 y = 0.000";
+    // little rework because of line breaks
+    innerText = (elem.innerText.replace("\n\n\n\n", " "));
+    
+    t.eq(innerText, compareText, 'The popup is rendered correctly with the custom template');
+    
+    featurePopup.destroy();
+    
+}
+
         </script>
     </head>
-    <body></body>
+    <body><div id="popup"></div></body>
 </html>
