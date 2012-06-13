@@ -19,7 +19,7 @@ function getMapPanel(opts) {
     if (!opts || !opts.map) {
         options.map = map;
     }
-    var mappanel = new GXM.MapPanel(options);
+    var mappanel = Ext.create('GXM.Map', options);
     return mappanel;
 }
 
@@ -28,7 +28,7 @@ function getLazyMapPanel(opts) {
     options.map = ( opts && opts.map ) ? opts.map : getMap();
     var mappanel = options;
     
-    var panel = new Ext.Panel({
+    var panel = Ext.create('Ext.Panel', {
         fullscreen: true,
         items:[ mappanel ]
     });
