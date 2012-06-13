@@ -59,6 +59,11 @@ Ext.define('GXM.FeaturePopup', {
 	
     config: {
     	
+    	/** api: config[cls] 
+    	 * 
+    	 */
+    	cls: 'gxm-feature-popup',
+    	
         /** api: config[hideOnMaskTap] 
          * 
          *  `Boolean` shall the popup hide when the surrounding mask is being 
@@ -114,7 +119,7 @@ Ext.define('GXM.FeaturePopup', {
      */
     constructor: function(config){
         if (!config.tpl) {
-            config.tpl = new Ext.XTemplate('<p>You clicked the feature with the ID: {feature.id}</p>', '<p>Overwrite the config-property tpl to get a custom text.</p>');
+            config.tpl = new Ext.XTemplate('<p>You clicked the feature with the ID: {feature.id}</p>', '<p> Overwrite the config-property tpl to get a custom text.</p>');
         }
         if (config.feature) {
             this._feature = config.feature;
