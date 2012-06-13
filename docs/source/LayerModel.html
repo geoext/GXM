@@ -62,6 +62,9 @@
 Ext.define('GXM.data.LayerModel', { 
     extend: &quot;Ext.data.Model&quot;,
     alias: 'model.gxm_layer',
+    requires: [
+        'GXM.version'
+    ],
     config: {
         fields: [
             {

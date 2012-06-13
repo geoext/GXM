@@ -24,110 +24,105 @@
  * text of the license.
  */
 
-<span id='global-property-'>/** api: (define)
-</span> *  module = GXM
- *  class = FeaturePopup
- *  base_link = `Ext.Panel &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel&gt;`_
- */
-
-<span id='global-property-'>/** api: example
-</span> *  Sample code to create a GXM.FeaturePopup:
+<span id='GXM-FeaturePopup'>/**
+</span> * @class GXM.FeaturePopup
+ * The class that is used to construct a GXM FeaturePopup.
  * 
- *  .. code-block:: javascript
- *  
- *    // create a lazily instanciated GXM.LayerList:
- *    var featPopup = {
- *        xtype: 'gxm_featurepopup',
- *        // call with GXM.Map...
- *        map : gxmMap
- *    };
- *    
- */
-
-<span id='GXM-FeaturePopup'>/** api: constructor
-</span> *  .. class:: FeaturePopup(config)
- *   
- *      The class that is used to construct a GXM FeaturePopup.
+ * Sample code create a lazily instanciated GXM.FeaturePopup:
+ * 
+ *      var featPopup = {
+ *          xtype: 'gxm_featurepopup',
+ *          // call with OL feature
+ *          feature : olFeature
+ *      };
+ *      
+ * Sample code create a directly instanciated GXM.FeaturePopup:
+ * 
+ *      var featPopup = Ext.create('GXM.FeaturePopup', {
+ *          feature : olFeature,
+ *          renderTo: 'popup'
+ *      });
+ *     
  */
 Ext.define('GXM.FeaturePopup', {
 
     extend: 'Ext.Panel',
+    requires: [
+        'GXM.version'
+    ],
     xtype : 'gxm_featurepopup',
     
-<span id='GXM-FeaturePopup-property-scrollable'>    /** private: property[scrollable]
-</span>     *  
-     *  ``Boolean`` A FeaturePopup is always scrollable.  
-     *  
-     *  Defaults to ``true``.
+<span id='GXM-FeaturePopup-property-scrollable'>    /**
+</span>     * @property {Boolean} scrollable
+     * @private
+     *  A FeaturePopup is always scrollable.
      */
 	scrollable: true,
 	
-<span id='GXM-FeaturePopup-property-layout'>	/** private: property[layout]
-</span>     *  
-     *  ``String`` Currently all FeaturePopups are in the fit-layout. 
-     *  
-     *  Defaults to ``fit``.
+<span id='GXM-FeaturePopup-property-layout'>    /**
+</span>     * @property {String} layout
+     * @private
+     *  Currently all FeaturePopups are in the fit-layout.
      */
 	layout: 'fit',
 	
     config: {
     	
-<span id='GXM-FeaturePopup-property-hideOnMaskTap'>        /** api: config[hideOnMaskTap] 
-</span>         * 
-         *  `Boolean` shall the popup hide when the surrounding mask is being 
+<span id='GXM-FeaturePopup-cfg-cls'>        /**
+</span>         * @cfg {String} cls
+         * The CSS class used to customize this popup.
+         */
+    	cls: 'gxm-feature-popup',
+    	
+<span id='GXM-FeaturePopup-cfg-hideOnMaskTap'>        /**
+</span>         * @cfg {Boolean} hideOnMaskTap
+         * shall the popup hide when the surrounding mask is being 
          *  tapped? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-hideOnMaskTap&gt;`_
-         *  
-         *  Default is `true`.
          */
     	hideOnMaskTap: true,
     	
-<span id='GXM-FeaturePopup-property-feature'>    	/** api: config[feature]
-</span>         * 
-         *  `OpenLayers.Feature.Vector &lt;http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html&gt;`_ 
+<span id='GXM-FeaturePopup-cfg-feature'>        /**
+</span>         * @cfg {OpenLayers.Feature.Vector} feature
+         * &lt;http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Feature/Vector-js.html&gt;`_ 
          *  The feature this popup is about to derive its information from.
          */
         feature: null,
         
-<span id='GXM-FeaturePopup-property-tpl'>        /** api: config[tpl]
-</span>         * 
-         *  `Ext.XTemplate &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate&gt;`_
-         *  The template used to render the popup content. If not provided, a 
+<span id='GXM-FeaturePopup-cfg-tpl'>        /**
+</span>         * @cfg {Ext.XTemplate &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate&gt;} tpl
+         * The template used to render the popup content. If not provided, a 
          *  rudimentary template is being used. 
          */
         tpl: null,
         
-<span id='GXM-FeaturePopup-property-styleHtmlContent'>        /** api: config[styleHtmlContent] 
-</span>         * 
-         *  `Boolean` shall HTML content be styled when rendering content? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent&gt;`_
-         *  
-         *  Default is `true`.
+<span id='GXM-FeaturePopup-cfg-styleHtmlContent'>        /**
+</span>         * @cfg {Boolean} styleHtmlContent
+         *  shall HTML content be styled when rendering content? 
+         *   Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-styleHtmlContent&gt;`_
          */
         styleHtmlContent: true,
         
-<span id='GXM-FeaturePopup-property-centered'>        /** api: config[centered] 
-</span>         * 
-         *  `Boolean` shall the popup be centered within the viewport? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered&gt;`_
-         *  
-         *  Default is `true`.
+<span id='GXM-FeaturePopup-cfg-centered'>        /**
+</span>         * @cfg {Boolean} centered
+         * shall the popup be centered within the viewport? 
+         *  Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-centered&gt;`_
          */
         centered : true,
         
-<span id='GXM-FeaturePopup-property-modal'>        /** api: config[modal] 
-</span>         * 
-         *  `Boolean` shall the popup be modal? Also see `the original documentation &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Panel-cfg-modal&gt;`_
-         *  
-         *  Default is `true`.
+<span id='GXM-FeaturePopup-cfg-modal'>        /**
+</span>         * @cfg {Boolean} modal
+         *  Should the panel be modal? 
          */
         modal : true
     },
     
-<span id='GXM-FeaturePopup-method-constructor'>    /** private: method[constructor]
-</span>     * 
-     *  The constructor function
+<span id='GXM-FeaturePopup-method-constructor'>    /**
+</span>     * @private
+     * The constructor function
      */
     constructor: function(config){
         if (!config.tpl) {
-            config.tpl = new Ext.XTemplate('&lt;p&gt;You clicked the feature with the ID: {feature.id}&lt;/p&gt;', '&lt;p&gt;Overwrite the config-property tpl to get a custom text.&lt;/p&gt;');
+            config.tpl = new Ext.XTemplate('&lt;p&gt;You clicked the feature with the ID: {feature.id}&lt;/p&gt;', '&lt;p&gt; Overwrite the config-property tpl to get a custom text.&lt;/p&gt;');
         }
         if (config.feature) {
             this._feature = config.feature;
@@ -136,9 +131,9 @@ Ext.define('GXM.FeaturePopup', {
         this.callParent(arguments);
     },
     
-<span id='GXM-FeaturePopup-method-initialize'>    /** private: method[initialize]
-</span>     * 
-     *  Initializes the Component.
+<span id='GXM-FeaturePopup-method-initialize'>    /**
+</span>     * @private
+     * Initializes the Component.
      */
     initialize: function() {
     	
@@ -158,11 +153,14 @@ Ext.define('GXM.FeaturePopup', {
         this.callParent();
     },
     
-<span id='GXM-FeaturePopup-method-applyFeature'>    /** private: method[applyFeature]
-</span>     * 
-     *  ``Function`` Intersects the :func:`setFeature` function.
+<span id='GXM-FeaturePopup-method-applyFeature'>    /**
+</span>     * @private
+     * Intersects the :func:`setFeature` function.
      *  Adds the passed feature via setData to prevent data loss. Is needed to 
-     *  support more than one datatype for the new feature. 
+     *  support more than one datatype for the new feature.
+     *  
+     *  @param {Object} newFeature the new feature representation.
+     *  @return {OpenLayers.Feature}
      */
     applyFeature: function(newFeature) {
 		if(newFeature instanceof OpenLayers.Feature.Vector) {
