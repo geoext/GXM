@@ -148,6 +148,14 @@ Ext.setup({
                 );
             }
         });
+        
+        // include the button into an segmented button, so it gets a pressed / unpressed state
+        var navGroup = Ext.create('Ext.SegmentedButton', {
+            defaultType : "gxm_button",
+            items : [
+                btnNavigation 
+            ]
+        });
 
         // Create the DrawFeature control (Point)
         var ctrlDrawPoint = new OpenLayers.Control.DrawFeature(
@@ -283,7 +291,7 @@ Ext.setup({
                         { xtype : 'spacer' },
                         btnSource,
                         { xtype : 'spacer' },
-                        btnNavigation
+                        navGroup
                     ]
                 }, 
                 // The bottom toolbar:
