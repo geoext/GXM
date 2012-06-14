@@ -82,6 +82,17 @@ Ext.define('GXM.Map', {
      */
     controls: null,
     
+    /**
+     * @private {Boolean} olMapAutocreated
+     * @readonly
+     * 
+     * We need to track whether we create the OpenLayers.Map this component 
+     * uses, so we can decide whether we need to destroy it when the GXM.Map
+     * is being destroyed.  
+     */
+    olMapAutocreated: null,
+    
+    
     config: {
     	
         /**
@@ -121,6 +132,7 @@ Ext.define('GXM.Map', {
     constructor: function(config) {
         
         if (config.map instanceof OpenLayers.Map) {
+            this.olMapAutocreated = false;
             this._map = config.map;
             delete config.map;
         }
@@ -158,6 +170,7 @@ Ext.define('GXM.Map', {
                 numZoomLevels: 24
             });
             this.setMap(new OpenLayers.Map(mapConf));
+            this.olMapAutocreated = true;
         } else {
             // add any additionally configured controls:
             if (this.initialConfig.controls) {
@@ -363,6 +376,35 @@ Ext.define('GXM.Map', {
        var record = this.layers.findRecord('id', layer.id);
        this.layers.remove(record); 
        this.fireEvent("afterlayerremove");
+   },
+   
+   /**
+    * @private
+    * 
+    * Private method called during the destroy sequence.
+    */
+   destroy: function() {
+       var me = this;
+       if(me.getMap() && me.getMap().events) {
+           me.getMap().events.un({
+               "moveend": me.onMoveend,
+               "changelayer": me.onChangelayer,
+               "addlayer": me.onAddlayer,
+               "removelayer": me.onRemovelayer,
+               scope: me
+           });
+       }
+       // if the map panel was passed a map instance, this map instance
+       // is under the user's responsibility
+       if( me.olMapAutocreated === true ) {
+           if( me.getMap() && me.getMap().destroy ) {
+               me.getMap().destroy();
+           }
+       }
+       delete me._map;
+       delete me._layers;
+       
+       this.callParent();
    }
 }, 
 
