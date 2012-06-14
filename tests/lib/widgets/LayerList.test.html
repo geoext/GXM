@@ -121,15 +121,35 @@ function test_basics(t) {
                 // Does the store have the correct model?
                 t.eq(store.getModel().modelName, 'GXM.data.LayerModel', 'Layerpanel.store works on the GXM.data.LayerModel');
                 
-                var firstOrLast;
-                if(!Ext.isEmpty(mappanel.layers.getSorters()) && mappanel.layers.getSorters()[0].direction === "DESC") {
-                // compairing the managed layers by id:
-                    firstOrLast = 'last'; 
+                var hasSorter = (!Ext.isEmpty(store.getSorters())),
+                    sortDir = (hasSorter && store.getSorters()[0].getDirection() === "DESC") ? 'DESC' : 'ASC',
+                    minZIndex = Number.POSITIVE_INFINITY,
+                    maxZIndex =  Number.NEGATIVE_INFINITY,
+                    currentZIndex;
+                Ext.each(mappanel.getMap().layers, function(l){
+                    currentZIndex = l.getZIndex();
+                    if (currentZIndex <= minZIndex) {
+                        minZIndex = currentZIndex;
+                    }
+                    if (currentZIndex >= maxZIndex) {
+                        maxZIndex = currentZIndex;
+                    }
+                });
+
+                if(sortDir === "DESC") {
+                    expectedZIndexOfFirstRecord = maxZIndex; 
                 } else {
-                    firstOrLast = 'first';
+                    expectedZIndexOfFirstRecord = minZIndex;
                 }
                 
-                t.eq(store[firstOrLast]().getLayer().id, mappanel.getMap().layers[0].id, 'managed entities are the same');
+                t.eq(
+                    mappanel.layers.first().getLayer().getZIndex(),
+                    expectedZIndexOfFirstRecord,
+                    'Managed entities are the same (First record with #' 
+                        + mappanel.layers.first().getLayer().id 
+                        + ' has the ' + (sortDir === 'ASC' ? 'lowest' : 'highest')
+                        + ' z-index and sort direction is "' + sortDir + '")'
+                );
                 
                 // check the generated HTML:
                 var elem = layerpanel.innerElement.dom;
