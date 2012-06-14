@@ -37,6 +37,7 @@ Ext.define('GXM.LayerList', {
     
     requires: [
         'GXM.version',
+        'GXM.util.Base',
         'GXM.data.LayerStore'
     ],
    
