@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Map.test.html</title>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        <script type="text/javascript"
+    src="https://maps.google.com/maps/api/js?sensor=false">
+</script>
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require("GXM.Map");
+        </script>
+        
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../../helperfunctions.js"></script>
+        
+        <script type="text/javascript">
+
+// can be copied to other testfiles, simply adjust the first variables
+function test_definition(t) {
+    var undef,
+        xtype = 'gxm_map',        // please adjust
+        className = 'GXM.Map',    // please adjust
+        clazz = GXM.Map || undef, // please adjust
+        minimumConf = {                // please adjust
+            map: getMap()              
+        },
+        alias = 'widget.' + xtype, // might be adjusted, e.g. for models
+        isRegistered = false,
+        cmp = null;
+    
+    t.plan(3);
+
+    t.ok(GXM && 
+         Ext.isDefined( clazz ) 
+         && Ext.isFunction( clazz ), 'The class "' + className + '" is defined.');
+    isRegistered = (Ext.ClassManager.getByAlias(alias) !== null);
+
+    t.ok(isRegistered, 'A component with alias "' + alias + '" is registered.');
+    if (isRegistered) {
+        cmp = Ext.ComponentMgr.create( minimumConf, xtype );
+        t.ok(cmp instanceof clazz, 'The xtype "' + xtype + '" points to the class "' + className + '".');
+        cmp.destroy();
+    } else {
+        t.ok(false, "Since the xtype is not registered, we cannot check whether it points to the right class");
+    }
+}
+
+function test_constructor(t){
+    t.plan(2);
+    
+    var mappanel = getMapPanel();
+    
+    t.ok(mappanel instanceof GXM.Map, 'Instanciation works as expected.');
+    
+    mappanel.destroy();
+    
+    var lazyMappanel = getLazyMapPanel();
+
+    t.ok(lazyMappanel instanceof GXM.Map, 'Lazy loading works as expected.');
+    
+    lazyMappanel.destroy();
+}
+
+
+// the test "test_mappanel" will open a window with mappanel creation etc.
+// We need to put these tests in a window.open() roundtrip, because the painted
+// event of GXM.Map, which we use to render and recenter the OpenLayers.Map, 
+// is not being fired in the context of these tests.
+var openedWindow = null
+function test_mappanel(t){
+    
+    t.plan(4);
+    
+    t.open_window('./winopen/map-center-zoom-extent.html', function(wnd){
+        var expected = wnd.testExpectations.centerAndZoom,
+            results = wnd.testResults.centerAndZoom;
+        
+        window.openedWindow = wnd; // store for later use in other tests
+        
+        t.eq(
+            results.moveToCnt, 
+            expected.moveToCnt, 
+            "map.moveTo called exactly once"
+        );
+        t.eq(
+            results.centerAsString,
+            expected.centerAsString, 
+            "Map center set correctly"
+        );
+        t.eq(
+            results.zoom,
+            expected.zoom,
+            "Zoom set correctly"
+        );
+        t.eq(
+            results.mapPanelId,
+            expected.mapPanelId,
+            "GXM.Map::guess() guessed correctly"
+        );
+    }, 15); 
+}
+
+function test_allOverlays(t) {
+    t.plan(4);
+    var map, panel;
+    
+    map = getMap();
+    panel = Ext.create('GXM.Map', {
+        map: map
+    });
+    t.eq(panel.getMap().allOverlays, false, "allOverlays is not set if map is provided to panel");
+    // since we created the map, we destroy it
+    map.destroy();
+    panel.destroy();
+    
+    panel = Ext.create('GXM.Map', {
+        fullscreen: false // so we don't render the map
+    });
+    
+    t.eq(panel.getMap().allOverlays, true, "allOverlays set to true if no map is provided to panel");
+    panel.destroy();
+    
+    panel = Ext.create('GXM.Map', {
+        fullscreen: false,  // so we don't render the map
+        map: {
+            units: "humptydumpty"
+        }
+    });
+    t.eq(panel.getMap().allOverlays, true, "allOverlays set to true if map config is provided to panel");
+    t.eq(panel.getMap().units, 'humptydumpty', "other map configs get set");
+    panel.destroy();
+    
+}
+
+function test_zoom(t){
+    t.plan(1);
+    
+    // opened and stored in global variable in test_mappanel above
+    if (openedWindow) {
+        
+        var expected = openedWindow.testExpectations.zoomOnly,
+            results = openedWindow.testResults.zoomOnly;
+    
+        
+        t.eq(
+            results.zoom,
+            expected.zoom,
+            "zoom is set on the map"
+        );
+    }
+
+}
+
+function test_center(t){
+    t.plan(3);
+    
+    // opened and stored in global variable in test_mappanel above
+    if (openedWindow) {
+        
+        var expected = openedWindow.testExpectations.center,
+            results = openedWindow.testResults.center;
+        
+        t.eq(
+            results.fromOpenLayersLonLatObject,
+            expected.fromOpenLayersLonLatObject,
+            "center as OpenLayers.LonLat-object is set on the map"
+        );
+        t.eq(
+            results.fromString,
+            expected.fromString,
+            "center as string is set on the map"
+        );
+        
+        t.eq(
+            results.fromArray,
+            expected.fromArray,
+            "center as array is set on the map"
+        );
+    }
+}
+
+function test_extent(t){
+    t.plan(2);
+    // opened and stored in global variable in test_mappanel above
+    if (openedWindow) {
+        
+        var expected = openedWindow.testExpectations.extent,
+            results = openedWindow.testResults.extent;
+       
+        
+        t.eq(
+            results.fromOpenLayersBoundsObject,
+            expected.fromOpenLayersBoundsObject, 
+            "extent as OpenLayers.Bounds-object is set on the map"
+        );
+        
+        t.eq(
+            results.fromArray,
+            expected.fromArray, 
+            "extent as Arrayt is set on the map"
+        );
+    }
+}
+
+function test_destroy(t) {
+    t.plan(6);
+    /**
+     * If the panel is passed an instance of OpenLayers.Map, we don't
+     * touch it in the destroy sequence, we only remove our reference
+     * to it.  If the panel is passed a map config object, the panel
+     * creates the OpenLayers.Map instance, and the panel destroys the
+     * map in its destroy sequence.
+     */
+    var mappanel = Ext.create('GXM.Map', {
+        layers: [
+            new OpenLayers.Layer()
+        ],
+        mapCenter: '0,0'
+    });
+    t.ok(mappanel.getMap() instanceof OpenLayers.Map, 'GXM.Map creates an OpenLayers.Map-instance');
+    
+    var called = false;
+    mappanel.getMap().destroy = function() {
+        called = true;
+        OpenLayers.Map.prototype.destroy.apply(mappanel.map, arguments);
+    };
+    try {
+        mappanel.destroy();
+        t.ok(called, "mappanel.destroy calls map.destroy");
+    } catch(err) {
+        t.fail("mappanel.destroy causes problems: " + err);
+    }
+    t.ok(!mappanel.getMap(), "mappanel has no reference to a map");
+    
+    // if we have a reference to a map, do not touch it
+    var map = new OpenLayers.Map({
+        layers: [
+            new OpenLayers.Layer()
+        ],
+        // an fixed prop to check wether the right refernece is taken
+        humptyDumpty: 'foo-bar-baz'
+    });
+    
+    var mappanel2 = Ext.create('GXM.Map', {
+        fullscreen: false,
+        map: map,
+        mapCenter: '1,1'
+    });
+    
+    t.eq(mappanel2.getMap().humptyDumpty , 'foo-bar-baz' , 'GXM.Map respects a given OpenLayers.Map-instance');
+    
+    called = false;
+    mappanel2.getMap().destroy = function(){
+        called = true;
+        OpenLayers.Map.prototype.destroy.apply(mappanel2.getMap(), arguments);
+    }
+    
+    try {
+        mappanel2.destroy();
+        t.eq(called, false, "mappanel.destroy does not call map.destroy when it's from outside");
+    } catch(err) {
+        t.fail("mappanel.destroy causes problems: " + err);
+    }
+    
+    t.ok(map instanceof OpenLayers.Map, 'map is still a OpenLayers.Map-instance after the panel has been destroyed.');
+}
+
+function test_render(t) {
+    // opened and stored in global variable in test_mappanel above
+    if (openedWindow) {
+        var expected = openedWindow.testExpectations.render,
+            results = openedWindow.testResults.render;
+        
+        t.plan(1 + expected.elements.length);
+        
+        t.ok(results.renderCalled, 'the maps render method gets called');
+        
+        Ext.each(expected.elements, function(expectedElem, i){
+            t.ok(true, results.elements[i].msg);
+        });
+    }
+}
+
+// we always should have an instance of layerstore in mappanel.layers
+function test_MapManelsLayerStore(t){
+    // get a cloneable layer
+    var map = getMap();
+    var layer = map.layers[0].clone();
+    // cleanup
+    map.destroy(); 
+
+    var map1 = getMap();
+    var map2 = getMap();
+    // the "desc"-property is used only for test output
+    var mappanels = [
+        getMapPanel({desc:'instanciation plain', fullscreen: true}),
+        getMapPanel({map:map1, desc:'instanciation w/ map', fullscreen: true}),
+        getLazyMapPanel({desc:'lazy plain', fullscreen: true}),
+        getLazyMapPanel({map:map2, desc:'lazy w/ map', fullscreen: true}),
+        // the following are all adding a layer
+        // adding an additional layer
+        getMapPanel({layers:[layer.clone()], desc:'instanciation plain w/ layers', fullscreen: true}),
+        getMapPanel({map:map1, layers:[layer.clone()], desc:'instanciation w/ map and w/ layers', fullscreen: true}), 
+        getLazyMapPanel({layers:[layer.clone()], desc:'lazy plain w/ layers', fullscreen: true}), 
+        getLazyMapPanel({map:map2, layers:[layer.clone()], desc:'lazy w/ map and w/layers', fullscreen: true}) 
+    ];
+    t.plan(2 * mappanels.length);
+    var isStoreInstance = false;
+    Ext.each(mappanels, function(mappanel) {
+        isStoreInstance = mappanel.layers instanceof GXM.data.LayerStore;
+        t.ok(mappanel.layers instanceof GXM.data.LayerStore, "Mappanel (" + mappanel.initialConfig.desc + "): layers property is instance of GXM.data.LayerStore.");
+        if (isStoreInstance){
+            // check the modelname:
+                
+            t.eq(mappanel.layers.getModel().getName(), 'GXM.data.LayerModel', 
+                '...the store has the right modelName "GXM.data.LayerModel" bound.');
+            /*
+             *
+             * 
+             * TODO 
+             * 
+             *
+             * 
+            // check the field "layer"
+            var firstOrLast = (mappanel.layers.sorters.get(0).direction === "DESC") 
+                                  ? 'last' 
+                                  : 'first';
+            var rec = mappanel.layers[firstOrLast]();
+            // is it an OpenLayers Layer?
+            t.ok(rec.getLayer() instanceof OpenLayers.Layer, 
+                '...the first record has a method to get a layer and it returns an OpenLayers.Layer-instance.');
+            // is it the correct one?
+            t.eq(rec.getLayer().id, mappanel.map.layers[0].id, 
+                '...that records getLayer() method has the correct layer reference (id="' + rec.getLayer().id + '").');
+            */
+        } else {
+            t.fail("mappanel.layers wasn't an instance of GXM.data.LayerStore, fail this test.");
+            t.fail("mappanel.layers wasn't an instance of GXM.data.LayerStore, fail this test.");
+            t.fail("mappanel.layers wasn't an instance of GXM.data.LayerStore, fail this test.");
+        }
+    });
+    // iterate again to cleanup
+    Ext.each(mappanels, function(mappanel){
+        mappanel.destroy();
+    });
+    // cleanup
+    map1.destroy();
+    map2.destroy();
+}
+
+        </script>
+    </head>
+    <body>
+        <div id="gxm-map-render-target" style="width: 200px; height: 200px;"></div>
+    </body>
+</html>

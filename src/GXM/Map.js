@@ -55,6 +55,26 @@ Ext.define('GXM.Map', {
     extend: 'Ext.Component',
     xtype : 'gxm_map',
     
+    statics: {
+        /**
+         * The first map found via an the Ext.ComponentQuery.query
+         * manager.
+         *
+         * Convenience function for guessing the map of an application.
+         * This can reliably be used for all applications that just have one map
+         * in the viewport.
+         *
+         * @return {GXM.Map}
+         * @static
+         */
+        guess : function() {
+            var candidates = Ext.ComponentQuery.query("gxm_map");
+            return ((candidates && candidates.length > 0)
+                ? candidates[0]
+                : null);
+        }
+    },
+    
     // both 'layers' and 'controls' are not defined via 'config'-object,
     // so that we do not ave to decide what happens on call of e.g.
     // setLayers() / setControls()
