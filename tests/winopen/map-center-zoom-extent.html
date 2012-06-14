@@ -49,6 +49,14 @@ var testExpectations = {
             fromOpenLayersLonLatObject: "lon=1,lat=1",
             fromString: "lon=2,lat=2",
             fromArray: "lon=3,lat=3"
+        },
+        extent: {
+            fromOpenLayersBoundsObject: "1,2,3,4",
+            fromArray: "5,6,7,8"
+        },
+        render: {
+            renderCalled: true,
+            elements: null // will be set in the test
         }
     },
     testResults = {
@@ -65,6 +73,14 @@ var testExpectations = {
             fromOpenLayersLonLatObject: null,
             fromString: null,
             fromArray: null
+        },
+        extent: {
+            fromOpenLayersBoundsObject: null,
+            fromArray: null
+        },
+        render: {
+            renderCalled: null,
+            elements: []
         }
     };
 
@@ -147,6 +163,114 @@ function createStandardMapPanels() {
     window.testResults.center.fromArray = mappanel.getMap().getCenter().toString();
     // cleanup
     mappanel.destroy();
+    
+    // create tw mappanels with different incarnations of mapExtent
+    // ...from OpenLayers.Bounds object
+    var logger = {};
+    var map = new OpenLayers.Map({allOverlays:true});
+    map.zoomToExtent = function(extent, force){
+        console.log('in map:zoomToExtent', extent);
+        logger.extent = extent;
+    };
+    
+    mappanel = Ext.create('GXM.Map', {
+        map: map,
+        fullscreen: true,
+        mapExtent: new OpenLayers.Bounds(1,2,3,4),
+        layers: [new OpenLayers.Layer()]
+    });
+    
+    window.testResults.extent.fromOpenLayersBoundsObject = logger.extent.toString();
+    // cleanup
+    mappanel.destroy();
+    map.destroy()
+    
+    // ...from Array
+    logger = {};
+    map = new OpenLayers.Map({allOverlays:true});
+    map.zoomToExtent = function(extent, force){
+        console.log('in map:zoomToExtent', extent);
+        logger.extent = extent;
+    };
+    mappanel = Ext.create('GXM.Map', {
+        map: map,
+        fullscreen: true,
+        mapExtent:  [5,6,7,8],
+        layers: [new OpenLayers.Layer()]
+    });
+    
+    window.testResults.extent.fromArray = logger.extent.toString();
+    // cleanup
+    mappanel.destroy();
+    map.destroy();
+    
+    
+    // render tests
+    map = getMap();
+    
+    var renderCalled = false;
+    map.render = function() {
+        renderCalled = true;
+        OpenLayers.Map.prototype.render.apply(this, arguments);
+    };
+    var mappanel = getMapPanel({
+        fullscreen: true,
+        map: map,
+        layers: [
+            map.layers[0].clone(),
+            map.layers[0].clone(),
+            map.layers[0].clone()
+        ]
+    });
+    
+    //
+    // when the map is rendered, we should find elements with the following 
+    // classes:
+    // 
+    //  CSS-class        | # | element | comment     
+    // ------------------+---+---------+----------------------------------
+    //  .olMap           | 1 | div     | exactly one
+    //  .olMapViewPort   | 1 | div     | exactly one
+    //  .olLayerDiv      | 1 | div     | exactly one per layer in the map
+    // 
+    window.testExpectations.render.elements = [
+        {
+            tag: 'div',
+            cssClass: 'olMap',
+            expectedNum: 1
+        },
+        {
+            tag: 'div',
+            cssClass: 'olMapViewport',
+            expectedNum: 1
+        },
+        {
+            tag: 'div',
+            cssClass: 'olLayerDiv',
+            expectedNum: 1 * mappanel.getMap().layers.length
+        }
+    ];
+        
+    window.testResults.render.renderCalled = renderCalled;
+    
+    var domQueryResult,
+        testResultObj;
+    Ext.each(window.testExpectations.render.elements, function(expectedElem) {
+        domQueryResult = Ext.DomQuery.select(expectedElem.tag + '.' + expectedElem.cssClass);
+        
+        if (domQueryResult.length, expectedElem.expectedNum) {
+            testResultObj = {
+                tag: expectedElem.tag,
+                cssClass: expectedElem.cssClass,
+                expectedNum: expectedElem.expectedNum,
+                msg: 'We found "' + expectedElem.tag + '.' + expectedElem.cssClass + '" exactly ' + expectedElem.expectedNum + ' times.'
+            };
+            window.testResults.render.elements.push(testResultObj);
+        }
+    });
+    
+    mappanel.destroy();
+    map.destroy();
 }
 
 Ext.setup({
