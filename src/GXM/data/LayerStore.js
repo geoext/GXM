@@ -50,7 +50,21 @@ Ext.define('GXM.data.LayerStore', {
                 type: 'json',
                 root: ''
             }
-        }
+        },
+        
+        sorters: [
+            {
+                direction: 'DESC',
+                sorterFn: function(obj_1, obj_2) {
+                    var layer_1 = obj_1.getLayer(),
+                        layer_2 = obj_2.getLayer(),
+                        idx_1 = layer_1.getZIndex(),
+                        idx_2 = layer_2.getZIndex(),
+                        res = (idx_1 > idx_2 ? 1 : (idx_1 < idx_2 ? -1 : 0));
+                    return res;
+                }
+            }
+        ]
     },
     
     /** api: method[getLayerByIndex]
