@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -24,45 +24,33 @@
  * text of the license.
  */
 
-<span id='global-property-'>/** api: (define)
-</span> *  module = GXM
- *  class = Button
- *  base_link = `Ext.Button &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.Button&gt;`_
- */
-
-<span id='global-property-'>/** api: example
-</span> *  Sample code to create a GXM.Button that controls zooms in:
+<span id='GXM-Button'>/** 
+</span> * @class GXM.Button
+ * The class that is used to construct a GXM Button.
  * 
- *  .. code-block:: javascript
- *  
- *    // create the GXM.Button:
- *    var btnZoomIn = Ext.create('GXM.Button', {
- *        control: new OpenLayers.Control.ZoomIn(),
- *        map: map,
- *        iconCls: 'add',
- *        iconMask: true,
- *        handler: function(){
- *            // implement Ext.Button handlers as usual
- *        }
- *    });
+ * Sample code to create a GXM.Button that controls zooms in:
+ * 
+ * create the GXM.Button:
+ *     var btnZoomIn = Ext.create('GXM.Button', {
+ *         control: new OpenLayers.Control.ZoomIn(),
+ *         map: gxmMap,
+ *         iconCls: 'add',
+ *         iconMask: true,
+ *         handler: function(){
+ *             // implement Ext.Button handlers as usual
+ *         }
+ *      });
  *    
- *    // The GXM.Button can be used e.g. in a toolbar that is docked to a panel:
- *    Ext.create('Ext.Panel', {
- *        items: [{
- *            xtype: 'toolbar',
- *            docked: 'top',
- *            items: [
- *                btnZoomIn
- *            ]
- *        }
- *    });
- *     
- */
-
-<span id='GXM-Button'>/** api: constructor
-</span> *  .. class:: Button(config)
- *   
- *      The class that is used to construct a GXM Button.
+ * The GXM.Button can be used e.g. in a toolbar that is docked to a panel:
+ *      Ext.create('Ext.Panel', {
+ *          items: [{
+ *              xtype: 'toolbar',
+ *              docked: 'top',
+ *              items: [
+ *                 btnZoomIn
+ *              ]
+ *          }]
+ *      });
  */
 Ext.define('GXM.Button', {
 	
@@ -74,70 +62,67 @@ Ext.define('GXM.Button', {
     
     xtype: 'gxm_button',
     
-<span id='GXM-Button-property-autoadded'>    /** private: property[autoadded]
-</span>     * 
-     *  ``Boolean`` When a button instance is created with a control that did 
+<span id='GXM-Button-property-autoadded'>    /** 
+</span>     *  @private
+     *  @property {Boolean} autoadded
+     *  When a button instance is created with a control that did 
      *  not belong to a map already we add it to the configured map. That also 
      *  means that we are responsible for removing said control from the map in 
      *  the case that this button is destroyed. This property tracks whether we 
-     *  added the control to a map.
-     *  
-     *  Defaults to `null` but will be set to the correct value on
-     *  button instanciation. 
+     *  added the control to a map.  
      */
     autoadded: null,
     
-<span id='GXM-Button-property-uScope'>    /** private: property[uScope]
-</span>     * 
-     *  ``Object`` The scope the user-defined button handler method shall be 
-     *  executed in.
+<span id='GXM-Button-property-uScope'>    /**
+</span>     *  @private
+     *  @property {Object} uScope
+     *  The scope the user-defined button handler method shall be executed in.
      */
     uScope: null,
     
-<span id='GXM-Button-property-uHandler'>    /** private: property[uHandler]
-</span>     *  
-     *  ``Function`` The user-defined handler-method to invoke as handler for 
-     *  the button.
+<span id='GXM-Button-property-uHandler'>    /**
+</span>     *  @private
+     *  @property {Function} uHandler
+     *  The user-defined handler-method to invoke as handler for the button.
      */
     uHandler: null,
     
-<span id='GXM-Button-property-togglePressCls'>    /** private: property[togglePressCls]
-</span>     *  
-     *  ``String``  The CSS class name the button has in case of beeing pressed.
-     *  Defaults to ``x-button-pressed``.
+<span id='GXM-Button-property-togllePressCls'>    /**
+</span>     *  @private
+     *  @property {String} togllePressCls
+     *  The CSS class name the button has in case of beeing pressed.
      */
     togglePressCls: 'x-button-pressed',
     
-<span id='GXM-Button-property-olMap'>    /** api: property[olMap]
-</span>     *  
-     *  ``OpenLayers.Map``  The reference to the related OpenLayers Map object.
+<span id='GXM-Button-property-olMap'>    /**
+</span>     *  @property {OpenLayers.Map} olMap
+     *  The reference to the related OpenLayers Map object.
      *  This is for readonly use. To pass a map object to this class use the
      *  :attr:`map` config option. 
      */
     olMap: null,
     
-<span id='GXM-Button-property-config'>    /**
-</span>     * These do all get a getter-, setter- and applier-method
-     */
+    
+    // These do all get a getter-, setter- and applier-method
+    
     config: {
     	
-<span id='GXM-Button-property-control'>        /** api: config[control] 
-</span>         * 
-         *  ``OpenLayers.Control`` The control instance that this button shall work
-         *  on.
+<span id='GXM-Button-cfg-control'>        /** 
+</span>         *  @cfg {OpenLayers.Control} control 
+         *  The control instance that this button shall work on.
          */
         control: null,
         
-<span id='GXM-Button-property-map'>        /** api: config[map] 
-</span>         * 
-         *  ``GXM.Map`` The GXM Map component this button belongs to. Might be used to 
+<span id='GXM-Button-cfg-map'>        /** 
+</span>         *  @cfg {GXM.Map} map
+         *  The GXM Map component this button belongs to. Might be used to 
          *  derive the corresponding OpenLayers Map object.
          */
         map:  null,
         
-<span id='GXM-Button-property-exclusiveGroup'>        /** api: config[exclusiveGroup]
-</span>         * 
-         *  ``String``  An identifier for the exclusive group of GXM-Buttons that
+<span id='GXM-Button-cfg-exclusiveGroup'>        /**
+</span>         *  @cfg {String} exclusiveGroup
+         *  An identifier for the exclusive group of GXM-Buttons that
          *  this button belongs to. This can be used to press/unpress buttons that
          *  would otherwise compete with each other. 
          *  
@@ -148,16 +133,15 @@ Ext.define('GXM.Button', {
          */
         exclusiveGroup: null,
         
-<span id='GXM-Button-property-pressed'>        /** api: config[pressed] 
-</span>         * 
+<span id='GXM-Button-cfg-pressed'>        /** 
+</span>         *  @cfg {Boolean} pressed
          *  ``Boolean`` The initial state of this button.
-         *  Defaults to ``false``.
          */
         pressed: false
     },
     
-<span id='GXM-Button-method-constructor'>    /** private: method[constructor]
-</span>     * 
+<span id='GXM-Button-method-constructor'>    /**
+</span>     *  @private
      *  The constructor function
      */
     constructor: function(config){
@@ -171,8 +155,8 @@ Ext.define('GXM.Button', {
         this.callParent(arguments);
     },
     
-<span id='GXM-Button-method-initialize'>    /** private: method[initialize]
-</span>     * 
+<span id='GXM-Button-method-initialize'>    /**
+</span>     *  @private
      *  Initializes the Component.
      */
     initialize: function(){
@@ -204,18 +188,24 @@ Ext.define('GXM.Button', {
             
             // register the handlers that sync the visual pressed
             // state with the controls active-state
-            this.getControl().events.on({
-                activate: this.onCtrlActivate,
-                deactivate: this.onCtrlDeactivate,
-                scope: this
-            });
+            	this.getControl().events.on({
+                    activate: this.onCtrlActivate,
+                    deactivate: this.onCtrlDeactivate,
+                    scope: this
+                });
+            // remove the control before we destroy the button
+            // in case the control was not added to the map before
+            	this.onBefore(&quot;destroy&quot;, function() {
+                	if (this.autoadded) {
+                		this.getControl().destroy();
+                	}
+                }, this);
         }
     },
     
-<span id='GXM-Button-method-applyPressed'>    /** private: method[applyPressed]
-</span>     * 
-     *  ``Function`` Intersects the :func:`setPressed` function.
-     *  Adds the corresponding CSS class.
+<span id='GXM-Button-method-applyPressed'>    /**
+</span>     *  @private
+     *  Intersects the :func:`setPressed` function. Adds the corresponding CSS class.
      */
     applyPressed: function(newPressedVal){
         if (this.getControl() &amp;&amp; this.getControl().map) {
@@ -230,39 +220,45 @@ Ext.define('GXM.Button', {
         return newPressedVal;
     },
     
-<span id='GXM-Button-method-onCtrlActivate'>    /** private: method[onCtrlActivate]
-</span>     * 
+<span id='GXM-Button-method-onCtrlActivate'>    /**
+</span>     *  @private
      *  Called when the configured control is activated. Handles the 
      *  deactivation of the other OpenLayers.Controls and the updating of the 
-     *  visual states (removal of `pressedCls`).
+     *  visual states (removal of `pressedCls`), but only when using a 
+     *  segmented button and an exclusiveGroup
      */
     onCtrlActivate: function(){
-        var exclusiveGroupMembers = this.getExclusiveGroupMembers();
-        var myId = this.id;
-        this._isDeactivating = true;
-        Ext.each(exclusiveGroupMembers, function(member) {
-            var elem = member.element;
-            if (myId !== member.id) {
-                member.setPressed(false);
-            }
-        });
-        this._isDeactivating = false;
-
-        this.setPressed(true);
-    },
-    
-<span id='GXM-Button-method-onCtrlDeactivate'>    /** private: method[onCtrlDeactivate]
-</span>     * 
-     *  Called on control deactivation. Removes this button's `pressedCls`
-     */
-    onCtrlDeactivate: function(){
-        if(!this._isDeactivating) {
-            this.setPressed(false);
+        if (this.getExclusiveGroup()) {
+	        var exclusiveGroupMembers = this.getExclusiveGroupMembers();
+	        var myId = this.id;
+	        this._isDeactivating = true;
+	        Ext.each(exclusiveGroupMembers, function(member) {
+	            var elem = member.element;
+	            if (myId !== member.id) {
+	                member.setPressed(false);
+	            }
+	        });
+	        this._isDeactivating = false;
+	
+	        this.setPressed(true);
         }
     },
     
-<span id='GXM-Button-method-pHandler'>    /** private: method[pHandler]
-</span>     *  
+<span id='GXM-Button-method-onCtrlDeactivate'>    /** 
+</span>     *  @private
+     *  Called on control deactivation. Removes this button's `pressedCls`,
+     *  but only when using a segmented button and an exclusiveGroup
+     */
+    onCtrlDeactivate: function(){
+    	if (this.getExclusiveGroup()) {
+	        if(!this._isDeactivating) {
+	            this.setPressed(false);
+	        }
+    	}
+    },
+    
+<span id='GXM-Button-method-pHandler'>    /** 
+</span>     *  @private
      *  The auto-defined handler-method to invoke as handler for 
      *  the button. Handles the activation/deactivation or triggering of the 
      *  configured OpenLayers.Control.
@@ -286,13 +282,13 @@ Ext.define('GXM.Button', {
         }
     },
     
-<span id='GXM-Button-method-getExclusiveGroupMembers'>    /** api: method[getExclusiveGroupMembers]
-</span>     *  :return:  ``Array(GXM.Button)`` An array of all members of the 
-     *      :attr:`exclusiveGroup` that this Button belongs to.
-     *  
-     *  Returns an array of all members of the :attr:`exclusiveGroup` that this
+<span id='GXM-Button-method-getExclusiveGroupMembers'>    /** 
+</span>     *  Returns an array of all members of the :attr:`exclusiveGroup` that this
      *  Button belongs to.
-     */ 
+     *  
+     *  @return {GXM.Button[]} An array of all members of the :attr:`exclusiveGroup`
+     *  that this Button belongs to.
+     */     
     getExclusiveGroupMembers: function(){
         var members = [];
         var myGroup = this.getExclusiveGroup();
