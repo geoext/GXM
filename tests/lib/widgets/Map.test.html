@@ -318,7 +318,7 @@ function test_MapManelsLayerStore(t){
         getLazyMapPanel({layers:[layer.clone()], desc:'lazy plain w/ layers', fullscreen: true}), 
         getLazyMapPanel({map:map2, layers:[layer.clone()], desc:'lazy w/ map and w/layers', fullscreen: true}) 
     ];
-    t.plan(2 * mappanels.length);
+    t.plan(4 * mappanels.length);
     var isStoreInstance = false;
     Ext.each(mappanels, function(mappanel) {
         isStoreInstance = mappanel.layers instanceof GXM.data.LayerStore;
@@ -328,25 +328,22 @@ function test_MapManelsLayerStore(t){
                 
             t.eq(mappanel.layers.getModel().getName(), 'GXM.data.LayerModel', 
                 '...the store has the right modelName "GXM.data.LayerModel" bound.');
-            /*
-             *
-             * 
-             * TODO 
-             * 
-             *
-             * 
             // check the field "layer"
-            var firstOrLast = (mappanel.layers.sorters.get(0).direction === "DESC") 
-                                  ? 'last' 
-                                  : 'first';
+            var direction = mappanel.layers.getSorters()[0].getDirection();
+            var firstOrLast = (direction === "DESC") 
+                            ? 'last' 
+                            : 'first';
             var rec = mappanel.layers[firstOrLast]();
+            
             // is it an OpenLayers Layer?
             t.ok(rec.getLayer() instanceof OpenLayers.Layer, 
                 '...the first record has a method to get a layer and it returns an OpenLayers.Layer-instance.');
             // is it the correct one?
-            t.eq(rec.getLayer().id, mappanel.map.layers[0].id, 
+            // TODO does this work with different directions?
+            t.eq(rec.getLayer().id, mappanel.getMap().layers[0].id, 
                 '...that records getLayer() method has the correct layer reference (id="' + rec.getLayer().id + '").');
-            */
+            
+            
         } else {
             t.fail("mappanel.layers wasn't an instance of GXM.data.LayerStore, fail this test.");
             t.fail("mappanel.layers wasn't an instance of GXM.data.LayerStore, fail this test.");
