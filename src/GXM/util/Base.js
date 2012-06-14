@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
@@ -7,15 +7,9 @@
  * text of the license.
  */
 
-/** api: (define)
- *  module = GXM.util
- *  class = Base
- */
-
-/** api: constructor
- *  .. class:: Base(config)
- *   
- *      The class that is used to access the static util methods
+/**
+ * @class GXM.util.Base
+ * The class that is used to access the static util methods
  */
 Ext.define('GXM.util.Base', {
     
@@ -25,12 +19,12 @@ Ext.define('GXM.util.Base', {
     
     statics: {
     	
-        /** api: method[createConfigAlias]
-         *  :param cls: ``Object`` The class object to manipulate
-         *  :param alias: ``String`` The alias to set for the config
-         *  :param origin: ``String`` The config to be aliased
-         *  
+        /**
          *  Creates an alias for a config property of a class.
+         *  @param {Object} cls The class object to manipulate
+         *  @param {String} alias The alias to set for the config
+         *  @param {String} origin The config to be aliased
+         *  @static
          */ 
         createConfigAlias: function(cls, alias, origin) {
             // Our strategy: 

@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -24,20 +24,10 @@
  * text of the license.
  */
 
-<span id='global-property-'>/**
-</span> * @requires GXM/data/models/Layer.js
- */
-
-<span id='global-property-'>/** api: (define)
-</span> *  module = GXM.data
- *  class = LayerStore
- *  base_link = `Ext.data.Store &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Store&gt;`_
- */
-
-<span id='GXM-data-LayerStore'>/** api: constructor
-</span> *  .. class:: LayerStore(config)
+<span id='GXM-data-LayerStore'>/**
+</span> *  @class GXM.data.LayerStore
  *   
- *      The class that is used to construct a GXM LayerStore.
+ *  The class that is used to construct a GXM LayerStore.
  */
 Ext.define('GXM.data.LayerStore', {
     extend: 'Ext.data.Store',
@@ -48,18 +38,15 @@ Ext.define('GXM.data.LayerStore', {
     xtype: 'gxm_layerstore',
     config: {
     	
-<span id='GXM-data-LayerStore-property-model'>        /** api: config[model]
-</span>         * 
-         *  ``String`` The identifier for the model to be used. 
-         *  Defaults to ``gxm_layer``.
+<span id='GXM-data-LayerStore-cfg-model'>        /** 
+</span>         * @cfg {string} model
+         *  The identifier for the model to be used. 
          */
         model: 'GXM.data.LayerModel',
         
-<span id='GXM-data-LayerStore-property-proxy'>        /** api: config[proxy]
-</span>         * 
-         *  ``String/Ext.data.Proxy/Object`` The proxy to be used by the store.
-         *  Defaults to a configuration object for a `Ext.data.MemoryProxy &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.proxy.Memory&gt;`_
-         *  that has a `Ext.data.reader.Json &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.reader.Json&gt;`_ set as `reader`-property.
+<span id='GXM-data-LayerStore-cfg-proxy'>        /** 
+</span>         * @cfg {String/Ext.data.Proxy/Object} proxy
+         *  The proxy to be used by the store.
          */
         proxy: {
             type: 'memory',
@@ -70,11 +57,11 @@ Ext.define('GXM.data.LayerStore', {
         }
     },
     
-<span id='GXM-data-LayerStore-method-getLayerByIndex'>    /** api: method[getLayerByIndex]
-</span>     *  :param idx: ``Integer`` The index of the record having the layer to return.
-     *  :return:  ``OpenLayers.Layer`` The layer object the record at the given index contains.
+<span id='GXM-data-LayerStore-method-getLayerByIndex'>    /**
+</span>     *  Returns the layer object of the record at the given index.
+     *  @param {Integer} idx The index of the record having the layer to return.
+     *  @return {OpenLayers.Layer} The layer object the record at the given index contains.
      *  
-     *  Returns the layer object of the record at the given index.
      */ 
     getLayerByIndex: function(idx) {
         return this.getAt(idx).raw;
