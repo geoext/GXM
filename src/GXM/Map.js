@@ -100,7 +100,7 @@ Ext.define('GXM.Map', {
     controls: null,
     
     config: {
-    	
+        
         /** api: config[map]
          * 
          *  ``OpenLayers.Map or Object``  A configured map or a configuration object
@@ -142,6 +142,14 @@ Ext.define('GXM.Map', {
         if (config.map instanceof OpenLayers.Map) {
             this._map = config.map;
             delete config.map;
+        }
+        if (config.mapCenter instanceof OpenLayers.LonLat) {
+            this._mapCenter = config.mapCenter;
+            delete config.mapCenter;
+        }
+        if (config.mapExtent instanceof OpenLayers.Bounds) {
+            this._mapExtent = config.mapExtent;
+            delete config.mapExtent;
         }
         
         this.callParent(arguments);
