@@ -23,16 +23,19 @@
  * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
  * text of the license.
  */
-
-Ext.Loader.setConfig({
-    enabled: true,
-    disableCaching: false,
-    paths: {
-        GXM: &quot;../src/GXM&quot;,
-        Ext: &quot;http://cdn.sencha.io/touch/sencha-touch-2.0.1/src&quot;
-    }
+<span id='GXM'>/**
+</span> * The GXM root object
+ * @class GXM
+ * @singleton
+ */
+Ext.define('GXM.version', {
+    singleton: true
 });
-
-</pre>
+<span id='GXM-property-version'>/**
+</span> * @property {String} version
+ * 
+ * The version of GXM.
+ */
+GXM.version = 'pre-0.2';</pre>
 </body>
 </html>

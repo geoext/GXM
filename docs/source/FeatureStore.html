@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Copyright (c) 2012 The Open Source Geospatial Foundation
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -24,20 +24,10 @@
  * text of the license.
  */
 
-<span id='global-property-'>/**
-</span> * @requires GXM/data/models/Feature.js
- */
-
-<span id='global-property-'>/** api: (define)
-</span> *  module = GXM.data
- *  class = FeatureStore
- *  base_link = `Ext.data.Store &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Store&gt;`_
- */
-
-<span id='GXM-data-FeatureStore'>/** api: constructor
-</span> *  .. class:: FeatureStore(config)
- *   
- *      The class that is used to construct a GXM FeatureStore.
+<span id='GXM-data-FeatureStore'>/**
+</span> * @class GXM.data.FeatureStore
+ * 
+ * The class that is used to construct a GXM FeatureStore. 
  */
 Ext.define('GXM.data.FeatureStore', {
     extend: 'Ext.data.Store',
@@ -45,21 +35,18 @@ Ext.define('GXM.data.FeatureStore', {
         'GXM.version',
         'GXM.data.FeatureModel'
     ],
+    xtype: 'gxm_featurestore',
     config: {
-    	
-<span id='GXM-data-FeatureStore-property-model'>        /** api: config[model]
-</span>         * 
-         *  ``String`` The identifier for the model to be used. 
-         *  Defaults to ``gxm_layer``.
+
+<span id='GXM-data-FeatureStore-cfg-model'>    	/** @cfg {string} model
+</span>         *  The identifier for the model to be used.
          */
         model: 'GXM.data.FeatureModel',
         
-<span id='GXM-data-FeatureStore-property-proxy'>        /** api: config[proxy] 
-</span>         * 
-         *  ``String/Ext.data.Proxy/Object`` The proxy to be used by the store.
-         *  Defaults to a configuration object for a `Ext.data.MemoryProxy &lt;http://docs.sencha.com/touch/2-0/#!/api/Ext.data.proxy.Memory&gt;`_
-         *  that has a :class:`Ext.data.reader.Json` set as `reader`-property.
+<span id='GXM-data-FeatureStore-cfg-proxy'>        /** @cfg {String/Ext.data.Proxy/Object} proxy 
+</span>         *  The proxy to be used by the store.
          */
+        
         proxy: {
             type: 'memory',
             reader: {
@@ -67,6 +54,15 @@ Ext.define('GXM.data.FeatureStore', {
                 root: ''
             }
         }
+    },
+    
+<span id='GXM-data-FeatureStore-method-getFeatureByIndex'>    /**
+</span>     *  Returns the feature object of the record at the given index.
+     *  @param {Integer} idx The index of the record having the feature to return.
+     *  @return  {OpenLayers.Feature} The feature object the record at the given index contains.
+     */     
+    getFeatureByIndex: function(idx) {
+        return this.getAt(idx).raw;
     }
 });</pre>
 </body>

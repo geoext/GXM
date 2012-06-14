@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
@@ -8,19 +8,9 @@
  */
 
 /**
- * @requires GXM/data/models/Feature.js
- */
-
-/** api: (define)
- *  module = GXM.data
- *  class = FeatureStore
- *  base_link = `Ext.data.Store <http://docs.sencha.com/touch/2-0/#!/api/Ext.data.Store>`_
- */
-
-/** api: constructor
- *  .. class:: FeatureStore(config)
- *   
- *      The class that is used to construct a GXM FeatureStore.
+ * @class GXM.data.FeatureStore
+ * 
+ * The class that is used to construct a GXM FeatureStore. 
  */
 Ext.define('GXM.data.FeatureStore', {
     extend: 'Ext.data.Store',
@@ -30,20 +20,16 @@ Ext.define('GXM.data.FeatureStore', {
     ],
     xtype: 'gxm_featurestore',
     config: {
-        
-        /** api: config[model]
-         * 
-         *  ``String`` The identifier for the model to be used. 
-         *  Defaults to ``gxm_layer``.
+
+    	/** @cfg {string} model
+         *  The identifier for the model to be used.
          */
         model: 'GXM.data.FeatureModel',
         
-        /** api: config[proxy] 
-         * 
-         *  ``String/Ext.data.Proxy/Object`` The proxy to be used by the store.
-         *  Defaults to a configuration object for a `Ext.data.MemoryProxy <http://docs.sencha.com/touch/2-0/#!/api/Ext.data.proxy.Memory>`_
-         *  that has a :class:`Ext.data.reader.Json` set as `reader`-property.
+        /** @cfg {String/Ext.data.Proxy/Object} proxy 
+         *  The proxy to be used by the store.
          */
+        
         proxy: {
             type: 'memory',
             reader: {
@@ -53,12 +39,11 @@ Ext.define('GXM.data.FeatureStore', {
         }
     },
     
-    /** api: method[getFeatureByIndex]
-     *  :param idx: ``Integer`` The index of the record having the feature to return.
-     *  :return:  ``OpenLayers.Feature`` The feature object the record at the given index contains.
-     *  
+    /**
      *  Returns the feature object of the record at the given index.
-     */ 
+     *  @param {Integer} idx The index of the record having the feature to return.
+     *  @return  {OpenLayers.Feature} The feature object the record at the given index contains.
+     */     
     getFeatureByIndex: function(idx) {
         return this.getAt(idx).raw;
     }

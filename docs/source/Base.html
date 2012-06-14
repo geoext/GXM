@@ -15,8 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Copyright (c) 2011 The Open Source Geospatial Foundation
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2011 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -24,15 +24,9 @@
  * text of the license.
  */
 
-<span id='global-property-'>/** api: (define)
-</span> *  module = GXM.util
- *  class = Base
- */
-
-<span id='GXM-util-Base'>/** api: constructor
-</span> *  .. class:: Base(config)
- *   
- *      The class that is used to access the static util methods
+<span id='GXM-util-Base'>/**
+</span> * @class GXM.util.Base
+ * The class that is used to access the static util methods
  */
 Ext.define('GXM.util.Base', {
     
@@ -42,12 +36,12 @@ Ext.define('GXM.util.Base', {
     
     statics: {
     	
-<span id='GXM-util-Base-method-createConfigAlias'>        /** api: method[createConfigAlias]
-</span>         *  :param cls: ``Object`` The class object to manipulate
-         *  :param alias: ``String`` The alias to set for the config
-         *  :param origin: ``String`` The config to be aliased
-         *  
-         *  Creates an alias for a config property of a class.
+<span id='GXM-util-Base-static-method-createConfigAlias'>        /**
+</span>         *  Creates an alias for a config property of a class.
+         *  @param {Object} cls The class object to manipulate
+         *  @param {String} alias The alias to set for the config
+         *  @param {String} origin The config to be aliased
+         *  @static
          */ 
         createConfigAlias: function(cls, alias, origin) {
             // Our strategy: 
