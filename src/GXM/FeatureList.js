@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
@@ -7,39 +7,30 @@
  * text of the license.
  */
 
-/** api: (define)
- *  module = GXM
- *  class = FeatureList
- *  base_link = `Ext.List <http://docs.sencha.com/touch/2-0/#!/api/Ext.dataview.List>`_
- */
 
-/** api: example
+/**
+ * @class GXM.FeatureList
+ * 
+ *  The class that is used to construct a GXM FeatureList.
+ * 
  *  Sample code to create a GXM.FeatureList:
  * 
- *  .. code-block:: javascript
  *  
- *     var featureList = {
- *         xtype : 'gxm_featurelist',
- *         layer : layerVector,
- *         title : 'FeatureList',
- *         listeners : {
- *             itemtap : function(list, idx, target, record, e, eOpts) {
- *                 var feature = record.getFeature(), 
- *                     geom = feature.geometry, 
- *                     center = new OpenLayers.LonLat(geom.x, geom.y), 
- *                     zoom = 5
- *                 mapPanel.getMap().setCenter(center, zoom);
- *                 tp.setActiveItem(mapPanel);
- *             }
- *         }
- *     };
- *    
- */
-
-/** api: constructor
- *  .. class:: FeatureList(config)
- *   
- *      The class that is used to construct a GXM FeatureList.
+ *      var featureList = {
+ *          xtype : 'gxm_featurelist',
+ *          layer : layerVector,
+ *          title : 'FeatureList',
+ *          listeners : {
+ *              itemtap : function(list, idx, target, record, e, eOpts) {
+ *                  var feature = record.getFeature(), 
+ *                      geom = feature.geometry, 
+ *                      center = new OpenLayers.LonLat(geom.x, geom.y), 
+ *                      zoom = 5
+ *                  mapPanel.getMap().setCenter(center, zoom);
+ *                  tp.setActiveItem(mapPanel);
+ *              }
+ *          }
+ *      };
  */
 Ext.define('GXM.FeatureList', {
 
@@ -52,49 +43,45 @@ Ext.define('GXM.FeatureList', {
    
     xtype : 'gxm_featurelist',
     
-    /** api: property[olLayer]
-     * 
-     *  `OpenLayers.Layer.Vector <http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Layer/Vector-js.html>`_  references the 
+    /**
+     *  @property {OpenLayers.Layer.Vector} olLayer
+     *  references the 
      *  layer that was used to instantiate this list.
      */
     olLayer: null,
     
     config: {
         
-        /** api: config[map] 
-         * 
-         *  :class:`GXM.Map` The GXM Map component this `FeatureList` refers to. 
-         *  Might be used to derive the corresponding OpenLayers Map object.
+        /** 
+         *  @cfg {GXM.Map} map
+         *  The GXM Map component this `FeatureList` refers to. Might be used to derive
+         *  the corresponding OpenLayers Map object.
          */
         map: null,
         
-        /** api: config[store]
-         * 
-         *  :class:`GXM.data.FeatureStore` The featurestore this list is about 
-         *  to use.
+        /**
+         *  @cfg {GXM.data.FeatureStore}
+         *  The featurestore this list is about to use.
          */
         store: null,
         
-        /** api: config[layer]
-         * 
-         *  `OpenLayers.Layer.Vector <http://dev.openlayers.org/releases/OpenLayers-2.11/doc/apidocs/files/OpenLayers/Layer/Vector-js.html>`_ 
+        /** 
+         *  @cfg {OpenLayers.Layer.Vector} layer
          *  The layer this list is about to derive featuires from for display 
-         *  inside the list. Will override any existing configuration for 
-         *  :attr:`store`.
+         *  inside the list. Will override any existing configuration for :attr:`store`.
          */
         layer: null,
         
-        /** api: config[itemTpl]
-         * 
-         *  `Ext.XTemplate <http://docs.sencha.com/touch/2-0/#!/api/Ext.XTemplate>`_
+        /**
+         *  @cfg {Ext.XTemplate} itemTpl
          *  The template used to render every list-item of the list of features. 
          *  If not provided, a rudimentary template is being used. 
          */
         itemTpl: null
     },
     
-    /** private: method[constructor]
-     * 
+    /** 
+     *  @private
      *  The constructor function
      */
     constructor: function(config) {
@@ -105,8 +92,8 @@ Ext.define('GXM.FeatureList', {
         this.callParent(arguments);
     },
     
-    /** private: method[initialize]
-     * 
+    /**
+     *  @private
      *  Initializes the Component.
      */
     initialize: function() {
@@ -161,18 +148,15 @@ Ext.define('GXM.FeatureList', {
         this.callParent();
     },
     
-    /** private: method[prepareData]
-     *  :param data: ``Object`` The raw data object that was used to create the
-     *      record.
-     *  :param index: ``Number`` the index number of the Record being prepared 
-     *      for rendering.
-     *  :param record: ``Record`` The Record being prepared for rendering.
-     *  
-     *  :return: ``Object`` the adjusted data with a new member ``feature`` 
-     *      referencing the raw ``OpenLayers.Feature``-object
-     *      
+    /**
+     *  @private
      *  A private method to give this DataViews template-methods access to the 
      *  raw ``OpenLayers.Feature``-object.
+     *  @param {Object} data The raw data object that was used to create the record.
+     *  @param {Number} index the index number of the Record being prepared for rendering.
+     *  @param {Recod} record The Record being prepared for rendering
+     *  @return {Object} the adjusted data with a new member ``feature`` referencing the
+     *  raw ``OpenLayers.Feature``-object
      */
     prepareData: function(data, index, record) {
         if (record) {
@@ -181,18 +165,18 @@ Ext.define('GXM.FeatureList', {
         return data;
     },
         
-    /** private: method[onFeatureAdded]
-     *  :param evt: ``Ext.EventObject`` The event-object 
-     *  
+    /**
+     *  @private
+     *  @param {Ext.EventObject} evt The event-object
      *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureAdded: function(evt) {
         this.getStore().add(evt.feature);
     },
     
-    /** private: method[onFeatureRemoved]
-     *  :param evt: ``Ext.EventObject`` The event-object 
-     *  
+    /**
+     *  @private
+     *  @param {Ext.EventObject} evt The event-object
      *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureRemoved: function(evt) {
@@ -202,8 +186,8 @@ Ext.define('GXM.FeatureList', {
         this.getStore().remove(rec);
     },
     
-    /** private: method[destroy]
-     *  
+    /**
+     *  @private
      *  Called prior to destroying the list. We remove all our registered 
      *  handlers and nullify relevant properties.
      */

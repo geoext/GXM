@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
@@ -14,4 +14,9 @@
 Ext.define('GXM.version', {
     singleton: true
 });
+/**
+ * @property {String} version
+ * 
+ * The version of GXM.
+ */
 GXM.version = 'pre-0.2';
