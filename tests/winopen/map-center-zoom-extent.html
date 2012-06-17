@@ -3,12 +3,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-        <title>GXM: Examples of the GXM.Map-class</title>
+        <title>GXM: Test for the GXM.Map-class</title>
 
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
         <meta name="apple-mobile-web-app-capable" content="yes">
         
-                <title>Map.test.html</title>
         <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
         <link rel="stylesheet" href="../../resources/css/gxm.css" type="text/css">
@@ -36,53 +35,53 @@
         
 // globals tested in the testsuite:
 var testExpectations = {
-        centerAndZoom: {
-            moveToCnt : 1,
-            centerAsString: "lon=5,lat=45",
-            zoom: 4,
-            mapPanelId: null // will be set directly from the mappanel itself
-        },
-        zoomOnly: {
-            zoom: 4
-        },
-        center: {
-            fromOpenLayersLonLatObject: "lon=1,lat=1",
-            fromString: "lon=2,lat=2",
-            fromArray: "lon=3,lat=3"
-        },
-        extent: {
-            fromOpenLayersBoundsObject: "1,2,3,4",
-            fromArray: "5,6,7,8"
-        },
-        render: {
-            renderCalled: true,
-            elements: null // will be set in the test
-        }
+    centerAndZoom: {
+        moveToCnt : 1,
+        centerAsString: "lon=5,lat=45",
+        zoom: 4,
+        mapPanelId: null // will be set directly from the mappanel itself
     },
-    testResults = {
-        centerAndZoom: {
-            moveToCnt : null,
-            centerAsString: null,
-            zoom: null,
-            mapPanelId: null // will be derived from GXM.Map::guess()
-        },
-        zoomOnly: {
-            zoom: null
-        },
-        center: {
-            fromOpenLayersLonLatObject: null,
-            fromString: null,
-            fromArray: null
-        },
-        extent: {
-            fromOpenLayersBoundsObject: null,
-            fromArray: null
-        },
-        render: {
-            renderCalled: null,
-            elements: []
-        }
-    };
+    zoomOnly: {
+        zoom: 4
+    },
+    center: {
+        fromOpenLayersLonLatObject: "lon=1,lat=1",
+        fromString: "lon=2,lat=2",
+        fromArray: "lon=3,lat=3"
+    },
+    extent: {
+        fromOpenLayersBoundsObject: "1,2,3,4",
+        fromArray: "5,6,7,8"
+    },
+    render: {
+        renderCalled: true,
+        elements: null // will be set in the test
+    }
+};
+var testResults = {
+    centerAndZoom: {
+        moveToCnt : null,
+        centerAsString: null,
+        zoom: null,
+        mapPanelId: null // will be derived from GXM.Map::guess()
+    },
+    zoomOnly: {
+        zoom: null
+    },
+    center: {
+        fromOpenLayersLonLatObject: null,
+        fromString: null,
+        fromArray: null
+    },
+    extent: {
+        fromOpenLayersBoundsObject: null,
+        fromArray: null
+    },
+    render: {
+        renderCalled: null,
+        elements: []
+    }
+};
 
 
         
@@ -169,7 +168,6 @@ function createStandardMapPanels() {
     var logger = {};
     var map = new OpenLayers.Map({allOverlays:true});
     map.zoomToExtent = function(extent, force){
-        console.log('in map:zoomToExtent', extent);
         logger.extent = extent;
     };
     
@@ -189,7 +187,6 @@ function createStandardMapPanels() {
     logger = {};
     map = new OpenLayers.Map({allOverlays:true});
     map.zoomToExtent = function(extent, force){
-        console.log('in map:zoomToExtent', extent);
         logger.extent = extent;
     };
     mappanel = Ext.create('GXM.Map', {
@@ -281,7 +278,5 @@ Ext.setup({
 
         </script>
     </head>
-    <body>
-    
-    </body>
+    <body></body>
 </html>
