@@ -84,7 +84,9 @@ function getMultiLayerMapPanel(){
     });
 
     var mappanel = Ext.create('GXM.Map', {
-        map: map
+        map: map,
+        title: 'foo',
+        iconCls: 'user'
     });
     return mappanel;
 }
@@ -97,7 +99,9 @@ function test_basics(t) {
     
         var layerlist = {
             xtype: 'gxm_layerlist',
-            map: mappanel
+            map: mappanel,
+            title: 'bar',
+            iconCls: 'user'
         };
     
         var myTabPanel = Ext.create('Ext.TabPanel', {
@@ -240,6 +244,8 @@ function test_updatingHtml(t){
         var mappanel = getMultiLayerMapPanel();
         
         var layerlist = {
+            title: 'bar',
+            iconCls: 'user',
             xtype: 'gxm_layerlist',
             map: mappanel
         };
@@ -332,7 +338,9 @@ function test_destroy(t) {
         });
         
         var mappanel = Ext.create('GXM.Map', {
-            map: map
+            map: map,
+            title: 'foo',
+            iconCls: 'user'
         });
         
         // remove existing default handlers to make comparison easy:
@@ -342,7 +350,9 @@ function test_destroy(t) {
         
         var layerlist = {
             xtype: 'gxm_layerlist',
-            map: mappanel
+            map: mappanel,
+            title: 'bar',
+            iconCls: 'user'
         };
     
         var myTabPanel = Ext.create('Ext.TabPanel', {

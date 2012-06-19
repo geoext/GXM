@@ -38,7 +38,9 @@ function getMapPanel() {
     });
 
     var mappanel = Ext.create('GXM.Map', {
-        map: map
+        map: map,
+        title: 'foo',
+        iconCls: 'user'
     });
     return mappanel;
 }
@@ -57,7 +59,9 @@ function getActiveFeatureListPanel(numOfFeatures, useCustomTpl) {
     
     var featurelist = {
         xtype: 'gxm_featurelist',
-        layer: vectorLayer
+        layer: vectorLayer,
+        title: 'bar',
+        iconCls: 'user'
     };
     if (useCustomTpl===true) {
         
