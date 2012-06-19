@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require([
+            'GXM.data.AttributeModel'
+        ]);
+
+        function test_constructor(t) {
+            t.plan(3);
+
+            var record;
+
+            record = Ext.create('GXM.data.AttributeModel', {
+                name: "foo"
+            });
+
+            t.ok(record instanceof GXM.data.AttributeModel, "ctor creates correct class");
+            t.ok(record.getProxy() instanceof Ext.data.proxy.Ajax,
+                "ctor creates an ajax proxy if none is provided");
+            t.eq(record.get("name"), "foo",
+                "ctor populates field values");
+        }
+
+        function test_extend(t) {
+            t.plan(1);
+
+            var Model = Ext.Class({
+                extend: 'GXM.data.AttributeModel',
+                config:{
+                    fields: [{name: 'foo', type: 'string'}]
+                }
+            });
+
+            t.ok(Model.prototype.fields.get('foo') !== undefined,
+                 'fields are added when subclassing');
+        }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
