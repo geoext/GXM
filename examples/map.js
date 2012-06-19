@@ -35,7 +35,7 @@ Ext.setup({
                     }
                 }), 
                 new OpenLayers.Control.Attribution(),
-                new OpenLayers.Control.Navigation(),
+                new OpenLayers.Control.Navigation()
             ]
         });
                 
@@ -78,7 +78,7 @@ Ext.setup({
                             }
                         }),
                         new OpenLayers.Control.Attribution(),
-                        new OpenLayers.Control.Navigation(),
+                        new OpenLayers.Control.Navigation()
                     ],
                     title : '&hellip; layers',
                     sourceCode: example.utility.getExampleCode('mappanel-layers')
@@ -100,7 +100,7 @@ Ext.setup({
                             }
                         }),
                         new OpenLayers.Control.Attribution(),
-                        new OpenLayers.Control.Navigation(),
+                        new OpenLayers.Control.Navigation()
                     ],
                     title : '&hellip; center',
                     sourceCode: example.utility.getExampleCode('mappanel-center')
@@ -120,7 +120,7 @@ Ext.setup({
                             }
                         }),
                         new OpenLayers.Control.Attribution(),
-                        new OpenLayers.Control.Navigation(),
+                        new OpenLayers.Control.Navigation()
                     ],
                     title : '&hellip; extent',
                     sourceCode: example.utility.getExampleCode('mappanel-extent')

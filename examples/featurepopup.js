@@ -20,8 +20,6 @@ Ext.require([
     'GXM.FeaturePopup'
 ]);
 
-
-
 Ext.setup({
     onReady : function() {
         // Create a random string (used for the description of a random feature)
@@ -68,7 +66,7 @@ Ext.setup({
                 fontSize : "12px",
                 fontFamily : "sans-serif",
                 labelXOffset : "0",
-                labelYOffset : "-10",
+                labelYOffset : "-10"
             })
         });
         
@@ -117,7 +115,7 @@ Ext.setup({
         };
         
         // A button to show relevant code parts
-        var btnSource = example.utility.getSourceCodeButton('featurepopup')
+        var btnSource = example.utility.getSourceCodeButton('featurepopup');
         
         // Create the viewport
         var viewport = Ext.create('Ext.TabPanel', {

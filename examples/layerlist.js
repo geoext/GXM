@@ -19,7 +19,6 @@ Ext.require([
     'GXM.LayerList'
 ]);
 
-
 Ext.setup({
     viewport : {
         autoMaximize : true
@@ -145,7 +144,7 @@ Ext.setup({
                     });
                     this.overlay.show();
                 }
-            }
+            };
         
         // Create the viewports
         var viewport = Ext.create('Ext.TabPanel', {

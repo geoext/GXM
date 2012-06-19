@@ -19,9 +19,6 @@ Ext.require([
     'GXM.FeatureList'
 ]);
 
-
-
-
 Ext.setup({
     viewport : {
         autoMaximize : true
@@ -70,7 +67,7 @@ Ext.setup({
                 fontSize : "12px",
                 fontFamily : "sans-serif",
                 labelXOffset : "0",
-                labelYOffset : "-10",
+                labelYOffset : "-10"
             })
         });
         
@@ -140,7 +137,7 @@ Ext.setup({
                     var feature = record.getFeature(), 
                         geom = feature.geometry, 
                         center = new OpenLayers.LonLat(geom.x, geom.y), 
-                        zoom = 5
+                        zoom = 5;
                     mapPanel.getMap().setCenter(center, zoom);
                     viewport.setActiveItem(mapPanel);
                 }
