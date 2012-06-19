@@ -14,6 +14,11 @@
  *  can be used to manage and control OpenLayers.Control-instances. 
  */
 
+Ext.require([
+    'GXM.Map',
+    'GXM.Button'
+]);
+
 Ext.setup({
     viewport : {
         autoMaximize : true
