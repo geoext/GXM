@@ -7,13 +7,6 @@
  * text of the license.
  */
 
-/** api: example[featurelist]
- *  MapPanel and interacting Featurelist
- *  ----------------
- *  This example shows the use of the GXM.FeatureList-class to manage and 
- *  interact with the features of a GXM.MapPanel.
- */
-
 Ext.require([
     'GXM.FeatureRenderer'
 ]);
@@ -69,6 +62,18 @@ Ext.setup({
                 }]
             });
         }
+
+        // A button to show relevant code parts
+        var btnSource = example.utility.getSourceCodeButton('featurerenderer');
+
+        items.push({
+            xtype : 'toolbar',
+            docked : 'bottom',
+            items : [
+                {xtype : 'spacer'},
+                btnSource
+            ]
+        });
         
         // Create the viewport
         viewport = Ext.create('Ext.Panel', {
