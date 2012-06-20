@@ -2,7 +2,7 @@
  * Copyright (c) 2008-2012 The Open Source Geospatial Foundation
  *
  * Published under the BSD license.
- * See https://github.com/geoext/geoext2/blob/master/license.txt for the full text
+ * See https://github.com/GXM/GXM2/blob/master/license.txt for the full text
  * of the license.
  */
 
@@ -11,10 +11,10 @@
  * easier.</p>
  * <p>NOTE: This is a BASE CLASS and is not designed for direct use in an
  * application. Instead, one should extend from this class in any situation in
- * which a you need a {@link Ext.data.proxy.Server} (ex: 'ajax', 'jsonp', etc) and a
+ * which you need a {@link Ext.data.proxy.Server} (ex: 'ajax', 'jsonp', etc) and a
  * reader which requires an {@link OpenLayers.Format} to parse the data.</p>
  *
- * @class GeoExt.data.OwsStore
+ * @class GXM.data.OwsStore
  */
 Ext.define('GXM.data.OwsStore', {
     extend: 'Ext.data.Store',
@@ -23,15 +23,14 @@ Ext.define('GXM.data.OwsStore', {
     config: {
         /**
          * @cfg {String}
-         * The URL from which to retrieve the WMS DescribeLayer document
+         * The URL from which to retrieve the remote OWS response
          */
         url : null,
 
         /**
          * @cfg {OpenLayers.Format}
          * A parser for transforming the XHR response into an array of objects
-         * representing attributes. Defaults to an {OpenLayers.Format.WMSDescribeLayer}
-         * parser.
+         * representing attributes.
          */
         format : null
     },
