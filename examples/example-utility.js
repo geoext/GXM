@@ -212,6 +212,19 @@ example.utility = {
                 lines.push(ind + 'tpl : ' + extCreateCode + 'Ext.XTemplate\', ...),');
                 lines.push('};');
                 break;
+
+            case 'featurerenderer':
+                lines.push(comS + '// create a feature renderer and specify symbolType, ' + comE);
+                lines.push(comS + '// width and an array of symbolizers' + comE);
+                lines.push(varCode + ' renderer = ' + extCreateCode + 'GXM.FeatureRenderer\', {');
+                lines.push(ind + 'symbolType: ' + strS + '"Point"' + strE + ',');
+                lines.push(ind + 'width: 25, ');
+                lines.push(ind + 'symbolizers: [{');
+                lines.push(ind + ind + 'graphicName: ' + strS + '"circle"' + strE + ',');
+                lines.push(ind + ind + 'fillColor: ' + strS + '"red"' + strE);
+                lines.push(ind + '}]');
+                lines.push('});');
+                break;
                 
             default:
                 lines.push(comS + '// No documentation for "' + exampleKey + '"' + comE);
@@ -249,7 +262,7 @@ example.utility = {
                 });
                 this.overlay.showBy(this);
             }
-        }
+        };
         return btn;
     }
 };
