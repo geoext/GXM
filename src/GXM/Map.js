@@ -40,7 +40,43 @@ Ext.define('GXM.Map', {
     
     extend: 'Ext.Component',
     xtype : 'gxm_map',
-    
+
+    /**
+     * Fires after every map move.
+     *
+     * @event aftermapmove
+     */
+    /**
+     * Fires after every layer visibility change in the assigned map.
+     *
+     * @event afterlayervisibilitychange
+     */
+    /**
+     * Fires after every layer order change in the assigned map.
+     *
+     * @event afterlayerorderchange
+     */
+    /**
+     * Fires after every layer name change in the assigned map.
+     *
+     * @event afterlayernamechange
+     */
+    /**
+     * Fires after every layer opacity change in the assigned map.
+     *
+     * @event afterlayeropacitychange
+     */
+    /**
+     * Fires after a layer was added to the assigned map.
+     *
+     * @event afterlayeradd
+     */
+    /**
+     * Fires after a layer was removed from the assigned map.
+     *
+     * @event afterlayerremove
+     */
+
     statics: {
         /**
          * The first map found via an the Ext.ComponentQuery.query
