@@ -135,10 +135,6 @@ Ext.define('GXM.Button', {
             this._control = config.control;
             delete config.control;
         }
-        if (config && config.map) {
-            this._map = config.map;
-            delete config.map;
-        }
         this.callParent(arguments);
     },
     
