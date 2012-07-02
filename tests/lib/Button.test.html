@@ -8,24 +8,27 @@
         <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
         
-        <!-- load test helper functions -->
-        <script type="text/javascript" src="../helperfunctions.js"></script>     
-
+        <!-- 
+            Instead of using the Ext.loader-mechanism, we use a very simple 
+            script-loader, which also works in e.g. the iPad and on iOs-Phones.
+        -->
         <script type="text/javascript">
+        window.LOAD_GXM = [
+            "../../src/GXM/version.js",
+            "../../src/GXM/util/Base.js",
+            "../../src/GXM/Button.js",
+            "../../src/GXM/data/LayerModel.js",
+            "../../src/GXM/data/LayerStore.js",
+            "../../src/GXM/Map.js"
+        ];
+        </script>
+        <script type="text/javascript" src="../gxm.scriptloader.js"></script>
         
-        Ext.Loader.setConfig({
-            enabled: true,
-            disableCaching: false,
-            paths: {
-                GXM: "../../src/GXM",
-                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
-            }
-        });
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../helperfunctions.js"></script>
+        
+        <script type="text/javascript">
 
-        Ext.require([
-            'GXM.Button'
-        ]);
-        
 var recordedEventData = {
     test_activateControlCalled: { 
         checkpoints: [], 
@@ -248,6 +251,13 @@ function test_triggerControlCalled(t){
     
     var expectedBtnClicks = ['zoomIn', 'zoomOut'];
     t.plan(expectedBtnClicks.length * 2);
+    
+    if (!canOpenWindow()) {
+        t.plan(0);
+        t.debug_print("skipping this test as we aren't able to load a window.");
+        return;
+    }
+    
     
     t.open_window('./winopen/button-test-window.html', function(wnd){
         // grab recorded events
