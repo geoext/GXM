@@ -1,3 +1,6 @@
+/**
+ * Returns an OpenLayers.Map instance with one WMS layer already added. 
+ */
 function getMap(){
     var map = new OpenLayers.Map({
         layers: [
@@ -13,6 +16,10 @@ function getMap(){
     return map;
 }
 
+/**
+ * Returns an GXM.Map instance with a default OpenLayers.Map. If you want to set
+ * custom option (e.g. a different map), pass them as first argument. 
+ */
 function getMapPanel(opts) {
     var map = getMap();
     var options = Ext.apply(opts || {});
@@ -23,6 +30,11 @@ function getMapPanel(opts) {
     return mappanel;
 }
 
+/**
+ * Returns an GXM.Map instance with a default OpenLayers.Map, that was created 
+ * lazily as a child of an Ext.Panel. If you want to set custom option (e.g. a 
+ * different map), pass the as first argument. 
+ */
 function getLazyMapPanel(opts) {
     var options = Ext.apply(opts || {}, { xtype: 'gxm_map' });
     options.map = ( opts && opts.map ) ? opts.map : getMap();
