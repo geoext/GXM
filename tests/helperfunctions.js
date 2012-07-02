@@ -47,3 +47,25 @@ function getLazyMapPanel(opts) {
     
     return panel.items.get(0);
 }
+
+/**
+ * Checks whether we can open a window with window.open, which is a requirement
+ * of some tests.
+ */
+var canOpenWindow  = (function(){
+    var win,
+        capable = false;
+    try {
+        win = window.open(location.href);
+        if (win){
+            capable = true; 
+            win.close();
+        }
+    } catch(e) {
+        // ignore
+    } finally {
+        return function(){
+            return capable;
+        }
+    }
+})();
