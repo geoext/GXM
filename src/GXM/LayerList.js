@@ -242,7 +242,7 @@ Ext.define('GXM.LayerList', {
      * state of layers managed by the list.
      * @param {Ext.EventObject} evt The event-object 
      */
-    onChangeLayer: function(evt){
+    onChangeLayer: function(evt) {
         this.refresh();
     },
     
