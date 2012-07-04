@@ -1,1 +1,180 @@
-GeoExt mobile (GXM)
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>GeoExt mobile (GXM)</title>
+        <style>
+body {
+    font-family: Helvetica, Geneva, Arial, sans-serif;
+    font-size: smaller;
+    color: #333;
+    padding: 1em 2.5em;
+    line-height: 1.6em;
+}
+p {
+    padding: 1em 2.5em;
+}
+ul {
+    margin-left: 1.5em;
+}
+
+h2 {
+    margin-left: 0.5em;
+}
+        </style>
+    </head>
+    <body>
+        <h1>GeoExt mobile (GXM)</h1>
+        
+        <h2>Description</h2>
+
+        <p>
+            While GeoExt offers a "Toolkit for Rich Web Mapping Applications" 
+            these applications will not provide full functionality when accessed
+            with mobile devices. With the ever-growing use of smartphones such
+            as the IPhone, IPad or Android based devices to access internet
+            resources, a rich toolkit for mapping applications directly targeted
+            at these devices was missing.
+        </p>
+        
+        <p>
+            GeoExt Mobile &mdash; or GXM &mdash; wants to fill this gap by 
+            combining the powers of two extraordinary JavaScript libraries:
+        </p>
+
+        <ul>
+            <li>
+                Sencha Touch ("the First HTML5 Mobile Web App Framework") can be 
+                used to build web application that look and feel native on lots 
+                of devices. It is in many ways the mobile counterpart of Ext JS
+            </li>
+            <li>
+                OpenLayers ("Free Maps for the Web") is well known for its 
+                feature richness for displaying and interacting with geographic
+                data in the web. With the version 2.11 OpenLayers now supports 
+                mobile devices due to the fact that it e.g. respects touch-based
+                events.
+            </li>
+        </ul>
+
+        <p>
+            GXM wants to combine the powers of its base libraries and wants to 
+            provide usefull widgets and components that can be the foundation of 
+            your mobile-aware webgis applications.
+        </p>
+
+        <h2>Supported browsers</h2>
+
+        <p>
+            As GXM is based upon Sencha Touch, it supports the same browsers. 
+            You should expect GXM code to work on the native iOS browser (iPad,
+            iPhone, etc.), the native Android browser on most devices and the 
+            desktop browsers Apple Safari or Google Chrome.
+        </p>
+
+        <h2>Currently implemented features &amp; examples</h2>
+
+        <ul>
+            <li>
+                A component that wraps an OpenLayers Map and acts as a Map
+                component.<br />
+                <a href="./examples/map.html">Online example</a>
+            </li>
+            <li>
+                A button component that can be used to control OpenLayers
+                controls.<br />
+                <a href="./examples/buttons.html">Online example</a>
+            </li>
+            <li>
+                A list component that can be used to show a list of OpenLayers
+                Layer objects.<br />
+                <a href="./examples/layerlist.html">Online example</a>
+            </li>
+            <li>
+                A list component that can be used to show a list of OpenLayers
+                features objects.<br />
+                <a href="./examples/featurelist.html">Online example</a>
+            </li>
+            <li>
+                A popup component that can be used to show details about an
+                OpenLayers features.<br />
+                <a href="./examples/featurepopup.html">Online example</a>
+            </li>
+            <li>
+                A renderer that can be used to generated embedable components of
+                the visual appearance of OpenLayers Features.<br />
+                <a href="./examples/featurerenderer.html">Online example</a>
+            </li>
+            <li>
+                A layerstore that wraps around instances of OpenLayers layers
+            </li>
+            <li>
+                A model that maps OpenLayers layer instances to be used inside
+                of stores
+            </li>
+        </ul>
+
+        <h2>API documentation</h2>
+
+        <p>
+            Online <a href="./docs/index.html">API documentation generated from
+            source code</a> (updated 2012-07-04)
+        </p>
+        
+        <h2>Development</h2>
+        
+        <p>
+            Development takes place at github; so come fork us: 
+            <a href="https://github.com/geoext/GXM">
+            https://github.com/geoext/GXM
+            </a>
+        </p>
+        
+        <p>
+            Comments, issues amd pull-requests are always welcome.
+        </p>
+
+        <h2>Credits</h2>
+        
+        <p>
+            The initial development was lead by the following people:
+        </p>
+        
+        <ul>
+            <li>Marc Jansen</li>
+            <li>Christian Mayer</li>
+            <li>Cédric Moullet</li>
+            <li>Johannes Weskamm</li>
+        </ul>
+        
+        <p>
+            The code was reviewed in various stages by
+        </p>
+        
+        <ul>
+            <li>Bart van den Eijnden</li>
+            <li>Andreas Hocevar</li>
+            <li>Tim Schaub</li>
+        </ul>
+        
+        <p>
+            The first versions were inspired by the work of
+        </p>
+        
+        <ul>
+            <li>Bart van den Eijnden (Code Sprint Lausanne, mobile-sencha.html example)</li>
+            <li>Marc Jansen (Code Sprint Lausanne, mobile-sencha.html example)</li>
+            <li>Marc Monnerat (Beta version of geo.admin.ch)</li>
+        </ul>
+        
+        <p>
+            The development was funded by
+        </p>
+        
+        <ul>
+            <li>swisstopo</li>
+            <li>terrestris</li>
+        </ul>
+
+    </body>
+</html>

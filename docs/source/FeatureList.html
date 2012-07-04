@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+
+<span id='GXM-FeatureList'>/**
+</span> * @class GXM.FeatureList
+ * 
+ *  The class that is used to construct a GXM FeatureList.
+ * 
+ *  Sample code to create a GXM.FeatureList:
+ * 
+ *  
+ *      var featureList = {
+ *          xtype : 'gxm_featurelist',
+ *          layer : layerVector,
+ *          title : 'FeatureList',
+ *          listeners : {
+ *              itemtap : function(list, idx, target, record, e, eOpts) {
+ *                  var feature = record.getFeature(), 
+ *                      geom = feature.geometry, 
+ *                      center = new OpenLayers.LonLat(geom.x, geom.y), 
+ *                      zoom = 5
+ *                  mapPanel.getMap().setCenter(center, zoom);
+ *                  tp.setActiveItem(mapPanel);
+ *              }
+ *          }
+ *      };
+ */
+Ext.define('GXM.FeatureList', {
+
+    extend: 'Ext.List',
+    
+    requires: [
+        'GXM.version',
+        'GXM.data.FeatureStore'
+    ],
+   
+    xtype : 'gxm_featurelist',
+    
+<span id='GXM-FeatureList-property-olLayer'>    /**
+</span>     *  @property {OpenLayers.Layer.Vector} olLayer
+     *  references the 
+     *  layer that was used to instantiate this list.
+     */
+    olLayer: null,
+    
+    config: {
+        
+<span id='GXM-FeatureList-cfg-map'>        /** 
+</span>         *  @cfg {GXM.Map} map
+         *  The GXM Map component this `FeatureList` refers to. Might be used to derive
+         *  the corresponding OpenLayers Map object.
+         */
+        map: null,
+        
+<span id='GXM-FeatureList-cfg-store'>        /**
+</span>         *  @cfg {GXM.data.FeatureStore}
+         *  The featurestore this list is about to use.
+         */
+        store: null,
+        
+<span id='GXM-FeatureList-cfg-layer'>        /** 
+</span>         *  @cfg {OpenLayers.Layer.Vector} layer
+         *  The layer this list is about to derive featuires from for display 
+         *  inside the list. Will override any existing configuration for :attr:`store`.
+         */
+        layer: null,
+        
+<span id='GXM-FeatureList-cfg-itemTpl'>        /**
+</span>         *  @cfg {Ext.XTemplate} itemTpl
+         *  The template used to render every list-item of the list of features. 
+         *  If not provided, a rudimentary template is being used. 
+         */
+        itemTpl: null
+    },
+    
+<span id='GXM-FeatureList-method-constructor'>    /** 
+</span>     *  @private
+     *  The constructor function
+     */
+    constructor: function(config) {
+        if (config.layer) {
+            this._layer = config.layer;
+            delete config.layer;
+        }
+        this.callParent(arguments);
+    },
+    
+<span id='GXM-FeatureList-method-initialize'>    /**
+</span>     *  @private
+     *  Initializes the Component.
+     */
+    initialize: function() {
+       
+        var map = this.getMap();
+        
+        if (map &amp;&amp; map instanceof GXM.Map) {
+            this.olMap = map.getMap();
+        }
+        
+        // TODO
+        // Allow also initialization with an array of features
+        
+        var layer = this.getLayer();
+        
+        if (layer) {
+            var features = layer.features;
+            var store =  Ext.create('GXM.data.FeatureStore', {
+                data: features
+            });
+            this.setStore(store);
+            
+            // bind OL events
+            layer.events.on({
+                &quot;featureadded&quot;: this.onFeatureAdded,
+                &quot;featureremoved&quot;: this.onFeatureRemoved,
+                scope: this
+            });
+        }
+        
+        var tpl = this.getItemTpl();
+        
+        if (Ext.isDefined(tpl) &amp;&amp; tpl instanceof Ext.XTemplate) {
+            this.setItemTpl(tpl);
+        } else {
+            this.setItemTpl(new Ext.XTemplate(
+                '{[this.renderFeatureListItem(values.feature)]}', {
+                    renderFeatureListItem: function(feature){
+                        var data = feature.data,
+                            geom = feature.geometry,
+                            str = geom.toString().substr(0, 30);
+                        if (geom.toString().length &gt; 30) {
+                            str += '...';
+                        }
+                        return Ext.String.format('Feature ({0})', str);
+                    }
+                }
+            ));
+        }
+        
+                
+        this.callParent();
+    },
+    
+<span id='GXM-FeatureList-method-prepareData'>    /**
+</span>     *  @private
+     *  A private method to give this DataViews template-methods access to the 
+     *  raw ``OpenLayers.Feature``-object.
+     *  @param {Object} data The raw data object that was used to create the record.
+     *  @param {Number} index the index number of the Record being prepared for rendering.
+     *  @param {Recod} record The Record being prepared for rendering
+     *  @return {Object} the adjusted data with a new member ``feature`` referencing the
+     *  raw ``OpenLayers.Feature``-object
+     */
+    prepareData: function(data, index, record) {
+        if (record) {
+            data.feature = record.getFeature();
+        }
+        return data;
+    },
+        
+<span id='GXM-FeatureList-method-onFeatureAdded'>    /**
+</span>     *  @private
+     *  @param {Ext.EventObject} evt The event-object
+     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
+     */
+    onFeatureAdded: function(evt) {
+        this.getStore().add(evt.feature);
+    },
+    
+<span id='GXM-FeatureList-method-onFeatureRemoved'>    /**
+</span>     *  @private
+     *  @param {Ext.EventObject} evt The event-object
+     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
+     */
+    onFeatureRemoved: function(evt) {
+        var store = this.getStore(),
+            rec = store.findRecord(&quot;id&quot;, evt.feature.id);
+        
+        this.getStore().remove(rec);
+    },
+    
+<span id='GXM-FeatureList-method-destroy'>    /**
+</span>     *  @private
+     *  Called prior to destroying the list. We remove all our registered 
+     *  handlers and nullify relevant properties.
+     */
+    destroy: function() {
+        var layer = this.getLayer();
+        if (layer &amp;&amp; layer.events) {
+            layer.events.un({
+                &quot;featureadded&quot;: this.onFeatureAdded,
+                &quot;featureremoved&quot;: this.onFeatureRemoved,
+                scope: this
+            });            
+        }
+        
+        this.callParent();
+    }
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+<span id='GXM-FeatureRenderer'>/** 
+</span> * @class GXM.FeatureRenderer
+ * Create a box component for rendering a vector feature.
+ * Update functionality is not yet supported.
+ */
+Ext.define(&quot;GXM.FeatureRenderer&quot;,{
+    extend: 'Ext.Component',
+    alias: 'widget.gxm_renderer',
+    config: {
+        symbolizers: [OpenLayers.Feature.Vector.style[&quot;default&quot;]],
+        symbolType: &quot;Polygon&quot;,
+        minWidth: 20,
+        minHeight: 20
+    },
+    initialize:function(){
+        var me = this;
+        this.autoEl = {
+            tag: &quot;div&quot;,
+            &quot;class&quot;: (this.imgCls ? this.imgCls : &quot;&quot;),
+            id: this.getId()
+        };
+        me.callParent(arguments);
+
+        Ext.applyIf(this, {
+            pointFeature: new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point(0, 0)
+                ),
+            lineFeature: new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.LineString([
+                    new OpenLayers.Geometry.Point(-8, -3),
+                    new OpenLayers.Geometry.Point(-3, 3),
+                    new OpenLayers.Geometry.Point(3, -3),
+                    new OpenLayers.Geometry.Point(8, 3)
+                    ])
+                ),
+            polygonFeature: new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Polygon([
+                    new OpenLayers.Geometry.LinearRing([
+                        new OpenLayers.Geometry.Point(-8, -4),
+                        new OpenLayers.Geometry.Point(-6, -6),
+                        new OpenLayers.Geometry.Point(6, -6),
+                        new OpenLayers.Geometry.Point(8, -4),
+                        new OpenLayers.Geometry.Point(8, 4),
+                        new OpenLayers.Geometry.Point(6, 6),
+                        new OpenLayers.Geometry.Point(-6, 6),
+                        new OpenLayers.Geometry.Point(-8, 4)
+                        ])
+                    ])
+                ),
+            textFeature: new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point(0, 0)
+            )
+        });
+        this.renderer = new OpenLayers.Renderer.Canvas(
+            this.element
+        );
+
+        this.renderer.map = {
+            getResolution: Ext.Function.bind(function() {
+                return this.resolution;
+            }, this)
+        };
+
+        this.feature = this[this.getSymbolType().toLowerCase() + &quot;Feature&quot;];
+        this.drawFeature();
+    },
+
+    drawFeature: function() {
+        this.renderer.clear();
+        this.setRendererDimensions();
+        var symbolizer, feature, geomType;
+        for (var i=0, len=this.getSymbolizers().length; i&lt;len; ++i) {
+            symbolizer = this.getSymbolizers()[i];
+            feature = this.feature;
+            if (symbolizer instanceof OpenLayers.Symbolizer) {
+                symbolizer = symbolizer.clone();
+                if (OpenLayers.Symbolizer.Text &amp;&amp;
+                    symbolizer instanceof OpenLayers.Symbolizer.Text &amp;&amp;
+                    symbolizer.graphic === false) {
+                        // hide the point geometry
+                        symbolizer.fill = symbolizer.stroke = false;
+                }
+                if (!this.initialConfig.feature) {
+                    geomType = symbolizer.CLASS_NAME.split(&quot;.&quot;).pop().toLowerCase();
+                    feature = this[geomType + &quot;Feature&quot;];
+                }
+            } else {
+                // TODO: remove this when OpenLayers.Symbolizer is used everywhere
+                symbolizer = Ext.apply({}, symbolizer);
+            }
+            this.renderer.drawFeature(
+                feature.clone(),
+                symbolizer
+            );
+        }
+    },
+
+    setRendererDimensions: function() {
+        var gb = this.feature.geometry.getBounds();
+        var gw = gb.getWidth();
+        var gh = gb.getHeight();
+        /*
+         * Determine resolution based on the following rules:
+         * 1) always use value specified in config
+         * 2) if not specified, use max res based on width or height of element
+         * 3) if no width or height, assume a resolution of 1
+         */
+        var resolution = this.initialConfig.resolution;
+        if(!resolution) {
+            resolution = Math.max(gw / this.width || 0, gh / this.height || 0) || 1;
+        }
+        this.resolution = resolution;
+        // determine height and width of element
+        var width = Math.max(this.getWidth() || this.getMinWidth(), gw / resolution);
+        var height = Math.max(this.getHeight() || this.getMinHeight(), gh / resolution);
+        // determine bounds of renderer
+        var center = gb.getCenterPixel();
+        var bhalfw = width * resolution / 2;
+        var bhalfh = height * resolution / 2;
+        var bounds = new OpenLayers.Bounds(
+            center.x - bhalfw, center.y - bhalfh,
+            center.x + bhalfw, center.y + bhalfh
+            );
+        this.renderer.setSize(new OpenLayers.Size(Math.round(width), Math.round(height)));
+        this.renderer.setExtent(bounds, true);
+    }
+
+});
+</pre>
+</body>
+</html>

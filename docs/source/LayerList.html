@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+
+
+<span id='GXM-LayerList'>/**
+</span> * @class GXM.LayerList
+ * 
+ * The class that is used to construct a GXM LayerList.
+ * 
+ * Sample code to create a GXM.LayerList:
+ * 
+ *  
+ * create a lazily instanciated GXM.LayerList:
+ *      var layerList = {
+ *          xtype: 'gxm_layerlist',
+ *          // call with mapPanel...
+ *          map: gxmMap,
+ *          listeners: {
+ *              itemtap: function(){
+ *                  Ext.Msg.alert(
+ *                      'Application event &quot;itemtap&quot;', 
+ *                      'You can still register events as usual.'
+ *                  );
+ *              }
+ *          }
+ *      };
+ */
+Ext.define('GXM.LayerList', {
+    
+    extend: 'Ext.List',
+    
+    requires: [
+        'GXM.version',
+        'GXM.util.Base',
+        'GXM.data.LayerStore'
+    ],
+   
+    xtype : 'gxm_layerlist',
+    
+<span id='GXM-LayerList-property-olMap'>    /**
+</span>     * @property {OpenLayers.Map} olMap
+     *  The reference to the related OpenLayers Map object.
+     *  This is for readonly use. To pass a map object to this class use the
+     *  :attr:`map` config option. 
+     */
+    olMap: null,
+    
+<span id='GXM-LayerList-property-visibleOverlayCls'>    /**
+</span>     * @property {String} visibleOverlayCls
+     *  The CSS class that the list items for currently visible 
+     *  overlay layers will get. 
+     */
+    visibleOverlayCls: 'gxm-visible-overlay-indicator',
+    
+<span id='GXM-LayerList-property-invisibleOverlayCls'>    /**
+</span>     * @property {String} invisibleOverlayCls
+     * The CSS class that the list items for currently invisible 
+     * overlay layers will get. 
+     */
+    invisibleOverlayCls: 'gxm-invisible-overlay-indicator',
+    
+<span id='GXM-LayerList-property-activeBaselayerCls'>    /**
+</span>     * @property {String} activeBaselayerCls
+     * The CSS class that the list item of the currently active 
+     * baselayer will get. 
+     */
+    activeBaselayerCls: 'gxm-active-baselayer-indicator',
+    
+<span id='GXM-LayerList-property-inactiveBaselyerCls'>    /**
+</span>     * @property {String} inactiveBaselyerCls
+     * The CSS class that the list items of the currently inactive 
+     * baselayers will get. 
+     */
+    inactiveBaselayerCls: 'gxm-inactive-baselayer-indicator',
+    
+    
+    // These do all get a getter-, setter- and applier-method
+     
+    config: {
+        
+<span id='GXM-LayerList-cfg-map'>        /**
+</span>         * @cfg {GXM.Map} map 
+         * The GXM Map component this `LayerList` refers to. Might be used to 
+         * derive the corresponding OpenLayers Map object.
+         */
+        map: null,
+        
+<span id='GXM-LayerList-cfg-layers'>        /**
+</span>         * @cfg {GXM.data.LayerStore} layers
+         *  :class:`GXM.data.LayerStore` The layerstore this list is about to use.
+         */
+        store: null
+    },
+    
+<span id='GXM-LayerList-method-constructor'>    /**
+</span>     * @private
+     *  The constructor function
+     */
+    constructor: function(config){
+        this.callParent(arguments);
+    },
+    
+<span id='GXM-LayerList-method-initialize'>    /**
+</span>     * @private
+     *  Initializes the Component.
+     */
+    initialize: function(){
+        var me = this,
+            map = this.getMap();
+        
+        if (map &amp;&amp; map instanceof GXM.Map) {
+            me.olMap = map.getMap();
+            me.setStore(map.layers);
+        }
+        
+        me.setItemTpl(new Ext.XTemplate(
+                '&lt;span class=&quot;{[this.getVisibilityIconClass(values.layer)]}&quot;&gt;&lt;/span&gt;',
+                '&lt;span class=&quot;gxm-layer-item&quot;&gt;{name}&lt;/span&gt;',
+            {
+                // template member functions
+                getVisibilityIconClass: function(layer) {
+                    var cls = '';
+                    
+                    if (layer.isBaseLayer) {
+                        if (layer.map.baseLayer === layer) {
+                            cls = me.activeBaselayerCls;
+                        } else {
+                            cls = me.inactiveBaselayerCls;
+                        }
+                    } else {
+                        if (layer.getVisibility()) {
+                            cls = me.visibleOverlayCls;
+                        } else {
+                            cls = me.invisibleOverlayCls;
+                        }
+                    }
+                    return cls;
+                }
+            }
+        ));
+        
+        if (me.olMap) {
+            me.olMap.events.on({
+                &quot;changelayer&quot;: me.onChangeLayer,
+                &quot;addlayer&quot;: me.onAddLayer,
+                &quot;removelayer&quot;: me.onRemoveLayer,
+                scope: me
+            });
+        }
+        
+        me.addListener('itemtap', me.reactOnItemTap, me);
+        
+        var internalLayerStore = me.createInternalLayerStore(me.getStore().data.items);
+        me.setStore(internalLayerStore);
+        
+        me.callParent();
+    },
+    
+<span id='GXM-LayerList-method-createInternalLayerStore'>    /** private: method[createStoreClone]
+</span>     * A private method creating a new LayerStore instance containing only the layers which should be displayed
+     * in the LayerList. This becomes necessary due to the remove 'collecData' method of the Ext.dataview.ListView 
+     * since Sencha Touch 2.0 and the fact that the original layer store has to be unfiltered/untouched due to
+     * possible references.
+     * @private
+     * @param originalData {Array} The original records of the layer store with all possible layers of the passed map
+     * @return {GXM.data.LayerStore} the new LayerStore instance with the layers to be drawn in the LayerList
+     */
+    createInternalLayerStore: function(originalData) {
+        
+        var dspLayers = [];
+        Ext.each(originalData, function (record, idx){
+            var layer = record.getLayer();
+            if (!Ext.isDefined(layer.displayInLayerSwitcher) || layer.displayInLayerSwitcher === true) {
+                record.name = record.get('name');
+                dspLayers.push(record.raw);
+            } 
+        }, this);
+        
+        var newStore = Ext.create('GXM.data.LayerStore', {
+            data: dspLayers
+        });
+        
+        return newStore;
+    },
+    
+<span id='GXM-LayerList-method-prepareData'>    /** private: method[prepareData]
+</span>     *  @private
+     *  A private method to give this DataViews template-methods access to the 
+     *  raw ``OpenLayers.Layer``-object.
+     *  @param {Object} data The raw data object that was used to create the record.
+     *  @param {Number} index the index number of the Record being prepared for rendering.
+     *  @param {Record} record The Record being prepared for rendering.
+     *  @return {Object} the adjusted data with a new member ``layer`` referencing the raw
+     *  ``OpenLayers.Layer``-object
+     */
+    prepareData: function(data, index, record) {
+        if (record) {
+            data.layer = record.getLayer();
+        }
+        return data;
+    },
+    
+<span id='GXM-LayerList-method-onAddLayer'>    /**
+</span>     * 	@private 
+     *  Adds the new layer to the internal LayerStore instance.
+     *  Reloads the store and refreshes the lists UI so it reflects the current 
+     *  state of layers managed by the list.
+     *  @param {Ext.EventObject} evt The event-object 
+     */
+    onAddLayer: function(evt) {
+        if(evt &amp;&amp; evt.layer) {
+            this.getStore().add(evt.layer);
+        }
+    },
+    
+<span id='GXM-LayerList-method-onRemoveLayer'>    /**
+</span>     * @private
+     *  Removes the layer from the internal LayerStore instance, which has been removed
+     *  from the map.
+     *  Reloads the store and refreshes the lists UI so it reflects the current 
+     *  state of layers managed by the list.
+     *  
+     *  @param {Ext.EventObject} evt The event-object 
+     */
+    onRemoveLayer: function(evt) {
+        if(evt &amp;&amp; evt.layer) {
+            var layer = evt.layer;
+            var record = this.getStore().findRecord('id', layer.id);
+            this.getStore().remove(record);
+        }
+    },
+    
+<span id='GXM-LayerList-method-onChangeLayer'>    /** private: method[onChangeLayer
+</span>     * @private
+     * Reloads the store and refreshes the lists UI so it reflects the current 
+     * state of layers managed by the list.
+     * @param {Ext.EventObject} evt The event-object 
+     */
+    onChangeLayer: function(evt) {
+        this.refresh();
+    },
+    
+<span id='GXM-LayerList-method-reactOnItemTap'>    /** private: method[onItemTap]
+</span>     * @private
+     * Called on item tap. Toggles visibility of the associated layers or sets
+     * the maps baselayer.
+     * @param {Ext.Element} item The listitem that was tapped
+     * @param {Number} index The index inside the list
+     * @param {Ext.EventObject} The event-object 
+     */
+    reactOnItemTap: function(dataview, index, target, record, e, eOpts){
+        var layer = record.getLayer();
+        if (layer.isBaseLayer) {
+            this.olMap.setBaseLayer(layer);
+        }
+        else {
+            layer.setVisibility(!layer.getVisibility());
+        }
+        this.refresh();
+        return true;
+    },
+    
+<span id='GXM-LayerList-method-destroy'>    /**
+</span>     *  @private
+     *  
+     *  Called prior to destroying the list. We remove all our registered 
+     *  handlers and nullify relevant properties.
+     */
+    destroy: function(){
+        if (this.olMap &amp;&amp; this.olMap.events) {
+            
+            this.olMap.events.un({
+                &quot;changelayer&quot;: this.onChangeLayer,
+                &quot;addlayer&quot;: this.onAddLayer,
+                &quot;removelayer&quot;: this.onRemoveLayer,
+                scope: this
+            });            
+        }
+        delete this.olMap;
+        delete this.map;
+        delete this.store;
+        delete this.layers;
+        
+        this.callParent();
+    }
+}, 
+
+// Create an alias `ļayers` for :attr:`store` to have backwards compatibility
+function() {
+    GXM.util.Base.createConfigAlias(GXM.LayerList, 'layers', 'store');
+});
+</pre>
+</body>
+</html>

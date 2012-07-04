@@ -1,0 +1,55 @@
+.key-popup-info {
+    padding-left: 2px;
+    font-weight: bold;
+}
+.value-popup-info {
+    padding-left: 10px;
+}
+
+pre.example-code {
+    font-weight: bold !important;
+}
+
+span.string {
+    color: #008000;
+}
+
+span.number {
+    color: #0000A0;
+}
+
+span.comment {
+    color: #800080;
+    font-style: italic
+}
+
+span.keyword {
+    color: blue;
+}
+
+span.boolean {
+    color: #EE82EE;
+}
+ 
+#title,
+#keywords,
+#description {
+    display: none;
+}
+
+div.olControlAttribution {
+    border-top: 2px solid rgba(70,70,70,0.65);
+    border-left: 2px solid rgba(70,70,70,0.65);
+    border-top-left-radius: 10px;
+    position: relative;
+    bottom: 0;
+    right: 0;
+    padding: 3px 5px;
+    background-color: rgba(70,70,70,0.35);
+    color: black;
+    text-shadow: 0 0 2px #fff;
+}
+
+div.olControlAttribution a {
+    color: navy
+}

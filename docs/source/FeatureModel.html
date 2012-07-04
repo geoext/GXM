@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * 
+ * Published under the BSD license. 
+ * 
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+ * text of the license.
+ */
+ 
+<span id='GXM-data-FeatureModel'>/** 
+</span> *  @class GXM.data.FeatureModel
+ * 
+ *  Class defines a model for records containing an OpenLayers feature object.
+ *  Usually this class is not instantiated directly, but referenced by its name ``gxm_feature`` 
+ *  as string representation as a config option within creation of a superior component, 
+ *  for example a store. 
+ *  
+ *  Sample code to use a gxm_feature model:
+ *      Ext.create('Ext.data.Store', {
+ *          model: 'gxm_feature',
+ *          proxy: {
+ *              type: 'memory',
+ *              reader: {
+ *                  type: 'json',
+ *                  root: ''
+ *              }
+ *          }
+ *      });
+ */
+
+Ext.define('GXM.data.FeatureModel', { 
+    extend: &quot;Ext.data.Model&quot;,
+    alias: 'model.gxm_feature',
+    requires: [
+        'GXM.version'
+    ],
+    config: {
+        fields: [
+             {
+                 name: 'id'
+             }
+        ]
+    },
+    
+<span id='GXM-data-FeatureModel-method-getFeature'>    /**
+</span>     * Returns the feature object of the record created with this model.
+     * @return {OpenLayers.Feature} The raw feature object of the corresponding record
+     */
+    getFeature: function(){
+        return this.raw;
+    }
+});
+</pre>
+</body>
+</html>

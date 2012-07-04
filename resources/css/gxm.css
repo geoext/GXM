@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+.gxm-layer-item {
+    margin-left: 10px;
+    padding-top: 3px;
+}
+
+.gxm-visible-overlay-indicator, .gxm-invisible-overlay-indicator,
+.gxm-active-baselayer-indicator, .gxm-inactive-baselayer-indicator {
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.gxm-visible-overlay-indicator {
+    background-image: url(../images/check-round-green.png);
+}
+
+.gxm-invisible-overlay-indicator {
+    background-image: url(../images/check-round-grey.png);
+}
+
+.gxm-active-baselayer-indicator {
+    background-image: url(../images/check-round-green.png);
+}
+
+.gxm-inactive-baselayer-indicator {
+    background-image: url(../images/round-grey.png);
+}
+
+
+.x-list-item.gxm-display-in-layerswitcher-false {
+    display: none;
+}
