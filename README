@@ -1,9 +1,21 @@
 This is the github repository for GeoExt Mobile. See e.g. 
-http://trac.geoext.org/wiki/mobile for more info.
+http://geoext.github.com/GXM/ for more info.
 
 * The master branch (or GXM 0.2 beta) is based on Sencha Touch 2.
 
 * The branch '0.1' is based on Sencha Touch 1.1.
 
 Testing, forks, pull-requessts and feedback (especially about the master-branch) is always welcome.
+
+More resources
+* API-Docs: http://geoext.github.com/GXM/docs/index.html
+* Examples
+  * http://geoext.github.com/GXM/examples/map.html
+  * http://geoext.github.com/GXM/examples/buttons.html
+  * http://geoext.github.com/GXM/examples/layerlist.html
+  * http://geoext.github.com/GXM/examples/featurelist.html
+  * http://geoext.github.com/GXM/examples/featurepopup.html
+  * http://geoext.github.com/GXM/examples/featurerenderer.html
+
+
 
