@@ -276,7 +276,7 @@ Ext.define('GXM.Button', {
         var members = [];
         var myGroup = this.getExclusiveGroup();
         if (myGroup) {
-            members = Ext.ComponentQuery.query('gxm_button[exclusiveGroup="' + myGroup + '"]')
+            members = Ext.ComponentQuery.query('gxm_button[exclusiveGroup="' + myGroup + '"]');
         }
         return members;
     }
