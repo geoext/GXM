@@ -1,3 +1,4 @@
+/*global Ext: true */
 /*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
@@ -6,15 +7,15 @@
  * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
  * text of the license.
  */
- 
-/** 
+
+/**
  *  @class GXM.data.FeatureModel
- * 
+ *
  *  Class defines a model for records containing an OpenLayers feature object.
- *  Usually this class is not instantiated directly, but referenced by its name ``gxm_feature`` 
- *  as string representation as a config option within creation of a superior component, 
- *  for example a store. 
- *  
+ *  Usually this class is not instantiated directly, but referenced by its name ``gxm_feature``
+ *  as string representation as a config option within creation of a superior component,
+ *  for example a store.
+ *
  *  Sample code to use a gxm_feature model:
  *      Ext.create('Ext.data.Store', {
  *          model: 'gxm_feature',
@@ -28,7 +29,7 @@
  *      });
  */
 
-Ext.define('GXM.data.FeatureModel', { 
+Ext.define('GXM.data.FeatureModel', {
     extend: "Ext.data.Model",
     alias: 'model.gxm_feature',
     requires: [
@@ -36,17 +37,17 @@ Ext.define('GXM.data.FeatureModel', {
     ],
     config: {
         fields: [
-             {
-                 name: 'id'
-             }
+            {
+                name: 'id'
+            }
         ]
     },
-    
+
     /**
      * Returns the feature object of the record created with this model.
      * @return {OpenLayers.Feature} The raw feature object of the corresponding record
      */
-    getFeature: function(){
+    getFeature: function () {
         return this.raw;
     }
 });

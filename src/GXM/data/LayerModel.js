@@ -1,3 +1,4 @@
+/*global Ext: true */
 /*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
@@ -9,12 +10,12 @@
 
 /**
  *  @class GXM.data.LayerModel
- *  
+ *
  *  Class defines a model for records containing an OpenLayers layer object.
- *  Usually this class is not instantiated directly, but referenced by its name ``gxm_layer`` 
- *  as string representation as a config option within creation of a superior component, 
+ *  Usually this class is not instantiated directly, but referenced by its name ``gxm_layer``
+ *  as string representation as a config option within creation of a superior component,
  *  for example a store.
- *  
+ *
  *  Sample code to use a gxm_layer model:
  *      storeExt.create('Ext.data.Store', {
  *          model: 'gxm_layer',
@@ -27,7 +28,7 @@
  *          }
  *      });
  */
-Ext.define('GXM.data.LayerModel', { 
+Ext.define('GXM.data.LayerModel', {
     extend: "Ext.data.Model",
     alias: 'model.gxm_layer',
     requires: [
@@ -41,13 +42,13 @@ Ext.define('GXM.data.LayerModel', {
             }
         ]
     },
-    
-    /** 
+
+    /**
      *  Returns the layer object of the record created with this model.
      *  @return {OpenLayers.Layer} The raw layer object of this record
-     *  
-     */ 
-    getLayer: function(){
+     *
+     */
+    getLayer: function () {
         return this.raw;
     }
 });
