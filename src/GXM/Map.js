@@ -261,7 +261,7 @@ Ext.define('GXM.Map', {
             painted: 'renderMap',
             scope: this
         });
-        window.m = this;
+
         this.element.on('touchstart', 'onTouchStart', this);
     },
 
