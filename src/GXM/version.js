@@ -1,3 +1,4 @@
+/*global Ext: true, GXM: true */
 /*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
