@@ -1,6 +1,7 @@
-/*global Ext: true, OpenLayers: true, GXM: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -148,17 +149,18 @@ Ext.define('GXM.FeaturePopup', {
      */
     applyFeature: function (newFeature) {
         if (newFeature instanceof OpenLayers.Feature.Vector) {
-
             // set the feature as data, because if we pass
             // an OL object directly as data it gets lost
             this.setData({
                 feature: newFeature
             });
-        } else if (feature instanceof OpenLayers.Geometry) {
-            // TODO
-        } else if (feature instanceof Ext.Record) {
-            // TODO
         }
+// TODO
+//        else if (newFeature instanceof OpenLayers.Geometry) {
+//
+//        } else if (newFeature instanceof Ext.Record) {
+//
+//        }
 
         return newFeature;
     }
