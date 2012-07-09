@@ -1,10 +1,11 @@
-/*global Ext: true, OpenLayers: true, GXM: true, window: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
- * 
- * Published under the BSD license. 
- * 
- * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+/*global Ext, OpenLayers, GXM, window*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ *
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full
  * text of the license.
  */
 
@@ -195,13 +196,16 @@ Ext.define('GXM.Map', {
      * Initializes the Component.
      */
     initialize: function () {
+        var mapConf,
+            layers,
+            layersArr = [];
 
         this.callParent();
 
         // check config-property map for an existing OpenLayers.Map-instance,
         // a conf object for an OpenLayers.Map or null
         if (!(this.getMap() instanceof OpenLayers.Map)) {
-            var mapConf = Ext.applyIf(this.getMap() || {}, {
+            mapConf = Ext.applyIf(this.getMap() || {}, {
                 allOverlays: true,
                 controls: this.initialConfig.controls || this.getDefaultControls(),
                 numZoomLevels: 24
@@ -217,14 +221,13 @@ Ext.define('GXM.Map', {
 
         // check property layers
         if (this.config.layers) {
-            var layers = this.config.layers;
+            layers = this.config.layers;
 
             if (this.config.layers instanceof GXM.data.LayerStore) {
-                var arr = [];
                 this.config.layers.each(function (rec) {
-                    arr.push(rec.getLayer());
+                    layersArr.push(rec.getLayer());
                 });
-                layers = arr;
+                layers = layersArr;
             }
 
             this.getMap().addLayers(layers);
@@ -292,8 +295,8 @@ Ext.define('GXM.Map', {
      *  populated.
      */
     renderMap: function () {
-        var me = this;
-        map = me.getMap();
+        var me = this,
+            map = me.getMap();
 
         // This is taken from the Sencha-Touch Map-component and ensures that
         // there is no child element inside the target div we wish to render the
@@ -409,8 +412,8 @@ Ext.define('GXM.Map', {
      *  The "removelayer" listener bound to the :attr:`map`.
      */
     onRemovelayer: function (olEvt) {
-        var layer = olEvt.layer;
-        var record = this.layers.findRecord('id', layer.id);
+        var layer = olEvt.layer,
+            record = this.layers.findRecord('id', layer.id);
         this.layers.remove(record);
         this.fireEvent("afterlayerremove");
     },
