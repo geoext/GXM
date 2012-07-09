@@ -1,6 +1,7 @@
-/*global Ext: true, OpenLayers: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
+/*global Ext, OpenLayers*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -248,7 +249,8 @@ Ext.define('GXM.Button', {
      *  configured OpenLayers.Control.
      */
     pHandler: function () {
-        var ctrl = this.getControl();
+        var ctrl = this.getControl(),
+            args;
         if (ctrl && ctrl.type === OpenLayers.Control.TYPE_BUTTON) {
             ctrl.trigger();
         } else {
@@ -260,7 +262,7 @@ Ext.define('GXM.Button', {
         }
         if (this.uHandler) {
             // adding the controls active state as last arg for the callback
-            var args = Ext.toArray(arguments);
+            args = Ext.toArray(arguments);
             args.push(ctrl.active);
             this.uHandler.apply(this.uScope, args);
         }
