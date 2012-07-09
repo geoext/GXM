@@ -83,7 +83,7 @@ Ext.define("GXM.FeatureRenderer", {
 
     /**
      * @private
-     * 
+     *
      * Draw the feature.
      */
     drawFeature: function () {
@@ -118,7 +118,7 @@ Ext.define("GXM.FeatureRenderer", {
 
     /**
      * @private
-     * 
+     *
      * Set the dimensions of the renderer.
      */
     setRendererDimensions: function () {
@@ -141,7 +141,7 @@ Ext.define("GXM.FeatureRenderer", {
 
         if (!resolution) {
             resolution = Math.max(
-                gw / this.width || 0, 
+                gw / this.width || 0,
                 gh / this.height || 0
             ) || 1;
         }
