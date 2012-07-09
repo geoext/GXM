@@ -1,6 +1,7 @@
-/*global Ext: true, GXM: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
@@ -99,7 +100,11 @@ Ext.define('GXM.FeatureList', {
      */
     initialize: function () {
 
-        var map = this.getMap();
+        var map = this.getMap(),
+            layer = this.getLayer(),
+            tpl = this.getItemTpl(),
+            features,
+            store;
 
         if (map && map instanceof GXM.Map) {
             this.olMap = map.getMap();
@@ -108,11 +113,9 @@ Ext.define('GXM.FeatureList', {
         // TODO
         // Allow also initialization with an array of features
 
-        var layer = this.getLayer();
-
         if (layer) {
-            var features = layer.features;
-            var store = Ext.create('GXM.data.FeatureStore', {
+            features = layer.features;
+            store = Ext.create('GXM.data.FeatureStore', {
                 data: features
             });
             this.setStore(store);
@@ -124,8 +127,6 @@ Ext.define('GXM.FeatureList', {
                 scope: this
             });
         }
-
-        var tpl = this.getItemTpl();
 
         if (Ext.isDefined(tpl) && tpl instanceof Ext.XTemplate) {
             this.setItemTpl(tpl);
@@ -145,7 +146,6 @@ Ext.define('GXM.FeatureList', {
                 }
             ));
         }
-
 
         this.callParent();
     },
