@@ -413,7 +413,7 @@ Ext.define('GXM.Map', {
      */
     onRemovelayer: function (olEvt) {
         var layer = olEvt.layer,
-        record = this.layers.findRecord('id', layer.id);
+            record = this.layers.findRecord('id', layer.id);
         if(record) {
             this.layers.remove(record);
         }
