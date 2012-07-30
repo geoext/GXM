@@ -1,0 +1,881 @@
+{
+    "projectName": "Project Name",
+    "licenseText": "Copyright(c) 2012 Company Name",
+    "builds": [
+        {
+            "name": "All Classes",
+            "target": "all-classes.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+                {
+                    "clsName": "GXM.version",
+                    "name": "version.js",
+                    "path": "../src/GXM/"
+                },
+                {
+                    "clsName": "GXM.util.Base",
+                    "name": "Base.js",
+                    "path": "../src/GXM/util/"
+                },
+                {
+                    "clsName": "Ext.event.ListenerStack",
+                    "name": "ListenerStack.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.event.Controller",
+                    "name": "Controller.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.Publisher",
+                    "name": "Publisher.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.ComponentManager",
+                    "name": "ComponentManager.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.util.Point",
+                    "name": "Point.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.event.Event",
+                    "name": "Event.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.mixin.Mixin",
+                    "name": "Mixin.js",
+                    "path": "./sencha-touch-2.0.1.1/src/mixin/"
+                },
+                {
+                    "clsName": "Ext.behavior.Behavior",
+                    "name": "Behavior.js",
+                    "path": "./sencha-touch-2.0.1.1/src/behavior/"
+                },
+                {
+                    "clsName": "Ext.data.Operation",
+                    "name": "Operation.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.XTemplateParser",
+                    "name": "XTemplateParser.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.data.identifier.Simple",
+                    "name": "Simple.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/identifier/"
+                },
+                {
+                    "clsName": "Ext.util.Sorter",
+                    "name": "Sorter.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Sortable",
+                    "name": "Sortable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.Filter",
+                    "name": "Filter.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.SortTypes",
+                    "name": "SortTypes.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.util.Inflector",
+                    "name": "Inflector.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.Error",
+                    "name": "Error.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.fx.State",
+                    "name": "State.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/"
+                },
+                {
+                    "clsName": "Ext.data.Request",
+                    "name": "Request.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.Abstract",
+                    "name": "Abstract.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.Momentum",
+                    "name": "Momentum.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.Bounce",
+                    "name": "Bounce.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.data.writer.Writer",
+                    "name": "Writer.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/writer/"
+                },
+                {
+                    "clsName": "Ext.data.ResultSet",
+                    "name": "ResultSet.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.event.Dispatcher",
+                    "name": "Dispatcher.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.util.LineSegment",
+                    "name": "LineSegment.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.event.Dom",
+                    "name": "Dom.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.Dom",
+                    "name": "Dom.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.mixin.Traversable",
+                    "name": "Traversable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/mixin/"
+                },
+                {
+                    "clsName": "Ext.XTemplateCompiler",
+                    "name": "XTemplateCompiler.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.util.Grouper",
+                    "name": "Grouper.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.mixin.Observable",
+                    "name": "Observable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/mixin/"
+                },
+                {
+                    "clsName": "Ext.Evented",
+                    "name": "Evented.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.AbstractComponent",
+                    "name": "AbstractComponent.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.DateExtras",
+                    "name": "DateExtras.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.util.Format",
+                    "name": "Format.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.Template",
+                    "name": "Template.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.XTemplate",
+                    "name": "XTemplate.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.util.SizeMonitor",
+                    "name": "SizeMonitor.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.mixin.Sortable",
+                    "name": "Sortable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/mixin/"
+                },
+                {
+                    "clsName": "Ext.mixin.Filterable",
+                    "name": "Filterable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/mixin/"
+                },
+                {
+                    "clsName": "Ext.util.Collection",
+                    "name": "Collection.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.data.StoreManager",
+                    "name": "StoreManager.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Errors",
+                    "name": "Errors.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.layout.Default",
+                    "name": "Default.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.Fit",
+                    "name": "Fit.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.AbstractBox",
+                    "name": "AbstractBox.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.HBox",
+                    "name": "HBox.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.VBox",
+                    "name": "VBox.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.util.AbstractMixedCollection",
+                    "name": "AbstractMixedCollection.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.util.MixedCollection",
+                    "name": "MixedCollection.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.ItemCollection",
+                    "name": "ItemCollection.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.Abstract",
+                    "name": "Abstract.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.Slide",
+                    "name": "Slide.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.SlideOut",
+                    "name": "SlideOut.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.Fade",
+                    "name": "Fade.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.FadeOut",
+                    "name": "FadeOut.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.Flip",
+                    "name": "Flip.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.Pop",
+                    "name": "Pop.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.animation.PopOut",
+                    "name": "PopOut.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/animation/"
+                },
+                {
+                    "clsName": "Ext.fx.Animation",
+                    "name": "Animation.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/"
+                },
+                {
+                    "clsName": "Ext.data.Types",
+                    "name": "Types.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Field",
+                    "name": "Field.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.BoundMomentum",
+                    "name": "BoundMomentum.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.Linear",
+                    "name": "Linear.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.util.translatable.Abstract",
+                    "name": "Abstract.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/translatable/"
+                },
+                {
+                    "clsName": "Ext.util.translatable.CssTransform",
+                    "name": "CssTransform.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/translatable/"
+                },
+                {
+                    "clsName": "Ext.util.translatable.ScrollPosition",
+                    "name": "ScrollPosition.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/translatable/"
+                },
+                {
+                    "clsName": "Ext.util.Translatable",
+                    "name": "Translatable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.behavior.Translatable",
+                    "name": "Translatable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/behavior/"
+                },
+                {
+                    "clsName": "Ext.util.Draggable",
+                    "name": "Draggable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.behavior.Draggable",
+                    "name": "Draggable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/behavior/"
+                },
+                {
+                    "clsName": "Ext.Component",
+                    "name": "Component.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Button",
+                    "name": "Button.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "GXM.Button",
+                    "name": "Button.js",
+                    "path": "../src/GXM/"
+                },
+                {
+                    "clsName": "Ext.Title",
+                    "name": "Title.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Spacer",
+                    "name": "Spacer.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Mask",
+                    "name": "Mask.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Decorator",
+                    "name": "Decorator.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.field.Input",
+                    "name": "Input.js",
+                    "path": "./sencha-touch-2.0.1.1/src/field/"
+                },
+                {
+                    "clsName": "Ext.field.Field",
+                    "name": "Field.js",
+                    "path": "./sencha-touch-2.0.1.1/src/field/"
+                },
+                {
+                    "clsName": "Ext.field.Text",
+                    "name": "Text.js",
+                    "path": "./sencha-touch-2.0.1.1/src/field/"
+                },
+                {
+                    "clsName": "Ext.field.TextAreaInput",
+                    "name": "TextAreaInput.js",
+                    "path": "./sencha-touch-2.0.1.1/src/field/"
+                },
+                {
+                    "clsName": "Ext.field.TextArea",
+                    "name": "TextArea.js",
+                    "path": "./sencha-touch-2.0.1.1/src/field/"
+                },
+                {
+                    "clsName": "Ext.fx.easing.EaseOut",
+                    "name": "EaseOut.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/easing/"
+                },
+                {
+                    "clsName": "Ext.scroll.Scroller",
+                    "name": "Scroller.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/"
+                },
+                {
+                    "clsName": "Ext.data.writer.Json",
+                    "name": "Json.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/writer/"
+                },
+                {
+                    "clsName": "Ext.data.Batch",
+                    "name": "Batch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.util.HashMap",
+                    "name": "HashMap.js",
+                    "path": "./sencha-touch-2.0.1.1/src/util/"
+                },
+                {
+                    "clsName": "Ext.AbstractManager",
+                    "name": "AbstractManager.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.data.ModelManager",
+                    "name": "ModelManager.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.association.Association",
+                    "name": "Association.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/association/"
+                },
+                {
+                    "clsName": "Ext.data.association.HasMany",
+                    "name": "HasMany.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/association/"
+                },
+                {
+                    "clsName": "Ext.data.association.BelongsTo",
+                    "name": "BelongsTo.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/association/"
+                },
+                {
+                    "clsName": "Ext.data.association.HasOne",
+                    "name": "HasOne.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/association/"
+                },
+                {
+                    "clsName": "Ext.data.Connection",
+                    "name": "Connection.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.Ajax",
+                    "name": "Ajax.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Abstract",
+                    "name": "Abstract.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Scroll",
+                    "name": "Scroll.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Style",
+                    "name": "Style.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Slide",
+                    "name": "Slide.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Cover",
+                    "name": "Cover.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Reveal",
+                    "name": "Reveal.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Fade",
+                    "name": "Fade.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Flip",
+                    "name": "Flip.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.card.Pop",
+                    "name": "Pop.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/card/"
+                },
+                {
+                    "clsName": "Ext.fx.layout.Card",
+                    "name": "Card.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.Card",
+                    "name": "Card.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.layout.Layout",
+                    "name": "Layout.js",
+                    "path": "./sencha-touch-2.0.1.1/src/layout/"
+                },
+                {
+                    "clsName": "Ext.scroll.indicator.Abstract",
+                    "name": "Abstract.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/indicator/"
+                },
+                {
+                    "clsName": "Ext.scroll.indicator.Default",
+                    "name": "Default.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/indicator/"
+                },
+                {
+                    "clsName": "Ext.scroll.indicator.ScrollPosition",
+                    "name": "ScrollPosition.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/indicator/"
+                },
+                {
+                    "clsName": "Ext.scroll.indicator.CssTransform",
+                    "name": "CssTransform.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/indicator/"
+                },
+                {
+                    "clsName": "Ext.scroll.Indicator",
+                    "name": "Indicator.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/"
+                },
+                {
+                    "clsName": "Ext.scroll.View",
+                    "name": "View.js",
+                    "path": "./sencha-touch-2.0.1.1/src/scroll/"
+                },
+                {
+                    "clsName": "Ext.behavior.Scrollable",
+                    "name": "Scrollable.js",
+                    "path": "./sencha-touch-2.0.1.1/src/behavior/"
+                },
+                {
+                    "clsName": "Ext.Container",
+                    "name": "Container.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.SegmentedButton",
+                    "name": "SegmentedButton.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Panel",
+                    "name": "Panel.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Toolbar",
+                    "name": "Toolbar.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.Sheet",
+                    "name": "Sheet.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.MessageBox",
+                    "name": "MessageBox.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Reader",
+                    "name": "Reader.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/reader/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Json",
+                    "name": "Json.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/reader/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Proxy",
+                    "name": "Proxy.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Client",
+                    "name": "Client.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Memory",
+                    "name": "Memory.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Server",
+                    "name": "Server.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.proxy.Ajax",
+                    "name": "Ajax.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/proxy/"
+                },
+                {
+                    "clsName": "Ext.data.Model",
+                    "name": "Model.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.Store",
+                    "name": "Store.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "GXM.data.LayerModel",
+                    "name": "LayerModel.js",
+                    "path": "../src/GXM/data/"
+                },
+                {
+                    "clsName": "GXM.data.LayerStore",
+                    "name": "LayerStore.js",
+                    "path": "../src/GXM/data/"
+                },
+                {
+                    "clsName": "GXM.Map",
+                    "name": "Map.js",
+                    "path": "../src/GXM/"
+                },
+                {
+                    "clsName": "Ext.event.Touch",
+                    "name": "Touch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.TouchGesture",
+                    "name": "TouchGesture.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Recognizer",
+                    "name": "Recognizer.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Touch",
+                    "name": "Touch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.SingleTouch",
+                    "name": "SingleTouch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Drag",
+                    "name": "Drag.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Tap",
+                    "name": "Tap.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.DoubleTap",
+                    "name": "DoubleTap.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.LongPress",
+                    "name": "LongPress.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Swipe",
+                    "name": "Swipe.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.HorizontalSwipe",
+                    "name": "HorizontalSwipe.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.MultiTouch",
+                    "name": "MultiTouch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Pinch",
+                    "name": "Pinch.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.event.recognizer.Rotate",
+                    "name": "Rotate.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/recognizer/"
+                },
+                {
+                    "clsName": "Ext.ComponentQuery",
+                    "name": "ComponentQuery.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.ComponentDelegation",
+                    "name": "ComponentDelegation.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.ComponentPaint",
+                    "name": "ComponentPaint.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.event.publisher.ComponentSize",
+                    "name": "ComponentSize.js",
+                    "path": "./sencha-touch-2.0.1.1/src/event/publisher/"
+                },
+                {
+                    "clsName": "Ext.log.Base",
+                    "name": "Base.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/"
+                },
+                {
+                    "clsName": "Ext.log.Logger",
+                    "name": "Logger.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/"
+                },
+                {
+                    "clsName": "Ext.log.formatter.Formatter",
+                    "name": "Formatter.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/formatter/"
+                },
+                {
+                    "clsName": "Ext.log.writer.Writer",
+                    "name": "Writer.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/writer/"
+                },
+                {
+                    "clsName": "Ext.log.writer.Console",
+                    "name": "Console.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/writer/"
+                },
+                {
+                    "clsName": "Ext.log.formatter.Default",
+                    "name": "Default.js",
+                    "path": "./sencha-touch-2.0.1.1/src/log/formatter/"
+                },
+                {
+                    "clsName": "Ext.fx.runner.Css",
+                    "name": "Css.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/runner/"
+                },
+                {
+                    "clsName": "Ext.fx.runner.CssTransition",
+                    "name": "CssTransition.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/runner/"
+                },
+                {
+                    "clsName": "Ext.fx.Runner",
+                    "name": "Runner.js",
+                    "path": "./sencha-touch-2.0.1.1/src/fx/"
+                },
+                {
+                    "clsName": "Ext.LoadMask",
+                    "name": "LoadMask.js",
+                    "path": "./sencha-touch-2.0.1.1/src/"
+                },
+                {
+                    "clsName": "Ext.viewport.Default",
+                    "name": "Default.js",
+                    "path": "./sencha-touch-2.0.1.1/src/viewport/"
+                },
+                {
+                    "clsName": "Ext.viewport.Ios",
+                    "name": "Ios.js",
+                    "path": "./sencha-touch-2.0.1.1/src/viewport/"
+                },
+                {
+                    "clsName": "Ext.viewport.Android",
+                    "name": "Android.js",
+                    "path": "./sencha-touch-2.0.1.1/src/viewport/"
+                },
+                {
+                    "clsName": "Ext.viewport.Viewport",
+                    "name": "Viewport.js",
+                    "path": "./sencha-touch-2.0.1.1/src/viewport/"
+                },
+                {
+                    "clsName": "Ext.data.ArrayStore",
+                    "name": "ArrayStore.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/"
+                },
+                {
+                    "clsName": "Ext.data.reader.Array",
+                    "name": "Array.js",
+                    "path": "./sencha-touch-2.0.1.1/src/data/reader/"
+                }
+            ]
+        },
+        {
+            "name": "Application - Production",
+            "target": "app-all.js",
+            "compress": true,
+            "files": [
+                {
+                    "path": "",
+                    "name": "all-classes.js"
+                },
+                {
+                    "path": "",
+                    "name": "buttons.js"
+                }
+            ]
+        }
+    ],
+    "resources": []
+}
