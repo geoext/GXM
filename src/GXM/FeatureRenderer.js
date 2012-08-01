@@ -8,6 +8,9 @@
  * text of the license.
  */
 
+/* @requires OpenLayers/Feature/Vector.js
+ */
+
 /**
  * @class GXM.FeatureRenderer
  * Create a box component for rendering a vector feature.

@@ -8,6 +8,10 @@
  * text of the license.
  */
 
+/* @requires GXM/version.js
+ * @requires GXM/data/LayerModel.js
+ */
+
 /**
  *  @class GXM.data.LayerStore
  *

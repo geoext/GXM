@@ -8,6 +8,9 @@
  * text of the license.
  */
 
+/* @requires GXM/version.js
+ */
+
 /**
  * @class GXM.FeaturePopup
  * The class that is used to construct a GXM FeaturePopup.

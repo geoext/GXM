@@ -8,6 +8,10 @@
  * text of the license.
  */
 
+/* @requires GXM/version.js
+ * @requires GXM/util/Base.js
+ * @requires GXM/data/LayerStore.js
+ */
 
 /**
  * @class GXM.LayerList
