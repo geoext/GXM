@@ -297,8 +297,8 @@ Ext.define('GXM.Map', {
      *  populated.
      */
     renderMap: function () {
-        var me = this;
-        map = me.getMap();
+        var me = this,
+            map = me.getMap();
 
         // This is taken from the Sencha-Touch Map-component and ensures that
         // there is no child element inside the target div we wish to render the
