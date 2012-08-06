@@ -1,10 +1,11 @@
-/*global Ext: true, OpenLayers: true, GXM: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
- * 
- * Published under the BSD license. 
- * 
- * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ *
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full
  * text of the license.
  */
 
@@ -114,7 +115,8 @@ Ext.define('GXM.LayerList', {
      */
     initialize: function () {
         var me = this,
-            map = this.getMap();
+            map = this.getMap(),
+            internalLayerStore;
 
         if (map && map instanceof GXM.Map) {
             me.olMap = map.getMap();
@@ -158,7 +160,7 @@ Ext.define('GXM.LayerList', {
 
         me.addListener('itemtap', me.reactOnItemTap, me);
 
-        var internalLayerStore = me.createInternalLayerStore(me.getStore().data.items);
+        internalLayerStore = me.createInternalLayerStore(me.getStore().data.items);
         me.setStore(internalLayerStore);
 
         me.callParent();
@@ -175,7 +177,8 @@ Ext.define('GXM.LayerList', {
      */
     createInternalLayerStore: function (originalData) {
 
-        var dspLayers = [];
+        var dspLayers = [],
+            newStore;
         Ext.each(originalData, function (record, idx) {
             var layer = record.getLayer();
             if (!Ext.isDefined(layer.displayInLayerSwitcher) || layer.displayInLayerSwitcher === true) {
@@ -184,7 +187,7 @@ Ext.define('GXM.LayerList', {
             }
         }, this);
 
-        var newStore = Ext.create('GXM.data.LayerStore', {
+        newStore = Ext.create('GXM.data.LayerStore', {
             data: dspLayers
         });
 
@@ -232,9 +235,10 @@ Ext.define('GXM.LayerList', {
      */
     onRemoveLayer: function (evt) {
         if (evt && evt.layer) {
-            var layer = evt.layer;
-            var record = this.getStore().findRecord('id', layer.id);
-            this.getStore().remove(record);
+            var layer = evt.layer,
+                store = this.getStore(),
+                record = store.findRecord('id', layer.id);
+            store.remove(record);
         }
     },
 
