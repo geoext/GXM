@@ -1,10 +1,11 @@
-/*global Ext: true, OpenLayers: true, GXM: true */
-/*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
- * 
- * Published under the BSD license. 
- * 
- * See https://raw.github.com/geoext/GXM/master/license.txt for the full 
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
+/* Copyright (c) 2012 The Open Source Geospatial Foundation
+ *
+ * Published under the BSD license.
+ *
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full
  * text of the license.
  */
 
@@ -25,6 +26,11 @@ Ext.define("GXM.FeatureRenderer", {
         minWidth: 20,
         minHeight: 20
     },
+
+    /**
+     * @private
+     * The constructor function
+     */
     initialize: function () {
         var me = this;
         this.autoEl = {
@@ -78,6 +84,11 @@ Ext.define("GXM.FeatureRenderer", {
         this.drawFeature();
     },
 
+    /**
+     * @private
+     *
+     * Draw the feature.
+     */
     drawFeature: function () {
         this.renderer.clear();
         this.setRendererDimensions();
@@ -108,29 +119,44 @@ Ext.define("GXM.FeatureRenderer", {
         }
     },
 
+    /**
+     * @private
+     *
+     * Set the dimensions of the renderer.
+     */
     setRendererDimensions: function () {
         var gb = this.feature.geometry.getBounds(),
             gw = gb.getWidth(),
-            gh = gb.getHeight();
-        /*
-         * Determine resolution based on the following rules:
-         * 1) always use value specified in config
-         * 2) if not specified, use max res based on width or height of element
-         * 3) if no width or height, assume a resolution of 1
-         */
-        var resolution = this.initialConfig.resolution;
+            gh = gb.getHeight(),
+            /* Determine resolution based on the following rules:
+             * 1) always use value specified in config
+             * 2) if not specified, use max res based on width or height of
+             *    element
+             * 3) if no width or height, assume a resolution of 1
+             */
+            resolution = this.initialConfig.resolution,
+            width,
+            height,
+            center,
+            bhalfw,
+            bhalfh,
+            bounds;
+
         if (!resolution) {
-            resolution = Math.max(gw / this.width || 0, gh / this.height || 0) || 1;
+            resolution = Math.max(
+                gw / this.width || 0,
+                gh / this.height || 0
+            ) || 1;
         }
         this.resolution = resolution;
         // determine height and width of element
-        var width = Math.max(this.getWidth() || this.getMinWidth(), gw / resolution);
-        var height = Math.max(this.getHeight() || this.getMinHeight(), gh / resolution);
+        width = Math.max(this.getWidth() || this.getMinWidth(), gw / resolution);
+        height = Math.max(this.getHeight() || this.getMinHeight(), gh / resolution);
         // determine bounds of renderer
-        var center = gb.getCenterPixel();
-        var bhalfw = width * resolution / 2;
-        var bhalfh = height * resolution / 2;
-        var bounds = new OpenLayers.Bounds(
+        center = gb.getCenterPixel();
+        bhalfw = width * resolution / 2;
+        bhalfh = height * resolution / 2;
+        bounds = new OpenLayers.Bounds(
             center.x - bhalfw,
             center.y - bhalfh,
             center.x + bhalfw,
