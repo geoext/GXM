@@ -10,6 +10,10 @@
  * text of the license.
  */
 
+/* @requires GXM/version.js
+ * @requires GXM/data/FeatureModel.js
+ */
+
 /**
  * @class GXM.data.FeatureStore
  *

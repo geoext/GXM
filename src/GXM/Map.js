@@ -9,6 +9,11 @@
  * text of the license.
  */
 
+/* @requires GXM/version.js
+ * @requires GXM/util/Base.js
+ * @requires GXM/data/LayerStore.js
+ */
+
 /**
  * @class GXM.Map
  * The class that is used to build a GXM map.

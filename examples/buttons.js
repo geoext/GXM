@@ -16,7 +16,11 @@
 
 Ext.require([
     'GXM.Map',
-    'GXM.Button'
+    'GXM.Button',
+    'Ext.SegmentedButton',
+    'Ext.Panel',
+    'Ext.Toolbar',
+    'Ext.MessageBox'
 ]);
 
 Ext.setup({
