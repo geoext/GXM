@@ -1,4 +1,5 @@
-/*global Ext: true, GXM: true */
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
 /*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
  * 
