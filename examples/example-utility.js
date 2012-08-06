@@ -13,6 +13,10 @@
  *  This file holds methods that are being shared by the examples.
  */
 
+Ext.require([
+    'Ext.Panel'
+]);
+
 Ext.ns('example');
 
 example.utility = {
@@ -252,10 +256,10 @@ example.utility = {
                     fullscreen: false,
                     draggable : false,
                     modal : true,
-                	hideOnMaskTap: true,
+                    hideOnMaskTap: true,
                     height: '80%',
-                    width: '50%',
-                    centered : false,
+                    width: '95%',
+                    centered : true,
                     styleHtmlContent : true,
                     scrollable : true,
                     html: sourceCode
