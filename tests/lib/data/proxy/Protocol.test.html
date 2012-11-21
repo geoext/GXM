@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!--
+            Instead of using the Ext.loader-mechanism, we use a very simple 
+            script-loader, which also works in e.g. the iPad and on iOs-Phones.
+        -->
+        <script type="text/javascript">
+        window.LOAD_GXM = [
+            "../../../../src/GXM/version.js",
+            "../../../../src/GXM/data/proxy/Protocol.js"
+        ];
+        </script>
+        <script type="text/javascript" src="../../../gxm.scriptloader.js"></script>
+        
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../../../helperfunctions.js"></script>
+        
+        <script type="text/javascript">
+        function test_constructor(t) {
+            t.plan(1);
+            // setup
+            var protocol, proxy;
+            protocol = new OpenLayers.Protocol();
+            // test
+            proxy = Ext.create("GXM.data.proxy.Protocol", {
+                protocol: protocol        
+            });
+            t.ok(proxy.getProtocol() != null,
+                 "ctor sets protocol in protocol property");
+        }
+
+        function test_abort(t) {
+            t.plan(1);
+
+            var protocol = new OpenLayers.Protocol({
+                read: function(o) {
+                    return new OpenLayers.Protocol.Response();
+                },
+                abort: function(response) {
+                    t.ok(true, "protocol.abort called");
+                }
+            });
+            var proxy = Ext.create("GXM.data.proxy.Protocol", {
+                protocol: protocol
+            });
+            Ext.define("foo", {
+                extend: "Ext.data.Model"
+            });
+            proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort not called because proxy.response is null
+            proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort called
+            proxy.abortPrevious = false;
+            proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort not called because proxy.abortPrevious is false
+        }
+
+       </script>
+    </head>
+
+    <body></body>
+</html>
+
