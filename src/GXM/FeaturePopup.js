@@ -56,6 +56,27 @@ Ext.define('GXM.FeaturePopup', {
      */
     layout: 'fit',
 
+    /**
+     * @property {Boolean} insideViewport
+     * @private
+     *  Are we inside of the map's viewport?
+     */
+    insideViewport: null,
+
+    /**
+     * @property {OpenLayers.LonLat} location
+     * @private
+     *  The geographic location of the popup.
+     */
+    location: null,
+
+    /**
+     * @property {OpenLayers.Map} map
+     * @private
+     *  The OpenLayers Map object.
+     */
+    map: null,
+
     config: {
 
         /**
@@ -193,6 +214,10 @@ Ext.define('GXM.FeaturePopup', {
         return newFeature;
     },
 
+    /**
+     * @private
+     * Reposition the popup when the map moves.
+     */
     onMapMove: function() {
         if (!(this.getHidden() && this.insideViewport)){
             this._mapMove = true;
@@ -202,6 +227,11 @@ Ext.define('GXM.FeaturePopup', {
         this.position();
     },
 
+    /**
+     * @private
+     * Determine the correct position of the popup if it's tied to a feature's
+     * geometry.
+     */
     position: function() {
         var me = this;
         if(me._mapMove === true) {
