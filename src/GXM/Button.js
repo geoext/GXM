@@ -8,9 +8,6 @@
  * text of the license.
  */
 
-/* @requires GXM/version.js
- */
-
 /**
  * @class GXM.Button
  * The class that is used to construct a GXM Button.
