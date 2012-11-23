@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AttributeReader.test.html</title>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <script type="text/javascript" src="Attribute.js"></script>
+        
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+
+        Ext.require([
+            'Ext.data.Model',
+            'Ext.data.proxy.Ajax',
+            'Ext.data.writer.Json',
+            'GXM.data.reader.Attribute'
+        ]);
+    
+        function test_ctor(t) {
+            t.plan(2);
+    
+            var Model = Ext.Class({
+                extend: 'Ext.data.Model',
+                config:{
+                    fields: [
+                        'name',
+                        'type',
+                        'restriction',
+                        {name: "nillable", type: "boolean"}
+                    ]
+                }
+            });
+            
+            var format = new OpenLayers.Format({type:'testformat'});
+    
+            var reader = Ext.create('GXM.data.reader.Attribute', {
+                model: Model,
+                ignore: {type: "xsd:string"},
+                format: format
+            });
+            
+            t.eq(reader.getIgnore(), {type: "xsd:string"},
+                "ctor sets the ignore object in the instance");
+    
+            //due to the deep clone, merge functions called. No objects
+            //passed in the constructor are the same ones in the class
+            t.ok(reader.getFormat().type == format.type, 
+                "ctor sets the format in the instance");
+        }  
+    
+        function test_read(t) {
+            t.plan(5);
+    
+            var Model = Ext.Class({
+                extend: 'Ext.data.Model',
+                config:{
+                    fields: [
+                        'name',
+                        'type',
+                        'restriction',
+                        {name: "nillable", type: "boolean"}
+                    ]
+                }
+            });
+    
+            var reader = Ext.create('GXM.data.reader.Attribute', {
+                model: Model
+            });
+    
+            var records = reader.read({responseXML : doc, responseText: 'foo'});
+    
+            //1 test
+            t.eq(records.getCount(), 23, 'readRecords returns correct number of records');
+    
+            var record = records.getRecords()[2];
+    
+            //4 tests -- testing the fields of a record
+            t.eq(record.get("name"), "STATE_FIPS", "[1] correct attribute name");
+            t.eq(record.get("nillable"), false, "[2] correct attribute nillable");
+            t.eq(record.get("type"), "xsd:string", "[3] correct attribute type name");
+            t.eq(record.get("restriction").maxLength, "2", "[4] correct attribute restriction");
+        }
+    
+        function test_ignoreString(t) {
+            t.plan(1);
+    
+            var Model = Ext.Class({
+                extend: 'Ext.data.Model',
+                config:{
+                    fields: [
+                        'name',
+                        'type'
+                    ]
+                }
+            });
+            var reader = Ext.create('GXM.data.reader.Attribute', {
+                model: Model,
+                ignore: {type: "xsd:string"}
+            });
+    
+            var records = reader.read({responseXML : doc, responseText: 'foo'});
+    
+            //1 test
+            t.eq(records.getCount(), 19, 'right number of records are ignored (ignores String)');
+        }
+    
+        function test_ignoreArray(t) {
+            t.plan(1);
+    
+            var Model = Ext.Class({
+                extend: 'Ext.data.Model',
+                config: {
+                    fields: [
+                        'name',
+                        'type'
+                    ]
+                }
+            });
+            var reader = Ext.create('GXM.data.reader.Attribute', {
+                model: Model,
+                ignore: {type: ["xsd:double", "gml:MultiSurfacePropertyType"]}
+            });
+    
+             var records = reader.read({responseXML : doc, responseText: 'foo'});
+    
+             //1 test
+             t.eq(records.getCount(), 4, 'right number of records are ignored (ignores Array)');
+        }
+    
+        function test_ignoreRegexp(t) {
+            t.plan(1);
+    
+            var Model = Ext.Class({
+                extend: 'Ext.data.Model',
+                config: {
+                    fields: [
+                        'name',
+                        'type'
+                    ]
+                }
+            });
+            var reader = Ext.create('GXM.data.reader.Attribute', {
+                model: Model,
+                ignore: {name: new RegExp('^S')}
+            });
+    
+            var records = reader.read({responseXML : doc, responseText: 'foo'});
+    
+            //1 test
+            t.eq(records.getCount(), 17, 'right number of records are ignored (ignores RegExp)');
+        }
+
+    </script>
+  <body>
+    <div></div>
+  </body>
+</html>
