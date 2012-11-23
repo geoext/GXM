@@ -23,6 +23,9 @@
  *          feature : olFeature
  *      };
  *
+ * Set centered to false to have the popup show up at the feature's
+ * location and move with it as well when the map is panned.
+ *
  * Sample code create a directly instanciated GXM.FeaturePopup:
  *
  *      var featPopup = Ext.create('GXM.FeaturePopup', {
@@ -125,7 +128,6 @@ Ext.define('GXM.FeaturePopup', {
     initialize: function () {
 
         var feature = this.getFeature();
-
         // set the given feature in order
         // to call the apply method
         // which cares about the data types
@@ -138,6 +140,28 @@ Ext.define('GXM.FeaturePopup', {
         }
 
         this.callParent();
+        if (!this.getCentered()) {
+            if (feature.layer && feature.layer.map) {
+                this.map = feature.layer.map;
+            } else {
+                var mapPanel = Ext.Viewport.down('gxm_map');
+                if (mapPanel) {
+                    this.map = mapPanel.getMap();
+                }
+            }
+            if (this.map) {
+                this.map.events.on({
+                    "move" : this.onMapMove,
+                    scope : this
+                });
+                this.location = this.getFeature().geometry.getBounds().getCenterLonLat();
+                var mapExtent =  this.map.getExtent();
+                if (mapExtent && this.location) {
+                    this.insideViewport = mapExtent.containsLonLat(this.location);
+                }
+                this.on('show', this.position, this);
+            }
+        }
     },
 
     /**
@@ -157,13 +181,52 @@ Ext.define('GXM.FeaturePopup', {
             this.setData({
                 feature: newFeature
             });
-        } else if (feature instanceof OpenLayers.Geometry) {
+        } else if (newFeature instanceof OpenLayers.Geometry) {
             // TODO
-        } else if (feature instanceof Ext.Record) {
+        } else if (newFeature instanceof Ext.Record) {
             // TODO
         }
-
+        if (!this.getCentered()) {
+            this.location = newFeature.geometry.getBounds().getCenterLonLat();
+            this.map && this.position();
+        }
         return newFeature;
+    },
+
+    onMapMove: function() {
+        if (!(this.getHidden() && this.insideViewport)){
+            this._mapMove = true;
+            this.position();
+            delete this._mapMove;
+        }
+        this.position();
+    },
+
+    position: function() {
+        var me = this;
+        if(me._mapMove === true) {
+            me.insideViewport = me.map.getExtent().containsLonLat(me.location);
+            if(me.insideViewport === me.getHidden()) {
+                me.setHidden(!me.insideViewport);
+            }
+        }
+        if(!me.getHidden()) {
+            var locationPx = me.map.getPixelFromLonLat(me.location),
+                mapBox = Ext.fly(me.map.div).getBox(true),
+                y = locationPx.y + mapBox.y,
+                x = locationPx.x + mapBox.x,
+                elSize = this.element.getSize();
+            if (locationPx.x > mapBox.width / 2) {
+                // right
+                x -= elSize.width;
+            }
+            if (locationPx.y > mapBox.height / 2) {
+                // bottom
+                y -= elSize.height;
+            }
+            me.setLeft(x);
+            me.setTop(y);
+        }
     }
 
 });
