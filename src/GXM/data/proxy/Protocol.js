@@ -51,21 +51,21 @@ Ext.define('GXM.data.proxy.Protocol', {
          * @cfg {OpenLayers.Protocol}
          * The protocol used to fetch features.
          */
-        protocol: null
+        protocol: null,
+
+        /** 
+         * @cfg {Boolean}
+         * Abort any previous request before issuing another. Default is ``true``.
+         */
+        abortPrevious: true,
+
+        /** 
+         * @cfg {Boolean}
+         * Should options.params be set directly on options before passing it into
+         * the protocol's read method? Default is ``false``.
+         */
+        setParamsAsOptions: false
     },
-
-    /** 
-     * @cfg {Boolean}
-     * Abort any previous request before issuing another. Default is ``true``.
-     */
-    abortPrevious: true,
-
-    /** 
-     * @cfg {Boolean}
-     * Should options.params be set directly on options before passing it into
-     * the protocol's read method? Default is ``false``.
-     */
-    setParamsAsOptions: false,
 
     /** 
      * @property {OpenLayers.Protocol.Response}
@@ -99,7 +99,7 @@ Ext.define('GXM.data.proxy.Protocol', {
             reader: this.getReader()
         };
         var cb = OpenLayers.Function.bind(this.loadResponse, this, o);
-        if (this.abortPrevious) {
+        if (this.getAbortPrevious()) {
             this.abortRequest();
         }
         var options = {
@@ -108,7 +108,7 @@ Ext.define('GXM.data.proxy.Protocol', {
             scope: this
         };
         Ext.applyIf(options, operation.initialConfig);
-        if (this.setParamsAsOptions === true) {
+        if (this.getSetParamsAsOptions() === true) {
             Ext.applyIf(options, options.params);
             delete options.params;
         }

@@ -56,7 +56,7 @@
             });
             proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort not called because proxy.response is null
             proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort called
-            proxy.abortPrevious = false;
+            proxy.setAbortPrevious(false);
             proxy.doRequest(Ext.create("Ext.data.Operation", {model: "foo"})); // abort not called because proxy.abortPrevious is false
         }
 
