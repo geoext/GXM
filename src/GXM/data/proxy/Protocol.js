@@ -108,6 +108,7 @@ Ext.define('GXM.data.proxy.Protocol', {
             callback: cb,
             scope: this
         };
+        Ext.applyIf(options, operation.initialConfig);
         Ext.applyIf(options, operation.initialConfig.arg);
         if (this.getSetParamsAsOptions() === true) {
             Ext.applyIf(options, options.params);
