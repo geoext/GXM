@@ -83,7 +83,7 @@ Ext.define('GXM.data.proxy.Protocol', {
      */
     doRequest: function(operation, callback, scope) {
         var me = this,
-            params = Ext.applyIf(operation.params || {}, me.extraParams || {}),
+            params = Ext.applyIf(operation.getParams() || {}, me.getExtraParams() || {}),
             request;
 
         //copy any sorters, filters etc into the params so they can be sent over the wire
@@ -94,7 +94,8 @@ Ext.define('GXM.data.proxy.Protocol', {
             operation: operation,
             request: {
                 callback: callback,
-                scope: scope
+                scope: scope,
+                arg: operation.arg
             },
             reader: this.getReader()
         };
@@ -107,7 +108,7 @@ Ext.define('GXM.data.proxy.Protocol', {
             callback: cb,
             scope: this
         };
-        Ext.applyIf(options, operation.initialConfig);
+        Ext.applyIf(options, operation.initialConfig.arg);
         if (this.getSetParamsAsOptions() === true) {
             Ext.applyIf(options, options.params);
             delete options.params;
@@ -139,19 +140,9 @@ Ext.define('GXM.data.proxy.Protocol', {
         var callback = o.request.callback;
         if (response.success()) {
             var result = o.reader.read(response.features || response);
-            if(operation.process) {
-              if (operation.process('read', result, null, response) === false) {
+            if (operation.process('read', result, null, response) === false) {
                 this.fireEvent('exception', this, response, operation);
             }
-            } else {
-            Ext.apply(operation, {
-                response: response,
-                resultSet: result
-            });
-            operation.commitRecords(result.getRecords());
-            operation.setCompleted();
-            operation.setSuccessful();
-}
         } else {
             me.setException(operation, response);
             me.fireEvent('exception', this, response, operation);
