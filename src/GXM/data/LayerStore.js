@@ -8,7 +8,8 @@
  * text of the license.
  */
 
- /* @requires GXM/data/LayerModel.js
+/* @requires GXM/version.js
+ * @requires GXM/data/LayerModel.js
  */
 
 /**
