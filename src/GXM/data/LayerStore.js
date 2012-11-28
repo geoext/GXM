@@ -1,10 +1,12 @@
-/*global Ext: true */
+/*global Ext, OpenLayers, GXM*/
+/*jslint nomen: true, plusplus: true, sloppy: true*/
+
 /*
  * Copyright (c) 2012 The Open Source Geospatial Foundation
- * 
- * Published under the BSD license. 
- * 
- * See http://svn.geoext.org/sandbox/gxm/geoext/gxm/license.txt for the full 
+ *
+ * Published under the BSD license.
+ *
+ * See https://raw.github.com/geoext/GXM/master/license.txt for the full
  * text of the license.
  */
 
