@@ -61,7 +61,7 @@ Ext.define('GXM.data.reader.Attribute', {
      */
     constructor: function(config) {
         if (!this.model) {
-            this.model = 'GeoExt.data.AttributeModel';
+            this.model = 'GXM.data.AttributeModel';
         }
         
         this.callParent([config]);
@@ -76,7 +76,7 @@ Ext.define('GXM.data.reader.Attribute', {
     getResponseData: function(request) {
         var data;
         if(request.responseXML || request.responseText){
-            var data = request.responseXML;
+            data = request.responseXML;
             if(!data || !data.documentElement) {
                 data = request.responseText;
             }    
