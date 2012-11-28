@@ -32,7 +32,8 @@ Ext.define('GXM.data.AttributeModel', {
             {name: 'name', type: 'string'},
             {name: 'type', defaultValue: null},
             {name: 'restriction', defaultValue: null},
-            {name: 'nillable', type: 'bool'}
+            {name: 'nillable', type: 'bool'},
+            {name: 'annotation'}
         ],
         proxy: {
             type: 'ajax',
