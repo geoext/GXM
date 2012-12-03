@@ -122,6 +122,7 @@ Ext.define('GXM.FeatureList', {
 
             // bind OL events
             layer.events.on({
+                "featuremodified": this.onFeatureModified,
                 "featureadded": this.onFeatureAdded,
                 "featureremoved": this.onFeatureRemoved,
                 scope: this
@@ -151,6 +152,11 @@ Ext.define('GXM.FeatureList', {
 
 
         this.callParent();
+    },
+
+    onFeatureModified: function(evt) {
+        var rec = this.getStore().findRecord("id", evt.feature.id);
+        rec.set('feature', evt.feature);
     },
 
     /**
@@ -202,6 +208,7 @@ Ext.define('GXM.FeatureList', {
             layer.events.un({
                 "featureadded": this.onFeatureAdded,
                 "featureremoved": this.onFeatureRemoved,
+                "featuremodified": this.onFeatureModified,
                 scope: this
             });
         }
