@@ -213,7 +213,21 @@ example.utility = {
                 lines.push(ind + 'olFeature: feature,');
                 lines.push(ind + comS + '// Define your custom Ext.Template, Ext.XTemplate or Array of' + comE);
                 lines.push(ind + comS + '// strings to change the view of the popup' + comE);
-                lines.push(ind + 'tpl : ' + extCreateCode + 'Ext.XTemplate\', ...),');
+                lines.push(ind + 'tpl : ' + extCreateCode + 'Ext.XTemplate\', ...)');
+                lines.push('};');
+                break;
+
+            case 'featurepopup-map':
+                lines.push('{');
+                lines.push(ind + comS + '// Use the "xtype"-configuration string "gxm_featurepopup"' + comE);
+                lines.push(ind + comS + '// to create a Popup with default styling' + comE);
+                lines.push(ind + 'xtype : ' + strS + '"gxm_featurepopup"' + strE + ',');
+                lines.push(ind + 'olFeature: feature,');
+                lines.push(ind + comS + '// Use centered: false to show the popup at the location of the feature' + comE);
+                lines.push(ind + 'centered: false,');
+                lines.push(ind + comS + '// Define your custom Ext.Template, Ext.XTemplate or Array of' + comE);
+                lines.push(ind + comS + '// strings to change the view of the popup' + comE);
+                lines.push(ind + 'tpl : ' + extCreateCode + 'Ext.XTemplate\', ...)');
                 lines.push('};');
                 break;
 
@@ -232,6 +246,7 @@ example.utility = {
                 
             default:
                 lines.push(comS + '// No documentation for "' + exampleKey + '"' + comE);
+                break;
         }
         
         lines.push('</pre>');

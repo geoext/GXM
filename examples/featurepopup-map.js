@@ -90,7 +90,8 @@ Ext.setup({
         var btnSource = example.utility.getSourceCodeButton('featurepopup-map');
         
         // Create the viewport
-        var viewport = Ext.create('Ext.TabPanel', {
+        var viewport = Ext.create('Ext.Panel', {
+            layout: 'fit',
             fullscreen : true,
             items : [{
                 xtype: 'gxm_map',
