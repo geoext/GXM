@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:asbuilt="http://www.sfmta.com/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.sfmta.com/">
+<xsd:schema xmlns:foo="http://www.foo.com/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.foo.com/">
   <xsd:import namespace="http://www.opengis.net/gml" schemaLocation="http://localhost:80/geoserver/schemas/gml/3.1.1/base/gml.xsd"/>
   <xsd:complexType name="DOCSType">
     <xsd:complexContent>
@@ -46,5 +46,5 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
-  <xsd:element name="DOCS" substitutionGroup="gml:_Feature" type="asbuilt:DOCSType"/>
+  <xsd:element name="DOCS" substitutionGroup="gml:_Feature" type="foo:DOCSType"/>
 </xsd:schema>

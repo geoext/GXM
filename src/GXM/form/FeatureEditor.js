@@ -13,7 +13,11 @@
 
 /**
  * @class GXM.form.FeatureEditor
- * The class that is used to construct a GXM FeatureEditor.
+ * The class that is used to construct a GXM FeatureEditor. This is a form
+ * that can be used to edit the attributes of a feature. If the FeatureEditor
+ * is configured with an OpenLayers.Protocol.WFS, the changes will be saved
+ * back to the Web Feature Service. If not, only the feature itself is modified
+ * and a featuremodified event is trigger on its layer.
  */
 Ext.define("GXM.form.FeatureEditor",{
     extend: 'Ext.form.Panel',
@@ -26,20 +30,32 @@ Ext.define("GXM.form.FeatureEditor",{
         'Ext.field.Select',
         'Ext.data.Validations'
     ],
+    /**
+     * @property {String} modelId
+     * @private
+     * The identifier of the model that is created on the fly to support
+     * validation.
+     */
+    modelId: null,
     config: {
-
+        /** @cfg {String}
+         *  i18n: the text to display on the save button.
+         */
+        saveText: "Save",
+        /** @cfg {String}
+         *  i18n: the text to display on the cancel button.
+         */
+        cancelText: "Cancel",
         /** @cfg {OpenLayers.Feature.Vector}
          *  The feature being edited/displayed.
          */
         feature: null,
-
         /** @cfg {Object}
          *  An object with as keys the field names, which will provide the ability
          *  to override the xtype that is created by default based on the
          *  schema. 
          */
         fieldConfig: null,
-
         /** @cfg {Array}
          *  List of field config names corresponding to feature attributes.  If
          *  not provided, fields will be derived from attributes. If provided,
@@ -47,42 +63,45 @@ Ext.define("GXM.form.FeatureEditor",{
          *  list will be excluded.
          */
         formFields: null,
-
         /** @cfg {Array}
          *  Optional list of field names (case sensitive) that are to be
          *  excluded from the form.
          */
         excludeFields: null,
-
         /** @cfg {Boolean}
          *  Set to true to disable editing. Default is false.
          */
-        readOnly: null,
-
+        readOnly: false,
+        /** @cfg {String}
+         *  For multi-lingual applications, this can be used to take the
+         *  annotation from the WFS DescribeFeatureType schema in the correct
+         *  language. Default is "en".
+         */
         language: "en",
-
+        /** @cfg {GXM.data.AttributeStore}
+         *  The attribute store that contains information about the fields
+         *  of the feature.
+         */
         schema: null,
-
-        model: null,
-
+        /** @cfg {OpenLayers.Protocol.WFS}
+         *  If configured with a protocol, changes can be saved back to the
+         *  server through WFS-T.
+         */
         protocol: null
     },
     statics: {
         regexes: {
-            "text": new RegExp(
-                "^(text|string)$", "i"
-            ),
-            "number": new RegExp(
-                "^(number|float|decimal|double|int|long|integer|short)$", "i"
-            ),
-            "boolean": new RegExp(
-                "^(boolean)$", "i"
-            ),
-            "date": new RegExp(
-                "^(date|dateTime)$", "i"
-            )
+            "text": new RegExp("^(text|string)$", "i"),
+            "number": new RegExp("^(number|float|decimal|double|int|long|integer|short)$", "i"),
+            "boolean": new RegExp("^(boolean)$", "i"),
+            "date": new RegExp("^(date|dateTime)$", "i")
         }
     },
+    /**
+     * @private
+     * If valid, saves changes to the feature. If configured with a protocol
+     * changes are saved back to the server.
+     */
     doSave: function() {
         var errors = this.validate();
         if (errors.isValid()) {
@@ -90,7 +109,8 @@ Ext.define("GXM.form.FeatureEditor",{
                 protocol = this.getProtocol();
             if (protocol) {
                protocol.commit([feature]);
-            } else {
+            }
+            if (feature.layer) {
                 feature.layer.events.triggerEvent('featuremodified', {feature: feature});
             }
         } else {
@@ -109,15 +129,23 @@ Ext.define("GXM.form.FeatureEditor",{
             });
         }
     },
+    /**
+     * @private
+     * Cancel any changes to the feature. If configured with a protocol,
+     * update the server as well.
+     */
     doCancel: function() {
-        // TODO we should use a Feature model/record
         this.reset();
         var values = this.getValues(), feature = this.getFeature();
         for (var name in values) {
             feature.attributes[name] = values[name];
         }
-        feature.layer.events.triggerEvent('featuremodified', {feature: feature});
+        this.doSave();
     },
+    /**
+     * @private
+     * The constructor.
+     */
     constructor: function (config) {
         if (config.feature) {
             this._feature = config.feature;
@@ -125,12 +153,25 @@ Ext.define("GXM.form.FeatureEditor",{
         }
         this.callParent(arguments);
     },
+    /**
+     * @private
+     * Intersects the :func:`setFeature` function.
+     *  Adds the passed feature via setData to prevent data loss. Is needed to
+     *  support more than one datatype for the new feature.
+     *
+     *  @param {Object} feature the new feature representation.
+     *  @return {OpenLayers.Feature}
+     */
     applyFeature: function (feature) {
         this.setData({
             feature: feature
         });
         return feature;
     },
+    /**
+     * @private
+     * Initialize this class.
+     */
     initialize: function() {
         var feature = this.getFeature();
         // set the given feature in order to call the apply method
@@ -146,18 +187,19 @@ Ext.define("GXM.form.FeatureEditor",{
                 xtype: 'spacer',
                 flex: 1
             }, {
-                text: 'Save',
+                text: this.getSaveText(),
                 handler: 'doSave',
                 scope: this
             }, {
-                text: 'Cancel',
+                text: this.getCancelText(),
                 handler: 'doCancel',
                 scope: this
             }]
         });
         Ext.applyIf(Ext.data.Validations, {
             range: function(config, value) {
-                return (value === null || (value >= config.minValue && value <= config.maxValue));
+                return value === null || 
+                    (value >= config.minValue && value <= config.maxValue);
             }
         });
         var r = this.self.regexes, fieldCfg, record;
@@ -193,20 +235,30 @@ Ext.define("GXM.form.FeatureEditor",{
             }, this);
         }
         this.modelId = Ext.id(null, 'gxm-attribute-model');
-        var model = Ext.define(this.modelId, {
+        Ext.define(this.modelId, {
             extend: 'Ext.data.Model',
             config: modelConfig
         });
-        this.setModel(model);
         this.add(fields);
         this.callParent();
     },
-
+    /**
+     * @private
+     * Validate the form.
+     * @return {Ext.data.Errors} The errors object.
+     */
     validate: function() {
         var instance = Ext.create(this.modelId, this.getValues());
         return instance.validate();
     },
-
+    /**
+     * @private
+     * Listener for the change event on the form fields. Updates the feature.
+     *
+     * @param {Ext.field.Text} this This field
+     * @param {Mixed} newValue The new value
+     * @param {Mixed} oldValue The original value
+     */
     onFieldChange: function(field, newValue, oldValue) {
         var feature = this.getFeature(), name = field.getName();
         if (!feature.modified) {
@@ -218,7 +270,16 @@ Ext.define("GXM.form.FeatureEditor",{
         feature.attributes[name] = newValue;
         feature.state = OpenLayers.State.UPDATE;
     },
-
+    /**
+     * @private
+     * create fieldConfig from a record from an AttributeStore. Also
+     * create the config for the model to be used for validations.
+     *
+     * @param {GXM.data.AttributeModel} record The record from the 
+     * AttributeStore
+     * @param {Object} modelConfig The config object for the model.
+     * @return {Object} The field configuration object.
+     */
     recordToField: function(record, modelConfig) {
         var name = record.get('name');
         if (this.getExcludeFields() && this.getExcludeFields().indexOf(name) !== -1) {
@@ -264,7 +325,10 @@ Ext.define("GXM.form.FeatureEditor",{
         if (restriction.enumeration) {
             var store = [];
             for (i=0, ii=restriction.enumeration.length; i<ii; ++i) {
-                store.push({text: restriction.enumeration[i], value: restriction.enumeration[i]});
+                store.push({
+                    text: restriction.enumeration[i], 
+                    value: restriction.enumeration[i]
+                });
             }
             fieldConfig = Ext.apply({
                 xtype: "selectfield",
@@ -300,7 +364,8 @@ Ext.define("GXM.form.FeatureEditor",{
             }, options);
         } else if (type.match(r["boolean"])) {
             fieldConfig = Ext.apply({
-                xtype: 'checkboxfield'
+                xtype: 'checkboxfield',
+                checked: (options.value === true)
             }, options);
         } else if (type.match(r["date"])) {
             fieldConfig = Ext.apply({

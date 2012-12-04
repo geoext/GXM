@@ -56,6 +56,7 @@ Ext.setup({
             STATE_NAME :'my state',
             DRINK_NAME: 'pop'
         });
+        feature.fid = 'foo.1';
         features.push(feature);
         layerVector.addFeatures(features);
 
@@ -63,6 +64,14 @@ Ext.setup({
             url: "data/wfsdescribefeaturetype.xml"
         });
         store.load();
+
+        // dummy protocol
+        var protocol = new OpenLayers.Protocol.WFS({
+            version: '1.1.0',
+            url: '/dummy?',
+            featureType: 'DOCS',
+            featureNS: 'http://www.foo.com/'
+        });
 
         // Create the GXM.FeatureList that also contains a listener dealing with
         // tap events on a specific feature in the list triggering a GXM.FeaturePopup.
@@ -79,6 +88,7 @@ Ext.setup({
                         height: 400,
                         centered: true,
                         feature : feature,
+                        protocol: protocol,
                         schema: store
                     });
                     Ext.Viewport.add(popup);

@@ -154,6 +154,10 @@ Ext.define('GXM.FeatureList', {
         this.callParent();
     },
 
+    /**
+     *  @private
+     *  @param {Ext.EventObject} evt The event-object
+     */
     onFeatureModified: function(evt) {
         var rec = this.getStore().findRecord("id", evt.feature.id);
         rec.set('feature', evt.feature);
@@ -179,7 +183,6 @@ Ext.define('GXM.FeatureList', {
     /**
      *  @private
      *  @param {Ext.EventObject} evt The event-object
-     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureAdded: function (evt) {
         this.getStore().add(evt.feature);
@@ -188,7 +191,6 @@ Ext.define('GXM.FeatureList', {
     /**
      *  @private
      *  @param {Ext.EventObject} evt The event-object
-     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureRemoved: function (evt) {
         var store = this.getStore(),
