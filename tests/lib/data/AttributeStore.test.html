@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html debug="true">
+  <head>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+        
+        <!-- Setup the GXM loader -->
+        <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                GXM: "../../../src/GXM",
+                Ext: "http://cdn.sencha.io/touch/sencha-touch-2.0.1/src"
+            }
+        });
+        Ext.require([
+            'GXM.data.AttributeStore',
+            'GXM.data.AttributeModel',
+            'GXM.data.reader.Attribute'
+        ]);
+
+       function test_constructor(t) {
+            t.plan(5);
+
+            var format = new OpenLayers.Format();
+
+            var store = Ext.create('GXM.data.AttributeStore', {
+                url: '/truite',
+                ignore: {
+                    type: "xsd:string"
+                },
+                format: format,
+                storeId: 'teststore'
+            });
+
+            t.ok(store instanceof GXM.data.AttributeStore,
+                 "ctor creates a GXM.data.AttributeStore instance");
+
+            t.eq(store.getProxy().getUrl(), '/truite',
+                "ctor creates a proxy with the correct url");
+
+            t.eq(store.getProxy().getReader().getIgnore(), {type: "xsd:string"},
+                "ctor sets the correct ignore property in the reader");
+                
+            store.getProxy().getReader().setIgnore(null);
+            
+            t.eq(store.getProxy().getReader().getIgnore(), null,
+                "sets the correct ignore property in the reader");
+
+            t.ok(store.getProxy().getReader().getFormat() === format, 
+                "ctor sets the format in the reader");
+
+            Ext.StoreMgr.unregister('teststore');
+            Ext.destroy(store);
+            store = null;
+            
+        }
+        
+        function test_data(t){
+            var store2;
+            t.plan(2);
+            //test instant memory load deep copy prevention
+            store2 = Ext.create('GXM.data.AttributeStore', {
+                storeId: 'teststore2',
+                data: [
+                    {id: 1, name: 'foo0'}, {id: 2, name: 'foo2'}
+                ],
+                proxy:{
+                    type: 'memory',
+                    reader: {
+                        type: 'gxm_attribute'
+                    }
+                } 
+            });
+            
+            t.eq(store2.getAt(0).get('name'), 'foo0', 'name is correct');
+            
+            Ext.StoreMgr.unregister('teststore2');
+            Ext.destroy(store2);
+            store2 = null;
+
+            //test autoload with real data
+            store3 = Ext.create('GXM.data.AttributeStore',{
+                storeId: 'teststore3',
+                format: new OpenLayers.Format.WFSDescribeFeatureType(),
+                url: '../../data/wfs_desc_ftype.xml',
+                autoLoad: true,
+                listeners: {
+                    'load': {
+                        fn: function(store){
+                            var rec = store3.getAt(2);
+                            t.eq(rec && rec.get('name'), 'STATE_FIPS', 'name is correct');
+                        }
+                    }
+                }
+            });
+            t.wait_result(1);
+        }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
