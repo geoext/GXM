@@ -28,9 +28,9 @@
         <script type="text/javascript" src="../helperfunctions.js"></script>
         
         <script type="text/javascript">
-        
+
         function test_editor(t) {
-            t.plan(6);
+            t.plan(8);
             var feature = new OpenLayers.Feature.Vector(null, {
                 FILETYPE: "MUNI",
                 SAMP_POP: 7,
@@ -67,14 +67,22 @@
                 var editor = Ext.create("GXM.form.FeatureEditor", {
                     width: 400,
                     height: 400,
+                    fieldConfig: {
+                        MEMO: {label: 'My Memo'}
+                    },
+                    excludeFields: ['STATE_NAME'],
                     centered: true,
                     feature : feature,
                     protocol: protocol,
                     schema: store
                 });
                 var values = editor.getValues();
-                t.eq(values, feature.attributes, "Form values set correctly");
+                var expected = Ext.apply({}, feature.attributes);
+                delete expected['STATE_NAME']; // since it's excluded
+                t.eq(values, expected, "Form values set correctly");
+                t.eq(editor.getFieldsAsArray().length, 6, "6 fields expected since one is excluded");
                 editor.getFields()['SAMP_POP'].getComponent().setValue(15);
+                t.eq(editor.getFields()['MEMO'].getLabel(), "My Memo", "fieldConfig used");
                 t.eq(editor.validate().isValid(), false, 'Form validation taken from the schema');
                 editor.setValues({SAMP_POP: 15});
                 t.eq(editor.getValues()['SAMP_POP'], 10, "Set to max value");

@@ -31,6 +31,21 @@ Ext.define("GXM.form.FeatureEditor",{
         'Ext.data.Validations'
     ],
     /**
+     * @event success
+     * Fires if the feature was updated successfully.
+     */
+
+    /**
+     * @event failure
+     * Fires if the feature was not updated successfully.
+     * @param {GXM.form.FeatureEditor} this
+     * @param {failureType} The type of failure, one of 
+     * GXM.form.FeatureEditor.VALIDATIONFAILURE or 
+     * GXM.form.FeatureEditor.SERVERFAILURE
+     * @param {String} message
+     */
+
+    /**
      * @property {String} modelId
      * @private
      * The identifier of the model that is created on the fly to support
@@ -90,11 +105,14 @@ Ext.define("GXM.form.FeatureEditor",{
         protocol: null
     },
     statics: {
+        VALIDATIONFAILURE: 0,
+        SERVERFAILURE: 1,
         regexes: {
             "text": new RegExp("^(text|string)$", "i"),
             "number": new RegExp("^(number|float|decimal|double|int|long|integer|short)$", "i"),
             "boolean": new RegExp("^(boolean)$", "i"),
-            "date": new RegExp("^(date|dateTime)$", "i")
+            "date": new RegExp("^(date|dateTime)$", "i"),
+            "geometry": new RegExp("^[^:]*:?((Multi)?(Point|Line|Polygon|Curve|Surface|Geometry))")
         }
     },
     /**
@@ -103,30 +121,37 @@ Ext.define("GXM.form.FeatureEditor",{
      * changes are saved back to the server.
      */
     doSave: function() {
-        var errors = this.validate();
+        var me = this; 
+        var errors = me.validate();
         if (errors.isValid()) {
-            var feature = this.getFeature(),
-                protocol = this.getProtocol();
-            if (protocol) {
-               protocol.commit([feature]);
-            }
+            var feature = me.getFeature(),
+                protocol = me.getProtocol();
             if (feature.layer) {
-                feature.layer.events.triggerEvent('featuremodified', {feature: feature});
+                feature.layer.events.triggerEvent('featuremodified', {
+                    feature: feature
+                });
+            }
+            if (protocol) {
+               protocol.commit([feature], {
+                   callback: function(response) {
+                       if (response.success()) {
+                           this.fireEvent("success");
+                       } else {
+                           this.fireEvent("failure", this, 
+                               this.self.SERVERFAILURE, response.error);
+                       }
+                   }
+               });
+            } else {
+                this.fireEvent("success");
             }
         } else {
             var message = '';
             Ext.each(errors.items,function(rec,i){
                 message += rec.getField() + ' ' + rec.getMessage() + "<br>";
             });
-            Ext.Msg.show({
-                zIndex: 1000,
-                showAnimation: null,
-                hideAnimation: null,
-                message: message,
-                buttons: [{text: 'OK'}],
-                promptConfig: false,
-                fn: function(){}
-            });
+            this.fireEvent("failure", this, this.self.VALIDATIONFAILURE, 
+                message);
         }
     },
     /**
@@ -224,7 +249,7 @@ Ext.define("GXM.form.FeatureEditor",{
             schema.each(function(record) {
                 var type = record.get("type"); 
                 name = record.get("name");
-                if (type.match(/^[^:]*:?((Multi)?(Point|Line|Polygon|Curve|Surface|Geometry))/)) {
+                if (type.match(this.self.regexes["geometry"])) {
                     // exclude gml geometries
                     return;
                 }

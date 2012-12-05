@@ -243,6 +243,17 @@ example.utility = {
                 lines.push(ind + '}]');
                 lines.push('});');
                 break;
+
+            case 'featureeditor':
+                lines.push(comS + '// create a featureeditor with a feature and attribute store' + comE);
+                lines.push(varCode + ' editor = ' + extCreateCode + 'GXM.form.FeatureEditor\', {');
+                lines.push(ind + 'width: 400, ');
+                lines.push(ind + 'height: 400, ');
+                lines.push(ind + 'centered: true, ');
+                lines.push(ind + 'feature: feature, ');
+                lines.push(ind + 'schema: store');
+                lines.push('});');
+                break;
                 
             default:
                 lines.push(comS + '// No documentation for "' + exampleKey + '"' + comE);

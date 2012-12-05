@@ -22,59 +22,32 @@ Ext.require([
 
 Ext.setup({
     onReady : function() {
-        OpenLayers.Layer.Vector.prototype.renderers = ["SVG2", "VML", "Canvas"];
-
-        var projection4326 = new OpenLayers.Projection("EPSG:4326");
-        var projection900913 = new OpenLayers.Projection("EPSG:900913");
-        
-        // Create a vector layer for drawing features
-        var layerVector = new OpenLayers.Layer.Vector('Vector data', {
-            displayInLayerSwitcher : false,
-            styleMap : new OpenLayers.StyleMap({
-                label : '${r1} ${r2}',
-                strokeColor : '#ee7e00',
-                strokeWidth : 3,
-                strokeOpacity : 0.85,
-                fillColor : '#eed000',
-                fillOpacity : 0.8,
-                pointRadius : 7,
-                fontSize : "12px",
-                fontFamily : "sans-serif",
-                labelXOffset : "0",
-                labelYOffset : "-10"
-            })
-        });
-        
-        var feature,
-            features = [];
-
-        feature = new OpenLayers.Feature.Vector(null, {
+        var layerVector = new OpenLayers.Layer.Vector(null);
+        var feature = new OpenLayers.Feature.Vector(null, {
             FILETYPE: "MUNI",
             SAMP_POP: 7,
-            DDRAWDATE: 1948,
+            DDRAWDATE: new Date(),
             HEIGHT: 728.7,
             STATE_NAME :'my state',
             DRINK_NAME: 'pop'
         });
         feature.fid = 'foo.1';
-        features.push(feature);
-        layerVector.addFeatures(features);
-
+        var feature2 = new OpenLayers.Feature.Vector(null, {
+            FILETYPE: "TOPX",
+            SAMP_POP: 5,
+            DDRAWDATE: new Date(),
+            HEIGHT: 400,
+            STATE_NAME :'my state2',
+            DRINK_NAME: 'soda'
+        });
+        feature2.fid = 'foo.2';
+        layerVector.addFeatures([feature, feature2]);
         var store = Ext.create('GXM.data.AttributeStore', {
-            url: "data/wfsdescribefeaturetype.xml"
+            url: "data/wfsdescribefeaturetype.xml",
+            autoLoad: true
         });
-        store.load();
-
-        // dummy protocol
-        var protocol = new OpenLayers.Protocol.WFS({
-            version: '1.1.0',
-            url: '/dummy?',
-            featureType: 'DOCS',
-            featureNS: 'http://www.foo.com/'
-        });
-
         // Create the GXM.FeatureList that also contains a listener dealing with
-        // tap events on a specific feature in the list triggering a GXM.FeaturePopup.
+        // tap events on a specific feature in the list triggering a GXM.FeatureEditor.
         var featureList = {
             xtype : 'gxm_featurelist',
             layer : layerVector,
@@ -86,9 +59,23 @@ Ext.setup({
                     var popup = Ext.create("GXM.form.FeatureEditor", {
                         width: 400,
                         height: 400,
+                        listeners: {
+                            "failure": function(editor, evtType, msg) {
+                                if (evtType === GXM.form.FeatureEditor.VALIDATIONFAILURE) {
+                                    Ext.Msg.show({
+                                        zIndex: 1000,
+                                        showAnimation: null,
+                                        hideAnimation: null,
+                                        message: msg,
+                                        buttons: [{text: 'OK'}],
+                                        promptConfig: false,
+                                        fn: function(){}
+                                    });
+                                }
+                            }
+                        },
                         centered: true,
                         feature : feature,
-                        protocol: protocol,
                         schema: store
                     });
                     Ext.Viewport.add(popup);
@@ -98,11 +85,12 @@ Ext.setup({
         };
         
         // A button to show relevant code parts
-        var btnSource = example.utility.getSourceCodeButton('featurepopup');
+        var btnSource = example.utility.getSourceCodeButton('featureeditor');
         
         // Create the viewport
-        var viewport = Ext.create('Ext.TabPanel', {
+        var viewport = Ext.create('Ext.Panel', {
             fullscreen : true,
+            layout: 'fit',
             items : [
                 featureList, 
                 {
