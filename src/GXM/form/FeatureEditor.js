@@ -15,7 +15,7 @@
  * @class GXM.form.FeatureEditor
  * The class that is used to construct a GXM FeatureEditor. This is a form
  * that can be used to edit the attributes of a feature. The feature itself is 
- * modified and a featuremodified event is trigger on its layer.
+ * modified and a featuremodified event is triggered on its layer.
  * No editing of geometries is currently supported.
  */
 Ext.define("GXM.form.FeatureEditor",{
