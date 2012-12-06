@@ -60,18 +60,16 @@ Ext.setup({
                         width: 400,
                         height: 400,
                         listeners: {
-                            "failure": function(editor, evtType, msg) {
-                                if (evtType === GXM.form.FeatureEditor.VALIDATIONFAILURE) {
-                                    Ext.Msg.show({
-                                        zIndex: 1000,
-                                        showAnimation: null,
-                                        hideAnimation: null,
-                                        message: msg,
-                                        buttons: [{text: 'OK'}],
-                                        promptConfig: false,
-                                        fn: function(){}
-                                    });
-                                }
+                            "failure": function(editor, msg) {
+                                Ext.Msg.show({
+                                    zIndex: 1000,
+                                    showAnimation: null,
+                                    hideAnimation: null,
+                                    message: msg,
+                                    buttons: [Ext.MessageBox.OK],
+                                    promptConfig: false,
+                                    fn: function(){}
+                                });
                             }
                         },
                         centered: true,

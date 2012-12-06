@@ -14,10 +14,9 @@
 /**
  * @class GXM.form.FeatureEditor
  * The class that is used to construct a GXM FeatureEditor. This is a form
- * that can be used to edit the attributes of a feature. If the FeatureEditor
- * is configured with an OpenLayers.Protocol.WFS, the changes will be saved
- * back to the Web Feature Service. If not, only the feature itself is modified
- * and a featuremodified event is trigger on its layer.
+ * that can be used to edit the attributes of a feature. The feature itself is 
+ * modified and a featuremodified event is trigger on its layer.
+ * No editing of geometries is currently supported.
  */
 Ext.define("GXM.form.FeatureEditor",{
     extend: 'Ext.form.Panel',
@@ -31,17 +30,9 @@ Ext.define("GXM.form.FeatureEditor",{
         'Ext.data.Validations'
     ],
     /**
-     * @event success
-     * Fires if the feature was updated successfully.
-     */
-
-    /**
      * @event failure
      * Fires if the feature was not updated successfully.
      * @param {GXM.form.FeatureEditor} this
-     * @param {failureType} The type of failure, one of 
-     * GXM.form.FeatureEditor.VALIDATIONFAILURE or 
-     * GXM.form.FeatureEditor.SERVERFAILURE
      * @param {String} message
      */
 
@@ -54,9 +45,9 @@ Ext.define("GXM.form.FeatureEditor",{
     modelId: null,
     config: {
         /** @cfg {String}
-         *  i18n: the text to display on the save button.
+         *  i18n: the text to display on the update button.
          */
-        saveText: "Save",
+        updateText: "Update",
         /** @cfg {String}
          *  i18n: the text to display on the cancel button.
          */
@@ -97,16 +88,9 @@ Ext.define("GXM.form.FeatureEditor",{
          *  The attribute store that contains information about the fields
          *  of the feature.
          */
-        schema: null,
-        /** @cfg {OpenLayers.Protocol.WFS}
-         *  If configured with a protocol, changes can be saved back to the
-         *  server through WFS-T.
-         */
-        protocol: null
+        schema: null
     },
     statics: {
-        VALIDATIONFAILURE: 0,
-        SERVERFAILURE: 1,
         regexes: {
             "text": new RegExp("^(text|string)$", "i"),
             "number": new RegExp("^(number|float|decimal|double|int|long|integer|short)$", "i"),
@@ -117,41 +101,24 @@ Ext.define("GXM.form.FeatureEditor",{
     },
     /**
      * @private
-     * If valid, saves changes to the feature. If configured with a protocol
-     * changes are saved back to the server.
+     * If valid, updates the feature.
      */
-    doSave: function() {
+    doUpdate: function() {
         var me = this; 
         var errors = me.validate();
         if (errors.isValid()) {
-            var feature = me.getFeature(),
-                protocol = me.getProtocol();
+            var feature = me.getFeature();
             if (feature.layer) {
                 feature.layer.events.triggerEvent('featuremodified', {
                     feature: feature
                 });
-            }
-            if (protocol) {
-               protocol.commit([feature], {
-                   callback: function(response) {
-                       if (response.success()) {
-                           this.fireEvent("success");
-                       } else {
-                           this.fireEvent("failure", this, 
-                               this.self.SERVERFAILURE, response.error);
-                       }
-                   }
-               });
-            } else {
-                this.fireEvent("success");
             }
         } else {
             var message = '';
             Ext.each(errors.items,function(rec,i){
                 message += rec.getField() + ' ' + rec.getMessage() + "<br>";
             });
-            this.fireEvent("failure", this, this.self.VALIDATIONFAILURE, 
-                message);
+            this.fireEvent("failure", this, message);
         }
     },
     /**
@@ -165,7 +132,11 @@ Ext.define("GXM.form.FeatureEditor",{
         for (var name in values) {
             feature.attributes[name] = values[name];
         }
-        this.doSave();
+        if (feature.layer) {
+            feature.layer.events.triggerEvent('featuremodified', {
+                feature: feature
+            });
+        }
     },
     /**
      * @private
@@ -212,8 +183,8 @@ Ext.define("GXM.form.FeatureEditor",{
                 xtype: 'spacer',
                 flex: 1
             }, {
-                text: this.getSaveText(),
-                handler: 'doSave',
+                text: this.getUpdateText(),
+                handler: 'doUpdate',
                 scope: this
             }, {
                 text: this.getCancelText(),

@@ -2,7 +2,7 @@
         <title>GXM.FeatureEditor.html</title>
         <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
         <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
-        <link rel="stylesheet" href="../../resources/css/gxm.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
         
         <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
         <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
@@ -13,24 +13,24 @@
         -->
         <script type="text/javascript">
         window.LOAD_GXM = [
-            "../../src/GXM/version.js",
-            "../../src/GXM/util/Base.js",
-            "../../src/GXM/form/FeatureEditor.js",
-            "../../src/GXM/data/OwsStore.js",
-            "../../src/GXM/data/reader/Attribute.js",
-            "../../src/GXM/data/AttributeModel.js",
-            "../../src/GXM/data/AttributeStore.js"
+            "../../../src/GXM/version.js",
+            "../../../src/GXM/util/Base.js",
+            "../../../src/GXM/form/FeatureEditor.js",
+            "../../../src/GXM/data/OwsStore.js",
+            "../../../src/GXM/data/reader/Attribute.js",
+            "../../../src/GXM/data/AttributeModel.js",
+            "../../../src/GXM/data/AttributeStore.js"
         ];
         </script>
-        <script type="text/javascript" src="../gxm.scriptloader.js"></script>
+        <script type="text/javascript" src="../../gxm.scriptloader.js"></script>
         
         <!-- load test helper functions -->
-        <script type="text/javascript" src="../helperfunctions.js"></script>
+        <script type="text/javascript" src="../../helperfunctions.js"></script>
         
         <script type="text/javascript">
 
         function test_editor(t) {
-            t.plan(8);
+            t.plan(6);
             var feature = new OpenLayers.Feature.Vector(null, {
                 FILETYPE: "MUNI",
                 SAMP_POP: 7,
@@ -49,19 +49,8 @@
                 }
             });
             layer.addFeatures([feature]);
-            // dummy protocol
-            var protocol = new OpenLayers.Protocol.WFS({
-                version: '1.1.0',
-                url: '/dummy?',
-                featureType: 'DOCS',
-                featureNS: 'http://www.foo.com/',
-                commit: function(a) {
-                    t.ok(a[0].modified.attributes.SAMP_POP, "modified set on the feature");
-                    t.eq(parseInt(a[0].attributes.SAMP_POP), 10, "transaction called on protocol with the right attributes");
-                }
-            });
             var store = Ext.create('GXM.data.AttributeStore', {
-                url: "../../examples/data/wfsdescribefeaturetype.xml"
+                url: "../../../examples/data/wfsdescribefeaturetype.xml"
             });
             store.on('load', function() {
                 var editor = Ext.create("GXM.form.FeatureEditor", {
@@ -73,7 +62,6 @@
                     excludeFields: ['STATE_NAME'],
                     centered: true,
                     feature : feature,
-                    protocol: protocol,
                     schema: store
                 });
                 var values = editor.getValues();
@@ -86,7 +74,7 @@
                 t.eq(editor.validate().isValid(), false, 'Form validation taken from the schema');
                 editor.setValues({SAMP_POP: 15});
                 t.eq(editor.getValues()['SAMP_POP'], 10, "Set to max value");
-                editor.doSave();
+                editor.doUpdate();
                 Ext.destroy(store);
                 Ext.destroy(editor);
                 layer.destroy();
@@ -98,4 +86,3 @@
 </head>
 <body></body>
 </html>
- 
