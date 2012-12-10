@@ -122,6 +122,7 @@ Ext.define('GXM.FeatureList', {
 
             // bind OL events
             layer.events.on({
+                "featuremodified": this.onFeatureModified,
                 "featureadded": this.onFeatureAdded,
                 "featureremoved": this.onFeatureRemoved,
                 scope: this
@@ -155,6 +156,15 @@ Ext.define('GXM.FeatureList', {
 
     /**
      *  @private
+     *  @param {Ext.EventObject} evt The event-object
+     */
+    onFeatureModified: function(evt) {
+        var rec = this.getStore().findRecord("id", evt.feature.id);
+        rec.set('feature', evt.feature);
+    },
+
+    /**
+     *  @private
      *  A private method to give this DataViews template-methods access to the
      *  raw ``OpenLayers.Feature``-object.
      *  @param {Object} data The raw data object that was used to create the record.
@@ -173,7 +183,6 @@ Ext.define('GXM.FeatureList', {
     /**
      *  @private
      *  @param {Ext.EventObject} evt The event-object
-     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureAdded: function (evt) {
         this.getStore().add(evt.feature);
@@ -182,7 +191,6 @@ Ext.define('GXM.FeatureList', {
     /**
      *  @private
      *  @param {Ext.EventObject} evt The event-object
-     *  TODO events -featureadded, -featureremoved, double check: only when configured with layer!
      */
     onFeatureRemoved: function (evt) {
         var store = this.getStore(),
@@ -202,6 +210,7 @@ Ext.define('GXM.FeatureList', {
             layer.events.un({
                 "featureadded": this.onFeatureAdded,
                 "featureremoved": this.onFeatureRemoved,
+                "featuremodified": this.onFeatureModified,
                 scope: this
             });
         }
