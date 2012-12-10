@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:foo="http://www.foo.com/" xmlns:gml="http://www.opengis.net/gml" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.foo.com/">
+  <xsd:import namespace="http://www.opengis.net/gml" schemaLocation="http://localhost:80/geoserver/schemas/gml/3.1.1/base/gml.xsd"/>
+  <xsd:complexType name="DOCSType">
+    <xsd:complexContent>
+      <xsd:extension base="gml:AbstractFeatureType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="FILETYPE" nillable="true" type="xsd:string">
+            <xsd:annotation>
+              <xsd:appinfo>{"title":{"en":"File type"}}</xsd:appinfo>
+              <xsd:documentation xml:lang="en">
+                  The file type of the document
+              </xsd:documentation>
+             </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="SAMP_POP" nillable="true">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:double">
+                <xsd:maxInclusive value="10"/>
+                <xsd:minInclusive value="5"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="DDRAWDATE" nillable="true" type="xsd:date"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="GEOM" nillable="true" type="gml:PointPropertyType"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="HEIGHT" nillable="true" type="xsd:decimal"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="MEMO" nillable="true" type="xsd:boolean"/>
+          <xsd:element maxOccurs="1" minOccurs="0" name="STATE_NAME" nillable="false">
+             <xsd:simpleType>
+               <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10"/>
+                <xsd:minLength value="5"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element name="DRINK_NAME" minOccurs="0" nillable="true">
+            <xsd:simpleType>
+              <xsd:restriction base="xs:string">
+                <xsd:enumeration value="pop"/>
+                <xsd:enumeration value="soda"/>
+                <xsd:enumeration value="other"/>
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DOCS" substitutionGroup="gml:_Feature" type="foo:DOCSType"/>
+</xsd:schema>

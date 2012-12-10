@@ -1,0 +1,88 @@
+<html><head>
+        <title>GXM.FeatureEditor.html</title>
+        <link rel="stylesheet" href="http://cdn.sencha.io/touch/sencha-touch-2.0.1/resources/css/sencha-touch.css" type="text/css">
+        <link rel="stylesheet" href="http://openlayers.org/api/2.11/theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../../../resources/css/gxm.css" type="text/css">
+        
+        <script type="text/javascript" src="http://cdn.sencha.io/touch/sencha-touch-2.0.1/sencha-touch-all-debug.js"></script>
+        <script type="text/javascript" src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+
+        <!-- 
+            Instead of using the Ext.loader-mechanism, we use a very simple 
+            script-loader, which also works in e.g. the iPad and on iOs-Phones.
+        -->
+        <script type="text/javascript">
+        window.LOAD_GXM = [
+            "../../../src/GXM/version.js",
+            "../../../src/GXM/util/Base.js",
+            "../../../src/GXM/form/FeatureEditor.js",
+            "../../../src/GXM/data/OwsStore.js",
+            "../../../src/GXM/data/reader/Attribute.js",
+            "../../../src/GXM/data/AttributeModel.js",
+            "../../../src/GXM/data/AttributeStore.js"
+        ];
+        </script>
+        <script type="text/javascript" src="../../gxm.scriptloader.js"></script>
+        
+        <!-- load test helper functions -->
+        <script type="text/javascript" src="../../helperfunctions.js"></script>
+        
+        <script type="text/javascript">
+
+        function test_editor(t) {
+            t.plan(6);
+            var feature = new OpenLayers.Feature.Vector(null, {
+                FILETYPE: "MUNI",
+                SAMP_POP: 7,
+                DDRAWDATE: new Date(),
+                MEMO: true,
+                HEIGHT: 728.7,
+                STATE_NAME :'my state',
+                DRINK_NAME: 'pop'
+            });
+            feature.fid = 'foo.1';
+            var layer = new OpenLayers.Layer.Vector(null, {
+                eventListeners: {
+                    "featuremodified": function(evt) {
+                        t.ok(true, "featuremodified triggered on save");
+                    }
+                }
+            });
+            layer.addFeatures([feature]);
+            var store = Ext.create('GXM.data.AttributeStore', {
+                url: "../../../examples/data/wfsdescribefeaturetype.xml"
+            });
+            store.on('load', function() {
+                var editor = Ext.create("GXM.form.FeatureEditor", {
+                    width: 400,
+                    height: 400,
+                    fieldConfig: {
+                        MEMO: {label: 'My Memo'}
+                    },
+                    excludeFields: ['STATE_NAME'],
+                    centered: true,
+                    feature : feature,
+                    schema: store
+                });
+                var values = editor.getValues();
+                var expected = Ext.apply({}, feature.attributes);
+                delete expected['STATE_NAME']; // since it's excluded
+                t.eq(values, expected, "Form values set correctly");
+                t.eq(editor.getFieldsAsArray().length, 6, "6 fields expected since one is excluded");
+                editor.getFields()['SAMP_POP'].getComponent().setValue(15);
+                t.eq(editor.getFields()['MEMO'].getLabel(), "My Memo", "fieldConfig used");
+                t.eq(editor.validate().isValid(), false, 'Form validation taken from the schema');
+                editor.setValues({SAMP_POP: 15});
+                t.eq(editor.getValues()['SAMP_POP'], 10, "Set to max value");
+                editor.doUpdate();
+                Ext.destroy(store);
+                Ext.destroy(editor);
+                layer.destroy();
+            });
+            store.load();
+            t.wait_result(1);
+        }
+    </script>
+</head>
+<body></body>
+</html>
