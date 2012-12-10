@@ -108,6 +108,21 @@ Ext.define("GXM.form.FeatureEditor",{
         var errors = me.validate();
         if (errors.isValid()) {
             var feature = me.getFeature();
+            if (!feature.modified) {
+                feature.modified = {
+                    attributes: {}
+                };
+            }
+            this.getFieldsAsArray().forEach(function(field) {
+                if (field.isDirty()) {
+                    var name = field.getName();
+                    feature.modified[name] = true;
+                    feature.attributes[name] = field.getValue();
+                }
+            });
+            if (feature.state !== OpenLayers.State.INSERT) {
+                feature.state = OpenLayers.State.UPDATE;
+            }
             if (feature.layer) {
                 feature.layer.events.triggerEvent('featuremodified', {
                     feature: feature
@@ -249,25 +264,6 @@ Ext.define("GXM.form.FeatureEditor",{
     },
     /**
      * @private
-     * Listener for the change event on the form fields. Updates the feature.
-     *
-     * @param {Ext.field.Text} this This field
-     * @param {Mixed} newValue The new value
-     * @param {Mixed} oldValue The original value
-     */
-    onFieldChange: function(field, newValue, oldValue) {
-        var feature = this.getFeature(), name = field.getName();
-        if (!feature.modified) {
-            feature.modified = {
-                attributes: {}
-            };
-        }
-        feature.modified.attributes[name] = true;
-        feature.attributes[name] = newValue;
-        feature.state = OpenLayers.State.UPDATE;
-    },
-    /**
-     * @private
      * create fieldConfig from a record from an AttributeStore. Also
      * create the config for the model to be used for validations.
      *
@@ -282,10 +278,6 @@ Ext.define("GXM.form.FeatureEditor",{
             return null;
         }
         var options = {};
-        options.listeners = {
-            'change': this.onFieldChange,
-            scope: this
-        };
         if (this.getReadOnly() === true) {
             options.readOnly = true;
         }
