@@ -141,6 +141,10 @@ Ext.define('GXM.data.proxy.Protocol', {
         var callback = o.request.callback;
         if (response.success()) {
             var result = o.reader.read(response.features || response);
+            // an empty array for response.features is a valid response
+            if (response.features && response.features.length === 0) {
+                result.setSuccess(true);
+            }
             if (operation.process('read', result, null, response) === false) {
                 this.fireEvent('exception', this, response, operation);
             }
