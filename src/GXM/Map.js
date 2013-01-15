@@ -1,6 +1,6 @@
 /*global Ext: true, OpenLayers: true, GXM: true, window: true */
 /*
- * Copyright (c) 2012 The Open Source Geospatial Foundation
+ * Copyright (c) 2011-2013 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
