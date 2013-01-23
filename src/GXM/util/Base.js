@@ -1,6 +1,6 @@
 /*global Ext: true */
 /*
- * Copyright (c) 2011 The Open Source Geospatial Foundation
+ * Copyright (c) 2011-2013 The Open Source Geospatial Foundation
  * 
  * Published under the BSD license. 
  * 
