@@ -37,7 +37,7 @@
  *      };
  */
 Ext.define('GXM.LayerList', {
-    extend: 'Ext.List',
+    extend: 'Ext.dataview.List',
     requires: [
         'GXM.version',
         'GXM.util.Base',

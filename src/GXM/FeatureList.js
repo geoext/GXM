@@ -38,7 +38,7 @@
  */
 Ext.define('GXM.FeatureList', {
 
-    extend: 'Ext.List',
+    extend: 'Ext.dataview.List',
 
     requires: [
         'GXM.version',
