@@ -39,8 +39,8 @@ Ext.setup({
             ]
         });
                 
-        var layerOwsOsmTerrestris = new OpenLayers.Layer.WMS('terrestris', 'http://ows.terrestris.de/osm-basemap/service', {
-            layers : 'OSM-WMS-Deutschland'
+        var layerOwsOsmTerrestris = new OpenLayers.Layer.WMS('terrestris', 'http://ows.terrestris.de/osm/service', {
+            layers : 'OSM-WMS'
         }, {
             singleTile : false,
             attribution : '&copy; terrestris GmbH &amp; Co. KG<br>Data &copy; OpenStreetMap contributors, CC-BY-SA'
