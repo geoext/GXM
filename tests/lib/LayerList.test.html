@@ -322,14 +322,8 @@ function test_updatingHtml(t){
 }
 
 function test_destroy(t) {
-    var funcToStringSupported = !!(Function.prototype.toString);
-    
-    if (funcToStringSupported) {
-        t.plan(9);
-    } else {
-        t.plan(6);
-    }
-    
+    t.plan(9);
+
     t.delay_call(1, function(){
         var map = new OpenLayers.Map({
             layers: [
@@ -339,77 +333,56 @@ function test_destroy(t) {
             ],
             controls: []
         });
-        
+
         var mappanel = Ext.create('GXM.Map', {
             map: map,
             title: 'foo',
             iconCls: 'user'
         });
-        
+
         // remove existing default handlers to make comparison easy:
         map.events.listeners.changelayer = [];
         map.events.listeners.addlayer = [];
         map.events.listeners.removelayer = [];
-        
+
         var layerlist = {
             xtype: 'gxm_layerlist',
             map: mappanel,
             title: 'bar',
             iconCls: 'user'
         };
-    
+
         var myTabPanel = Ext.create('Ext.TabPanel', {
             items: [mappanel, layerlist],
             fullscreen: true
         });
-        
+
         t.delay_call(1, function() {
-            
-            // 
+
             var map = myTabPanel.items.get(2).olMap;
-            
+
             // 3 tests
-            // have the events been registered?    
+            // have the events been registered?
             t.eq(map.events.listeners.changelayer.length, 1,
                 'A changelayer eventlistener was added to the map');
             t.eq(map.events.listeners.addlayer.length, 1,
                 'A addlayer eventlistener was added to the map');
             t.eq(map.events.listeners.removelayer.length, 1,
                 'A removelayer eventlistener was added to the map');
-            
-            if (funcToStringSupported) {
-                
-                // keep this formatting due to toString() comparison
-                //TODO implement a better comparison
-                var onChangeLayerFunc = "function (evt) {\n" +
-                    "        this.refresh();\n" +
-                    "    }";
-                var onAddLayerFunc = "function (evt) {\n" +
-                    "        if(evt && evt.layer) {\n" +
-                    "            this.getStore().add(evt.layer);\n" +
-                    "        }\n" +
-                    "    }";
-                var onRemoveLayerFunc = "function (evt) {\n" +
-                    "        if(evt && evt.layer) {\n" +
-                    "            var layer = evt.layer;\n" +
-                    "            var record = this.getStore().findRecord('id', layer.id);\n" +
-                    "            this.getStore().remove(record);\n" +
-                    "        }\n" +
-                    "    }";
-                
-                // 3 tests
-                // have the correct event listeners been registered?    
-                t.eq(map.events.listeners.changelayer[0].func.toString(), 
-                    onChangeLayerFunc, 
-                    'The correct changelayer eventlistener was added to the map');
-                t.eq(map.events.listeners.addlayer[0].func.toString(), onAddLayerFunc, 
-                    'The correct addlayer eventlistener was added to the map');
-                t.eq(map.events.listeners.removelayer[0].func.toString(), onRemoveLayerFunc, 
-                    'The correct removelayer eventlistener was added to the map');
-            }
-            
+
+            // 3 tests
+            // have the correct event listeners been registered?
+            var listeners = map.events.listeners,
+                proto = GXM.LayerList.prototype;
+            t.ok(listeners.changelayer[0].func === proto.onChangeLayer, 
+                'The correct changelayer eventlistener was added to the map');
+            t.ok(listeners.addlayer[0].func === proto.onAddLayer, 
+                'The correct addlayer eventlistener was added to the map');
+            t.ok(listeners.removelayer[0].func === proto.onRemoveLayer, 
+                'The correct removelayer eventlistener was added to the map');
+
             myTabPanel.items.get(2).destroy();
-            
+
             // 3 tests
             t.eq(map.events.listeners.changelayer.length, 0,
                 'The changelayer eventlistener was removed from the map');
@@ -417,14 +390,13 @@ function test_destroy(t) {
                 'The addlayer eventlistener was removed from the map');
             t.eq(map.events.listeners.removelayer.length, 0,
                 'The removelayer eventlistener was removed from the map');
-            
+
             mappanel.destroy()
             myTabPanel.destroy();
         });
     });
 }
 
-        
         </script>
     </head>
     <body></body>
